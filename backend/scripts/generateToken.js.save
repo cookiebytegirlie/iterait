@@ -1,0 +1,22 @@
+const token = jwt.sign({ userId: 1, role: 'dev' }, JWT_SECRET, { expiresIn: '100y' });// Generates a long-lived JWT for local development / watcher use.
+// Run:  node scripts/generateToken.js
+// Copy the printed token into WATCHER_JWT in backend/.env
+
+require('dotenv').config({ path: require('path').join(__dirname, '..', '.env') });
+
+const jwt = require('jsonwebtoken');
+
+const { JWT_SECRET } = process.env;
+if (!JWT_SECRET || JWT_SECRET === 'replace_with_a_long_random_secret') {
+  console.error('[token] JWT_SECRET is not set in backend/.env. Set it first.');
+  process.exit(1);
+}
+
+const token = jwt.sign({ userId: 1, role: 'dev' }, JWT_SECRET, { expiresIn: '90d' });
+
+console.log('\n--- iterait dev token (valid 90 days) ---\n');
+console.log(token);
+console.log('\n-----------------------------------------');
+console.log('Paste this into backend/.env as:');
+console.log('  WATCHER_JWT=' + token);
+console.log('Or pass it directly: node scripts/watchHtmlFile.js --token <token>\n');

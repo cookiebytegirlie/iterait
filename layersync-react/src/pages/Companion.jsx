@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import WatcherStatus from '../components/WatcherStatus'
-import colorLogo from '../assets/Color Logo.png'
+import colorLogo from '../assets/Color-Logo.png'
 
 // ── Constants ────────────────────────────────────────────────────────────────
 const API_BASE    = 'http://localhost:4000'
