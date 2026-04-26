@@ -95,6 +95,57 @@ const INIT_CHAINS = [
   { id:2, name:'Typography + Colour Refresh', desc:'Refreshes the type scale and harmonizes the color palette.', aids:[1,2], created:'Apr 19, 2026' },
 ]
 
+const SEED_ACTIONS = [
+  { id:'seed-1', name:'Blue CTA Button System', date:'Apr 24', g:0, plat:'loveable', built:'loveable',
+    types:['visual'],
+    desc:'Updates all primary call-to-action buttons to a vivid blue, improving click-through rates and visual hierarchy.',
+    changes:{ visual:['Changes primary button background (#000000 → #1a56db)','Updates button text to white for contrast','Adds hover state with brightness(1.1) filter'], layout:['Standardizes button padding (10px 20px)'], components:['Primary CTA buttons','Hero section buttons','Form submit buttons'] },
+    compat:'Compatible with all platforms. Color tokens will be mapped automatically.',
+    used:7, plats:3, last:'Yesterday', created:'Apr 24, 2026' },
+  { id:'seed-2', name:'Elevated Card Shadows', date:'Apr 23', g:1, plat:'claude', built:'claude',
+    types:['visual'],
+    desc:'Adds a soft two-layer drop shadow to all card components for a clean, elevated look with clear depth hierarchy.',
+    changes:{ visual:['Adds rest shadow (0 4px 16px rgba(0,0,0,0.08))','Adds hover shadow (0 8px 32px rgba(0,0,0,0.14))','Smooth transition on hover (0.2s ease)'], layout:[], components:['Product cards','Feature cards','Testimonial blocks'] },
+    compat:'Shadow syntax is adapted per platform. Works best with white or light card backgrounds.',
+    used:14, plats:4, last:'Today', created:'Apr 23, 2026' },
+  { id:'seed-3', name:'Hero Typography Scale', date:'Apr 22', g:2, plat:'cursor', built:'cursor',
+    types:['typography'],
+    desc:'Scales the hero headline from 48px to 72px and tightens letter-spacing to create a bold, editorial first impression.',
+    changes:{ visual:['Increases hero headline contrast','Tightens letter-spacing (-0.03em)'], layout:['Adjusts line-height to 1.1 for large display sizes'], components:['Hero h1','Sub-headline','Hero CTA button'] },
+    compat:'Font scaling is relative to root size. Responsive breakpoints will be preserved.',
+    used:9, plats:2, last:'2 days ago', created:'Apr 22, 2026' },
+  { id:'seed-4', name:'Dark Navigation Bar', date:'Apr 21', g:3, plat:'loveable', built:'loveable',
+    types:['visual'],
+    desc:'Converts the navigation bar background from white to dark navy, creating stronger contrast with the page content below.',
+    changes:{ visual:['Changes nav background (#ffffff → #1a1a2e)','Updates nav text and links to white','Adds subtle bottom border (rgba(255,255,255,0.1))'], layout:[], components:['Top navigation bar','Nav links','Logo area'] },
+    compat:'Text color tokens will be updated automatically to maintain contrast ratios.',
+    used:11, plats:3, last:'3 days ago', created:'Apr 21, 2026' },
+  { id:'seed-5', name:'Soft Border Radius System', date:'Apr 20', g:4, plat:'figma', built:'figma',
+    types:['visual'],
+    desc:'Increases border-radius across all card and container components from 8px to 20px for a softer, more modern aesthetic.',
+    changes:{ visual:['Increases card border-radius (8px → 20px)','Rounds button corners (6px → 14px)','Softens input field radius (4px → 10px)'], layout:[], components:['Cards','Buttons','Form inputs','Modal dialogs'] },
+    compat:'Border-radius values are set directly. No token conflicts expected.',
+    used:6, plats:2, last:'4 days ago', created:'Apr 20, 2026' },
+]
+
+const SEED_CHAINS = [
+  { id:'seed-chain-1', name:'Full Design Polish', description:'Applies card shadows, CTA color, and border radius in one seamless pass.',
+    gradient:'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
+    versionBefore:'v1.0', versionAfter:'v1.3', platform:'Loveable', createdAt:'2026-04-24T10:00:00Z',
+    changes:[
+      { title:'Blue CTA Button System', category:'Visual', description:'Primary button color changed from black to blue', beforeValue:'#000000', afterValue:'#1a56db' },
+      { title:'Elevated Card Shadows', category:'Visual', description:'Soft drop shadow added to all card components', beforeValue:'none', afterValue:'0 4px 16px rgba(0,0,0,0.08)' },
+      { title:'Soft Border Radius System', category:'Visual', description:'Card border-radius increased for softer appearance', beforeValue:'8px', afterValue:'20px' },
+    ] },
+  { id:'seed-chain-2', name:'Typography + Nav Refresh', description:'Scales the hero headline and darkens the navigation bar for editorial impact.',
+    gradient:'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
+    versionBefore:'v2.0', versionAfter:'v2.2', platform:'Cursor', createdAt:'2026-04-22T14:00:00Z',
+    changes:[
+      { title:'Hero Typography Scale', category:'Typography', description:'Hero headline font-size increased for stronger impact', beforeValue:'48px', afterValue:'72px' },
+      { title:'Dark Navigation Bar', category:'Visual', description:'Navigation background changed from white to dark navy', beforeValue:'#ffffff', afterValue:'#1a1a2e' },
+    ] },
+]
+
 const FILES = [
   { id:1, name:'Dashboard Redesign',     plat:'loveable', versions:8,  g:0 },
   { id:2, name:'Marketing Landing Page', plat:'figma',    versions:5,  g:2 },
@@ -124,9 +175,8 @@ export default function ActionLibrary() {
   const navigate = useNavigate()
   const [actions, setActions] = useState(() => {
     const local = loadLocalActions()
-    // Merge: local actions first, then demo actions (no duplicates)
     const localIds = new Set(local.map(a => a.id))
-    return [...local, ...INIT_ACTIONS.filter(a => !localIds.has(a.id))]
+    return [...local, ...INIT_ACTIONS.filter(a => !localIds.has(a.id)), ...SEED_ACTIONS.filter(s => !localIds.has(s.id))]
   })
   const [chains, setChains] = useState(() => {
     const local = loadLocalChains()
@@ -177,6 +227,15 @@ export default function ActionLibrary() {
     const handler = (e) => { if (e.key === 'Escape') { setDetailOpen(false); setSelectedId(null) } }
     document.addEventListener('keydown', handler)
     return () => document.removeEventListener('keydown', handler)
+  }, [])
+
+  useEffect(() => {
+    const stored = (() => { try { return JSON.parse(localStorage.getItem('iterait_chains') || '[]') } catch { return [] } })()
+    const storedIds = new Set(stored.map(c => c.id))
+    const toAdd = SEED_CHAINS.filter(s => !storedIds.has(s.id))
+    if (toAdd.length > 0) {
+      localStorage.setItem('iterait_chains', JSON.stringify([...stored, ...toAdd]))
+    }
   }, [])
 
   function filtered() {
