@@ -8,12 +8,17 @@ function headers() {
 
 export async function generateChangeSummary(htmlBefore, htmlAfter) {
   try {
+    console.log('HTML before length:', htmlBefore?.length)
+    console.log('HTML after length:', htmlAfter?.length)
+    console.log('First 200 chars before:', htmlBefore?.slice(0, 200))
+    console.log('First 200 chars after:', htmlAfter?.slice(0, 200))
+
     const res = await fetch(`${BACKEND_URL}/api/generate-diff`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        htmlBefore: htmlBefore?.slice(0, 4000),
-        htmlAfter: htmlAfter?.slice(0, 4000)
+        htmlBefore: htmlBefore?.slice(0, 6000),
+        htmlAfter: htmlAfter?.slice(0, 6000)
       })
     })
     if (!res.ok) {
