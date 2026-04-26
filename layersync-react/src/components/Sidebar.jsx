@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import logo from '/iterait-logo.svg'
+import colorLogo from '../assets/Color Logo.png'
 import WatcherStatus from './WatcherStatus'
 
 const PREFS_KEY = 'iterait_watcher_prefs'
@@ -59,7 +59,7 @@ export default function Sidebar({ collapsed, onToggle }) {
         onMouseOut={maybeHideTip}
       >
         <div className="brand-v2" style={{ paddingBottom: '14px' }}>
-          <img src={logo} className="brand-logo-icon" alt="iterait" /> iterait
+          <img src={colorLogo} alt="iterait" style={{ height: 28, display: 'block' }} />
         </div>
 
         {/* Pinned */}

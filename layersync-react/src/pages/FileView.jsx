@@ -85,35 +85,77 @@ export default function FileView() {
         label: 'Dashboard Redesign',
         timestamp: new Date(Date.now() - 86400000 * 3).toLocaleString(),
         source: 'Cursor',
-        htmlContent: `<!DOCTYPE html><html><head><style>
-        body{font-family:sans-serif;margin:0;background:#f8f8f8;}
-        nav{background:#fff;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eee;}
-        .logo{font-weight:700;font-size:18px;}
-        .btn{background:#000;color:#fff;padding:10px 20px;border:none;border-radius:6px;cursor:pointer;font-size:14px;}
-        .hero{padding:80px 32px;max-width:1200px;margin:0 auto;}
-        h1{font-size:48px;font-weight:700;margin-bottom:16px;}
-        .subtitle{font-size:18px;color:#666;margin-bottom:32px;}
-        .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px;}
-        .card{background:#fff;border-radius:8px;padding:24px;border:1px solid #eee;}
-        .card h3{font-size:18px;margin-bottom:8px;}
-        .card p{color:#666;font-size:14px;}
-      </style></head><body>
-        <nav><div class="logo">Cadence</div><button class="btn">Get Started</button></nav>
-        <div class="hero">
-          <h1>Run every project with clarity.</h1>
-          <p class="subtitle">The project intelligence platform for modern teams.</p>
-          <button class="btn">Start Free Trial</button>
+        thumbnail: null,
+        changes: [],
+        htmlContent: `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
+      *{box-sizing:border-box;margin:0;padding:0;}
+      body{font-family:'Helvetica Neue',Arial,sans-serif;background:#f8f8f8;color:#111;}
+      nav{background:#ffffff;padding:18px 48px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eeeeee;}
+      .logo{font-weight:800;font-size:20px;letter-spacing:-0.03em;}
+      .nav-links{display:flex;gap:32px;font-size:14px;color:#666;}
+      .btn{background:#111111;color:#fff;padding:10px 24px;border:none;border-radius:6px;cursor:pointer;font-size:14px;font-weight:500;}
+      .hero{padding:100px 48px;max-width:1200px;margin:0 auto;}
+      h1{font-size:52px;font-weight:800;letter-spacing:-0.03em;line-height:1.1;margin-bottom:20px;max-width:700px;}
+      .subtitle{font-size:18px;color:#666;margin-bottom:36px;max-width:500px;line-height:1.6;}
+      .hero-btns{display:flex;gap:12px;}
+      .btn-outline{background:transparent;color:#111;padding:10px 24px;border:1.5px solid #111;border-radius:6px;cursor:pointer;font-size:14px;font-weight:500;}
+      .logos{padding:32px 48px;border-top:1px solid #eee;border-bottom:1px solid #eee;display:flex;gap:48px;align-items:center;color:#999;font-size:13px;}
+      .logos span{font-weight:600;font-size:15px;}
+      .features{padding:80px 48px;max-width:1200px;margin:0 auto;}
+      .features h2{font-size:36px;font-weight:800;letter-spacing:-0.02em;margin-bottom:48px;}
+      .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+      .card{background:#fff;border-radius:8px;padding:28px;border:1px solid #eee;}
+      .card-icon{width:36px;height:36px;background:#f0f0f0;border-radius:8px;margin-bottom:16px;}
+      .card h3{font-size:16px;font-weight:700;margin-bottom:8px;}
+      .card p{color:#666;font-size:14px;line-height:1.6;}
+      .pricing{padding:80px 48px;background:#fff;text-align:center;}
+      .pricing h2{font-size:36px;font-weight:800;letter-spacing:-0.02em;margin-bottom:16px;}
+      .pricing p{color:#666;margin-bottom:48px;}
+      .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:1000px;margin:0 auto;}
+      .plan{padding:32px;border:1px solid #eee;border-radius:8px;text-align:left;}
+      .plan.featured{border-color:#111;background:#111;color:#fff;}
+      .plan-price{font-size:36px;font-weight:800;margin:12px 0;}
+      .plan-name{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#999;}
+      .plan.featured .plan-name{color:rgba(255,255,255,0.6);}
+      .plan ul{list-style:none;margin-top:20px;display:flex;flex-direction:column;gap:10px;}
+      .plan ul li{font-size:14px;color:#666;}
+      .plan.featured ul li{color:rgba(255,255,255,0.8);}
+      .plan ul li::before{content:"✓ ";}
+      footer{padding:40px 48px;border-top:1px solid #eee;display:flex;justify-content:space-between;align-items:center;color:#999;font-size:13px;}
+    </style></head><body>
+      <nav>
+        <div class="logo">Cadence</div>
+        <div class="nav-links"><span>Features</span><span>Pricing</span><span>Docs</span><span>Blog</span></div>
+        <button class="btn">Get Started</button>
+      </nav>
+      <div class="hero">
+        <h1>Run every project with clarity and confidence.</h1>
+        <p class="subtitle">Cadence gives your team a single source of truth — tracking work, surfacing risk, and forecasting delivery without the spreadsheet chaos.</p>
+        <div class="hero-btns">
+          <button class="btn">Get Started Free</button>
+          <button class="btn-outline">See How It Works</button>
         </div>
-        <div style="padding:0 32px;max-width:1200px;margin:0 auto;">
-          <div class="cards">
-            <div class="card"><h3>Track Progress</h3><p>Real-time visibility into every project milestone.</p></div>
-            <div class="card"><h3>Reduce Risk</h3><p>Surface blockers before they become problems.</p></div>
-            <div class="card"><h3>Ship Faster</h3><p>Align your team around what matters most.</p></div>
-          </div>
+      </div>
+      <div class="logos">TRUSTED BY TEAMS AT <span>Meridian</span> <span>Arclight</span> <span>Ventis Co.</span> <span>Holocene</span> <span>Driftwood</span></div>
+      <div class="features">
+        <h2>Everything your team needs</h2>
+        <div class="cards">
+          <div class="card"><div class="card-icon"></div><h3>Track Progress</h3><p>Real-time visibility into every project milestone and deadline across your entire portfolio.</p></div>
+          <div class="card"><div class="card-icon"></div><h3>Reduce Risk</h3><p>Surface blockers and dependencies before they become critical problems that delay shipping.</p></div>
+          <div class="card"><div class="card-icon"></div><h3>Ship Faster</h3><p>Align your entire team around what matters most right now with automated priority signals.</p></div>
         </div>
-      </body></html>`,
-        thumbnail: 'https://www.figma.com/api/mcp/asset/f94627bc-6abb-4924-91d5-76de8192aaf8',
-        changes: []
+      </div>
+      <div class="pricing">
+        <h2>Simple, transparent pricing</h2>
+        <p>Start free. Upgrade when you're ready.</p>
+        <div class="plans">
+          <div class="plan"><div class="plan-name">Starter</div><div class="plan-price">$0</div><ul><li>Up to 5 projects</li><li>3 team members</li><li>Basic reporting</li></ul></div>
+          <div class="plan featured"><div class="plan-name">Pro</div><div class="plan-price">$12</div><ul><li>Unlimited projects</li><li>25 team members</li><li>Advanced analytics</li><li>Priority support</li></ul></div>
+          <div class="plan"><div class="plan-name">Enterprise</div><div class="plan-price">Custom</div><ul><li>Unlimited everything</li><li>SSO & compliance</li><li>Dedicated success</li></ul></div>
+        </div>
+      </div>
+      <footer><span>© 2026 Cadence Inc.</span><span>Privacy · Terms · Contact</span></footer>
+    </body></html>`
       },
       {
         id: 'demo-v2',
@@ -121,41 +163,83 @@ export default function FileView() {
         label: 'Dashboard Redesign',
         timestamp: new Date(Date.now() - 86400000 * 2).toLocaleString(),
         source: 'Cursor',
-        htmlContent: `<!DOCTYPE html><html><head><style>
-        body{font-family:sans-serif;margin:0;background:#ffffff;}
-        nav{background:#1a1a2e;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;}
-        .logo{font-weight:700;font-size:18px;color:#fff;}
-        .btn{background:#1a56db;color:#fff;padding:10px 20px;border:none;border-radius:999px;cursor:pointer;font-size:14px;}
-        .hero{padding:100px 32px;max-width:1200px;margin:0 auto;}
-        h1{font-size:64px;font-weight:700;margin-bottom:16px;}
-        .subtitle{font-size:18px;color:#666;margin-bottom:32px;}
-        .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px;}
-        .card{background:#fff;border-radius:20px;padding:32px;border:1px solid #eee;box-shadow:0 8px 32px rgba(0,0,0,0.08);}
-        .card h3{font-size:18px;margin-bottom:8px;}
-        .card p{color:#666;font-size:14px;}
-      </style></head><body>
-        <nav><div class="logo">Cadence</div><button class="btn">Get Started</button></nav>
-        <div class="hero">
-          <h1>Run every project with clarity.</h1>
-          <p class="subtitle">The project intelligence platform for modern teams.</p>
-          <button class="btn">Start Free Trial</button>
-        </div>
-        <div style="padding:0 32px;max-width:1200px;margin:0 auto;">
-          <div class="cards">
-            <div class="card"><h3>Track Progress</h3><p>Real-time visibility into every project milestone.</p></div>
-            <div class="card"><h3>Reduce Risk</h3><p>Surface blockers before they become problems.</p></div>
-            <div class="card"><h3>Ship Faster</h3><p>Align your team around what matters most.</p></div>
-          </div>
-        </div>
-      </body></html>`,
-        thumbnail: 'https://www.figma.com/api/mcp/asset/f239607e-6832-405f-b968-b6f268227589',
+        thumbnail: null,
         changes: [
           { id:1, category:'Visual', title:'Nav background darkened', description:'Navigation background changed from white to dark navy for stronger contrast', beforeValue:'#ffffff', afterValue:'#1a1a2e', approximatePosition:5 },
-          { id:2, category:'Visual', title:'Button color updated', description:'Primary CTA button changed from black to blue and made pill-shaped', beforeValue:'#000000', afterValue:'#1a56db', approximatePosition:45 },
-          { id:3, category:'Typography', title:'Hero headline scaled up', description:'Hero headline font-size increased from 48px to 64px for visual impact', beforeValue:'48px', afterValue:'64px', approximatePosition:35 },
+          { id:2, category:'Visual', title:'Button color updated', description:'Primary CTA button changed from black to blue and made pill-shaped', beforeValue:'#111111', afterValue:'#1a56db', approximatePosition:45 },
+          { id:3, category:'Typography', title:'Hero headline scaled up', description:'Hero headline font-size increased from 52px to 68px for visual impact', beforeValue:'52px', afterValue:'68px', approximatePosition:35 },
           { id:4, category:'Layout', title:'Card border-radius increased', description:'All card border-radius increased from 8px to 20px for softer appearance', beforeValue:'8px', afterValue:'20px', approximatePosition:70 },
           { id:5, category:'Visual', title:'Box shadow added to cards', description:'Soft drop shadow added to all card components for depth and elevation', beforeValue:'none', afterValue:'0 8px 32px rgba(0,0,0,0.08)', approximatePosition:72 }
-        ]
+        ],
+        htmlContent: `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
+      *{box-sizing:border-box;margin:0;padding:0;}
+      body{font-family:'Helvetica Neue',Arial,sans-serif;background:#f8f8f8;color:#111;}
+      nav{background:#1a1a2e;padding:18px 48px;display:flex;justify-content:space-between;align-items:center;}
+      .logo{font-weight:800;font-size:20px;letter-spacing:-0.03em;color:#fff;}
+      .nav-links{display:flex;gap:32px;font-size:14px;color:rgba(255,255,255,0.7);}
+      .btn{background:#1a56db;color:#fff;padding:10px 24px;border:none;border-radius:999px;cursor:pointer;font-size:14px;font-weight:500;}
+      .hero{padding:100px 48px;max-width:1200px;margin:0 auto;}
+      h1{font-size:68px;font-weight:800;letter-spacing:-0.03em;line-height:1.05;margin-bottom:20px;max-width:800px;}
+      .subtitle{font-size:18px;color:#666;margin-bottom:36px;max-width:500px;line-height:1.6;}
+      .hero-btns{display:flex;gap:12px;}
+      .btn-outline{background:transparent;color:#1a56db;padding:10px 24px;border:1.5px solid #1a56db;border-radius:999px;cursor:pointer;font-size:14px;font-weight:500;}
+      .logos{padding:32px 48px;border-top:1px solid #eee;border-bottom:1px solid #eee;display:flex;gap:48px;align-items:center;color:#999;font-size:13px;}
+      .logos span{font-weight:600;font-size:15px;}
+      .features{padding:80px 48px;max-width:1200px;margin:0 auto;}
+      .features h2{font-size:36px;font-weight:800;letter-spacing:-0.02em;margin-bottom:48px;}
+      .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+      .card{background:#fff;border-radius:20px;padding:32px;border:1px solid #eee;box-shadow:0 8px 32px rgba(0,0,0,0.08);}
+      .card-icon{width:36px;height:36px;background:#e8f0ff;border-radius:10px;margin-bottom:16px;}
+      .card h3{font-size:16px;font-weight:700;margin-bottom:8px;}
+      .card p{color:#666;font-size:14px;line-height:1.6;}
+      .pricing{padding:80px 48px;background:#fff;text-align:center;}
+      .pricing h2{font-size:36px;font-weight:800;letter-spacing:-0.02em;margin-bottom:16px;}
+      .pricing p{color:#666;margin-bottom:48px;}
+      .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1000px;margin:0 auto;}
+      .plan{padding:32px;border:1px solid #eee;border-radius:20px;text-align:left;box-shadow:0 8px 32px rgba(0,0,0,0.06);}
+      .plan.featured{border-color:#1a56db;background:#1a56db;color:#fff;}
+      .plan-price{font-size:36px;font-weight:800;margin:12px 0;}
+      .plan-name{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#999;}
+      .plan.featured .plan-name{color:rgba(255,255,255,0.7);}
+      .plan ul{list-style:none;margin-top:20px;display:flex;flex-direction:column;gap:10px;}
+      .plan ul li{font-size:14px;color:#666;}
+      .plan.featured ul li{color:rgba(255,255,255,0.85);}
+      .plan ul li::before{content:"✓ ";}
+      footer{padding:40px 48px;border-top:1px solid #eee;display:flex;justify-content:space-between;align-items:center;color:#999;font-size:13px;}
+    </style></head><body>
+      <nav>
+        <div class="logo">Cadence</div>
+        <div class="nav-links"><span>Features</span><span>Pricing</span><span>Docs</span><span>Blog</span></div>
+        <button class="btn">Get Started</button>
+      </nav>
+      <div class="hero">
+        <h1>Run every project with clarity and confidence.</h1>
+        <p class="subtitle">Cadence gives your team a single source of truth — tracking work, surfacing risk, and forecasting delivery without the spreadsheet chaos.</p>
+        <div class="hero-btns">
+          <button class="btn">Get Started Free</button>
+          <button class="btn-outline">See How It Works</button>
+        </div>
+      </div>
+      <div class="logos">TRUSTED BY TEAMS AT <span>Meridian</span> <span>Arclight</span> <span>Ventis Co.</span> <span>Holocene</span> <span>Driftwood</span></div>
+      <div class="features">
+        <h2>Everything your team needs</h2>
+        <div class="cards">
+          <div class="card"><div class="card-icon"></div><h3>Track Progress</h3><p>Real-time visibility into every project milestone and deadline across your entire portfolio.</p></div>
+          <div class="card"><div class="card-icon"></div><h3>Reduce Risk</h3><p>Surface blockers and dependencies before they become critical problems that delay shipping.</p></div>
+          <div class="card"><div class="card-icon"></div><h3>Ship Faster</h3><p>Align your entire team around what matters most right now with automated priority signals.</p></div>
+        </div>
+      </div>
+      <div class="pricing">
+        <h2>Simple, transparent pricing</h2>
+        <p>Start free. Upgrade when you're ready.</p>
+        <div class="plans">
+          <div class="plan"><div class="plan-name">Starter</div><div class="plan-price">$0</div><ul><li>Up to 5 projects</li><li>3 team members</li><li>Basic reporting</li></ul></div>
+          <div class="plan featured"><div class="plan-name">Pro</div><div class="plan-price">$12</div><ul><li>Unlimited projects</li><li>25 team members</li><li>Advanced analytics</li><li>Priority support</li></ul></div>
+          <div class="plan"><div class="plan-name">Enterprise</div><div class="plan-price">Custom</div><ul><li>Unlimited everything</li><li>SSO & compliance</li><li>Dedicated success</li></ul></div>
+        </div>
+      </div>
+      <footer><span>© 2026 Cadence Inc.</span><span>Privacy · Terms · Contact</span></footer>
+    </body></html>`
       },
       {
         id: 'demo-v3',
@@ -163,45 +247,99 @@ export default function FileView() {
         label: 'Dashboard Redesign',
         timestamp: new Date(Date.now() - 86400000).toLocaleString(),
         source: 'Cursor',
-        htmlContent: `<!DOCTYPE html><html><head><style>
-        body{font-family:sans-serif;margin:0;background:#f0f4ff;}
-        nav{background:#1a1a2e;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;}
-        .logo{font-weight:700;font-size:18px;color:#fff;}
-        .btn{background:#1a56db;color:#fff;padding:12px 28px;border:none;border-radius:999px;cursor:pointer;font-size:15px;font-weight:600;}
-        .hero{padding:120px 32px;max-width:1200px;margin:0 auto;text-align:center;}
-        h1{font-size:72px;font-weight:800;margin-bottom:20px;line-height:1.1;}
-        .subtitle{font-size:20px;color:#666;margin-bottom:40px;max-width:600px;margin-left:auto;margin-right:auto;}
-        .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:60px;}
-        .card{background:#fff;border-radius:24px;padding:40px;box-shadow:0 12px 48px rgba(0,0,0,0.1);}
-        .card h3{font-size:20px;margin-bottom:12px;font-weight:700;}
-        .card p{color:#666;font-size:15px;line-height:1.6;}
-      </style></head><body>
-        <nav><div class="logo">Cadence</div><button class="btn">Get Started Free</button></nav>
-        <div class="hero">
-          <h1>Run every project with clarity.</h1>
-          <p class="subtitle">The project intelligence platform for modern teams who want to ship faster.</p>
-          <button class="btn">Start Free Trial — No card required</button>
-        </div>
-        <div style="padding:0 32px;max-width:1200px;margin:0 auto;">
-          <div class="cards">
-            <div class="card"><h3>Track Progress</h3><p>Real-time visibility into every project milestone and deadline.</p></div>
-            <div class="card"><h3>Reduce Risk</h3><p>Surface blockers and dependencies before they become critical problems.</p></div>
-            <div class="card"><h3>Ship Faster</h3><p>Align your entire team around what matters most right now.</p></div>
-          </div>
-        </div>
-      </body></html>`,
-        thumbnail: 'https://www.figma.com/api/mcp/asset/b69d13c7-df9b-4a40-85a3-28a4c37f1bdf',
+        thumbnail: null,
         changes: [
-          { id:1, category:'Layout', title:'Hero centered alignment', description:'Hero section text alignment changed from left to center', beforeValue:'left', afterValue:'center', approximatePosition:40 },
-          { id:2, category:'Typography', title:'Headline weight increased', description:'Hero headline font-weight increased from 700 to 800 for bolder impact', beforeValue:'700', afterValue:'800', approximatePosition:35 },
-          { id:3, category:'Visual', title:'Background color changed', description:'Page background updated from white to soft blue-tinted off-white', beforeValue:'#ffffff', afterValue:'#f0f4ff', approximatePosition:10 }
-        ]
+          { id:1, category:'Layout', title:'Hero centered alignment', description:'Hero section text alignment changed from left to center for stronger focal point', beforeValue:'left', afterValue:'center', approximatePosition:40 },
+          { id:2, category:'Typography', title:'Headline weight increased', description:'Hero headline font-weight increased from 800 to 900 for maximum impact', beforeValue:'800', afterValue:'900', approximatePosition:35 },
+          { id:3, category:'Visual', title:'Background color updated', description:'Page background updated from light gray to pure white for cleaner feel', beforeValue:'#f8f8f8', afterValue:'#ffffff', approximatePosition:10 },
+          { id:4, category:'Visual', title:'Featured plan color changed', description:'Pricing featured plan updated from dark to brand blue', beforeValue:'#111111', afterValue:'#1a56db', approximatePosition:80 }
+        ],
+        htmlContent: `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
+      *{box-sizing:border-box;margin:0;padding:0;}
+      body{font-family:'Helvetica Neue',Arial,sans-serif;background:#ffffff;color:#111;}
+      nav{background:#1a1a2e;padding:18px 48px;display:flex;justify-content:space-between;align-items:center;}
+      .logo{font-weight:800;font-size:20px;letter-spacing:-0.03em;color:#fff;}
+      .nav-links{display:flex;gap:32px;font-size:14px;color:rgba(255,255,255,0.7);}
+      .btn{background:#1a56db;color:#fff;padding:12px 28px;border:none;border-radius:999px;cursor:pointer;font-size:14px;font-weight:600;}
+      .hero{padding:120px 48px;max-width:1200px;margin:0 auto;text-align:center;}
+      h1{font-size:72px;font-weight:900;letter-spacing:-0.04em;line-height:1.0;margin-bottom:24px;}
+      .subtitle{font-size:20px;color:#666;margin-bottom:40px;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.6;}
+      .hero-btns{display:flex;gap:12px;justify-content:center;}
+      .btn-outline{background:transparent;color:#1a56db;padding:12px 28px;border:1.5px solid #1a56db;border-radius:999px;cursor:pointer;font-size:14px;font-weight:600;}
+      .logos{padding:32px 48px;border-top:1px solid #eee;border-bottom:1px solid #eee;display:flex;gap:48px;align-items:center;color:#bbb;font-size:13px;justify-content:center;}
+      .logos span{font-weight:700;font-size:15px;color:#999;}
+      .features{padding:96px 48px;max-width:1200px;margin:0 auto;}
+      .features h2{font-size:40px;font-weight:900;letter-spacing:-0.02em;margin-bottom:56px;text-align:center;}
+      .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+      .card{background:#fff;border-radius:24px;padding:36px;border:1px solid #f0f0f0;box-shadow:0 12px 48px rgba(0,0,0,0.08);}
+      .card-icon{width:40px;height:40px;background:#e8f0ff;border-radius:12px;margin-bottom:20px;}
+      .card h3{font-size:17px;font-weight:700;margin-bottom:10px;}
+      .card p{color:#666;font-size:14px;line-height:1.7;}
+      .pricing{padding:96px 48px;background:#f8f8f8;text-align:center;}
+      .pricing h2{font-size:40px;font-weight:900;letter-spacing:-0.02em;margin-bottom:16px;}
+      .pricing p{color:#666;margin-bottom:56px;font-size:18px;}
+      .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1000px;margin:0 auto;}
+      .plan{padding:36px;border:1px solid #eee;border-radius:24px;text-align:left;background:#fff;box-shadow:0 8px 32px rgba(0,0,0,0.06);}
+      .plan.featured{border-color:#1a56db;background:#1a56db;color:#fff;}
+      .plan-price{font-size:40px;font-weight:900;margin:12px 0;letter-spacing:-0.02em;}
+      .plan-name{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#999;}
+      .plan.featured .plan-name{color:rgba(255,255,255,0.6);}
+      .plan ul{list-style:none;margin-top:24px;display:flex;flex-direction:column;gap:12px;}
+      .plan ul li{font-size:14px;color:#555;}
+      .plan.featured ul li{color:rgba(255,255,255,0.9);}
+      .plan ul li::before{content:"✓  ";}
+      footer{padding:40px 48px;border-top:1px solid #eee;display:flex;justify-content:space-between;align-items:center;color:#999;font-size:13px;background:#fff;}
+    </style></head><body>
+      <nav>
+        <div class="logo">Cadence</div>
+        <div class="nav-links"><span>Features</span><span>Pricing</span><span>Docs</span><span>Blog</span></div>
+        <button class="btn">Get Started Free</button>
+      </nav>
+      <div class="hero">
+        <h1>Run every project with clarity.</h1>
+        <p class="subtitle">Cadence gives your team a single source of truth — tracking work, surfacing risk, and forecasting delivery without the spreadsheet chaos.</p>
+        <div class="hero-btns">
+          <button class="btn">Start Free Trial</button>
+          <button class="btn-outline">See How It Works</button>
+        </div>
+      </div>
+      <div class="logos">TRUSTED BY TEAMS AT <span>Meridian</span> <span>Arclight</span> <span>Ventis Co.</span> <span>Holocene</span> <span>Driftwood</span></div>
+      <div class="features">
+        <h2>Everything your team needs</h2>
+        <div class="cards">
+          <div class="card"><div class="card-icon"></div><h3>Track Progress</h3><p>Real-time visibility into every project milestone and deadline across your entire portfolio.</p></div>
+          <div class="card"><div class="card-icon"></div><h3>Reduce Risk</h3><p>Surface blockers and dependencies before they become critical problems that delay shipping.</p></div>
+          <div class="card"><div class="card-icon"></div><h3>Ship Faster</h3><p>Align your entire team around what matters most right now with automated priority signals.</p></div>
+        </div>
+      </div>
+      <div class="pricing">
+        <h2>Simple, transparent pricing</h2>
+        <p>Start free. Upgrade when you're ready.</p>
+        <div class="plans">
+          <div class="plan"><div class="plan-name">Starter</div><div class="plan-price">$0</div><ul><li>Up to 5 projects</li><li>3 team members</li><li>Basic reporting</li></ul></div>
+          <div class="plan featured"><div class="plan-name">Pro</div><div class="plan-price">$12</div><ul><li>Unlimited projects</li><li>25 team members</li><li>Advanced analytics</li><li>Priority support</li></ul></div>
+          <div class="plan"><div class="plan-name">Enterprise</div><div class="plan-price">Custom</div><ul><li>Unlimited everything</li><li>SSO & compliance</li><li>Dedicated success</li></ul></div>
+        </div>
+      </div>
+      <footer><span>© 2026 Cadence Inc.</span><span>Privacy · Terms · Contact</span></footer>
+    </body></html>`
       }
     ]
 
     localStorage.setItem('iterait_versions', JSON.stringify(DEMO_VERSIONS))
     setVersions(DEMO_VERSIONS)
     setCurrentVersionId('demo-v2')
+
+    setTimeout(async () => {
+      const { captureHtmlSnapshot } = await import('../utils/captureSnapshot')
+      const updated = await Promise.all(DEMO_VERSIONS.map(async (v) => {
+        if (v.thumbnail) return v
+        const thumb = await captureHtmlSnapshot(v.htmlContent, 30)
+        return { ...v, thumbnail: thumb }
+      }))
+      localStorage.setItem('iterait_versions', JSON.stringify(updated))
+      setVersions(updated)
+    }, 2000)
   }, [])
 
   function selectVersion(id) {

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import WatcherStatus from '../components/WatcherStatus'
+import colorLogo from '../assets/Color Logo.png'
 
 // ── Constants ────────────────────────────────────────────────────────────────
 const API_BASE    = 'http://localhost:4000'
@@ -552,7 +553,7 @@ function CompanionHeader({ status, prefs, toolColors }) {
     <div style={{ background: '#fff', borderBottom: '1px solid var(--border)', padding: '12px 16px', position: 'sticky', top: 0, zIndex: 10 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
         <span style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text)', letterSpacing: '-0.01em' }}>
-          iterait <span style={{ color: 'var(--text-3)', fontWeight: 400 }}>· companion</span>
+          <img src={colorLogo} alt="iterait" style={{ height: 28, display: 'block' }} /> <span style={{ color: 'var(--text-3)', fontWeight: 400 }}>· companion</span>
         </span>
         <div style={{ flex: 1 }} />
         <WatcherStatus status={status} variant="full" />
