@@ -46,6 +46,7 @@ export default function FileView() {
   const [chainDescription, setChainDescription] = useState('')
   const [isSaving, setIsSaving]             = useState(false)
   const [iframeSrc, setIframeSrc]           = useState('')
+  const [demoMode, setDemoMode]             = useState(true)
   const iframeRef   = useRef(null)
   const fileInputRef = useRef(null)
 
@@ -343,6 +344,11 @@ footer{padding:60px;background:linear-gradient(135deg,#818CF8,#C084FC,#F472B6);d
   async function handleFileUpload(e) {
     const file = e.target.files[0]
     if (!file) return
+    if (demoMode) {
+      setDemoMode(false)
+      setVersions([])
+      localStorage.removeItem('iterait_versions')
+    }
     const html = await file.text()
     const prevVersion = versions.length ? versions[versions.length - 1] : null
     const newNumber = versions.length + 1
@@ -636,6 +642,12 @@ footer{padding:60px;background:linear-gradient(135deg,#818CF8,#C084FC,#F472B6);d
           </svg>
           Companion
         </button>
+        {demoMode && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 12px', background: 'rgba(91,196,192,0.1)', border: '1px solid rgba(91,196,192,0.3)', borderRadius: 999, fontSize: 11, fontWeight: 600, color: '#5BC4C0', fontFamily: 'Instrument Sans, sans-serif' }}>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#5BC4C0', display: 'inline-block' }}/>
+            Demo mode — upload a file to go live
+          </div>
+        )}
         <button
           onClick={() => fileInputRef.current?.click()}
           disabled={generating}
