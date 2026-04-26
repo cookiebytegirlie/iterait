@@ -695,17 +695,32 @@ footer{padding:60px;background:linear-gradient(135deg,#818CF8,#C084FC,#F472B6);d
                 Upload an HTML file to get started
               </div>
             ) : (
-              <iframe
-                ref={iframeRef}
-                src={iframeSrc}
-                style={{ width: '100%', height: '900px', border: 'none', display: 'block' }}
-                onLoad={(e) => {
-                  try {
-                    const h = e.target.contentDocument?.documentElement?.scrollHeight
-                    if (h > 100) e.target.style.height = h + 'px'
-                  } catch(err) {}
-                }}
-              />
+              <div style={{ position: 'relative' }}>
+                <iframe
+                  ref={iframeRef}
+                  src={iframeSrc}
+                  style={{ width: '100%', height: '900px', border: 'none', display: 'block' }}
+                  onLoad={(e) => {
+                    try {
+                      const h = e.target.contentDocument?.documentElement?.scrollHeight
+                      if (h > 100) e.target.style.height = h + 'px'
+                    } catch(err) {}
+                  }}
+                />
+                <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
+                  {(currentVersion?.changes || []).map(change => (
+                    <AnnotationDot
+                      key={change.id}
+                      id={change.id}
+                      position={change.approximatePosition}
+                      category={change.category}
+                      title={change.title}
+                      isActive={activeChangeId === change.id}
+                      onClick={() => { setActiveChangeId(change.id) }}
+                    />
+                  ))}
+                </div>
+              </div>
             )}
           </div>
         </div>

@@ -25,12 +25,12 @@ const TOOL_BADGE = {
 }
 
 const MOCK_FILES = [
-  { id: 'mock-1', label: 'Dashboard Redesign',    source: 'Cursor',     timestamp: '2026-04-20T00:00:00Z', thumbnailAfter: cover1 },
-  { id: 'mock-2', label: 'Marketing Landing Page', source: 'Loveable',   timestamp: '2026-04-20T00:00:00Z', thumbnailAfter: cover2 },
-  { id: 'mock-3', label: 'Checkout Flow v3',       source: 'Claude',     timestamp: '2026-04-19T00:00:00Z', thumbnailAfter: cover3 },
-  { id: 'mock-4', label: 'Onboarding Flow',        source: 'Figma Make', timestamp: '2026-04-19T00:00:00Z', thumbnailAfter: cover4 },
-  { id: 'mock-5', label: 'Auth Screens',           source: 'Cursor',     timestamp: '2026-04-18T00:00:00Z', thumbnailAfter: cover5 },
-  { id: 'mock-6', label: 'Settings Page',          source: 'Claude',     timestamp: '2026-04-18T00:00:00Z', thumbnailAfter: cover6 },
+  { id: 'mock-1', label: 'Marketing Landing Page',  source: 'Cursor',     timestamp: '2026-04-25T00:00:00Z', thumbnailAfter: cover1 },
+  { id: 'mock-2', label: 'Dashboard Redesign v2',   source: 'Loveable',   timestamp: '2026-04-24T00:00:00Z', thumbnailAfter: cover2 },
+  { id: 'mock-3', label: 'Checkout Flow v3',        source: 'Claude',     timestamp: '2026-04-23T00:00:00Z', thumbnailAfter: cover3 },
+  { id: 'mock-4', label: 'Onboarding Screens',      source: 'Figma Make', timestamp: '2026-04-22T00:00:00Z', thumbnailAfter: cover4 },
+  { id: 'mock-5', label: 'Auth & Login Flow',       source: 'Cursor',     timestamp: '2026-04-21T00:00:00Z', thumbnailAfter: cover5 },
+  { id: 'mock-6', label: 'Settings Page Redesign',  source: 'Claude',     timestamp: '2026-04-20T00:00:00Z', thumbnailAfter: cover6 },
 ]
 
 export default function Recents() {
@@ -97,7 +97,7 @@ export default function Recents() {
                 )}
                 <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: '80px', background: 'linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,.90) 40%, #ffffff 100%)' }} />
                 <div style={{ position: 'absolute', left: '14px', bottom: '46px', background: colors.bg, color: colors.fg, fontFamily: "'Inter', sans-serif", fontSize: '12px', fontWeight: 400, padding: '3px 10px', borderRadius: '30px', zIndex: 1 }}>{badge}</div>
-                <div style={{ position: 'absolute', left: '14px', bottom: '18px', fontFamily: "'Inter', sans-serif", fontWeight: 600, fontSize: '16px', color: '#000', whiteSpace: 'nowrap', zIndex: 1, maxWidth: '60%', overflow: 'hidden', textOverflow: 'ellipsis' }}>{file.label}</div>
+                <div style={{ position: 'absolute', left: '14px', bottom: '18px', fontFamily: "'Inter', sans-serif", fontWeight: 600, fontSize: '16px', color: '#000', zIndex: 1, maxWidth: '80%', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>{file.label}</div>
                 <div style={{ position: 'absolute', right: '14px', bottom: '20px', fontFamily: "'Inter', sans-serif", fontSize: '12px', color: '#909090', whiteSpace: 'nowrap', zIndex: 1 }}>{dateStr}</div>
               </div>
             )

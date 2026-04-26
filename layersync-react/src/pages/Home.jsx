@@ -30,10 +30,10 @@ function loadVersions()  { try { return JSON.parse(localStorage.getItem('iterait
 function loadProjects()  { try { return JSON.parse(localStorage.getItem('iterait_projects')  || '[]') } catch { return [] } }
 
 const MOCK_FILES = [
-  { id: 'mock-1', label: 'Dashboard Redesign',    source: 'Cursor',     timestamp: '2026-04-20T00:00:00Z', thumbnailAfter: cover1 },
-  { id: 'mock-2', label: 'Marketing Landing Page', source: 'Loveable',   timestamp: '2026-04-20T00:00:00Z', thumbnailAfter: cover2 },
-  { id: 'mock-3', label: 'Checkout Flow v3',       source: 'Claude',     timestamp: '2026-04-20T00:00:00Z', thumbnailAfter: cover3 },
-  { id: 'mock-4', label: 'Onboarding Flow',        source: 'Figma Make', timestamp: '2026-04-19T00:00:00Z', thumbnailAfter: cover4 },
+  { id: 'mock-1', label: 'Marketing Landing Page', source: 'Cursor',     timestamp: '2026-04-25T00:00:00Z', thumbnailAfter: cover1 },
+  { id: 'mock-2', label: 'Dashboard Redesign v2',  source: 'Loveable',   timestamp: '2026-04-24T00:00:00Z', thumbnailAfter: cover2 },
+  { id: 'mock-3', label: 'Checkout Flow v3',       source: 'Claude',     timestamp: '2026-04-23T00:00:00Z', thumbnailAfter: cover3 },
+  { id: 'mock-4', label: 'Onboarding Screens',     source: 'Figma Make', timestamp: '2026-04-22T00:00:00Z', thumbnailAfter: cover4 },
 ]
 
 const MOCK_PROJECTS = [
@@ -443,7 +443,7 @@ export default function Home() {
                 {f.badge}
               </span>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <div style={{ fontFamily: "'Inter', sans-serif", fontWeight: 600, fontSize: '14px', color: '#000', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '130px' }}>{f.name}</div>
+                <div style={{ fontFamily: "'Inter', sans-serif", fontWeight: 600, fontSize: '14px', color: '#000', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', maxWidth: '160px' }}>{f.name}</div>
                 <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '12px', color: '#999', flexShrink: 0 }}>{f.date}</div>
               </div>
             </div>
