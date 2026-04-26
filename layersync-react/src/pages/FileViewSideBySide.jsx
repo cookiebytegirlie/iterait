@@ -39,7 +39,7 @@ export default function FileViewSideBySide() {
   const [chainModal, setChainModal]         = useState(null)
   const [chainName, setChainName]           = useState('')
   const [chainDescription, setChainDescription] = useState('')
-  const [scale, setScale]   = useState(1)
+  const [scale, setScale]   = useState(0.4)
   const [offset, setOffset] = useState({ x: 0, y: 0 })
   const [isPanning, setIsPanning] = useState(false)
   const panStart    = useRef(null)
@@ -61,6 +61,16 @@ export default function FileViewSideBySide() {
   }, [isPanning])
 
   useEffect(() => {
+    const handleKey = (e) => {
+      if (e.key === '=') setScale(p => Math.min(p + 0.05, 2))
+      if (e.key === '-') setScale(p => Math.max(p - 0.05, 0.1))
+      if (e.key === '0') setScale(0.4)
+    }
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [])
+
+  useEffect(() => {
     const el = canvasRef.current
     if (!el) return
     const handler = (e) => {
@@ -70,8 +80,8 @@ export default function FileViewSideBySide() {
       const rect = el.getBoundingClientRect()
       const cx = e.clientX - rect.left
       const cy = e.clientY - rect.top
-      const delta = e.deltaY > 0 ? -0.1 : 0.1
-      const ns = Math.min(Math.max(+(s + delta).toFixed(2), 0.25), 3)
+      const delta = e.deltaY > 0 ? -0.01 : 0.01
+      const ns = Math.min(Math.max(+(s + delta).toFixed(2), 0.1), 2)
       setScale(ns)
       setOffset({ x: cx - (ns / s) * (cx - o.x), y: cy - (ns / s) * (cy - o.y) })
     }
