@@ -40,6 +40,8 @@ export default function FileViewSideBySide() {
   const [chainModal, setChainModal]         = useState(null)
   const [chainName, setChainName]           = useState('')
   const [chainDescription, setChainDescription] = useState('')
+  const [versionsOpen, setVersionsOpen] = useState(true)
+  const [changesOpen, setChangesOpen]   = useState(true)
   const [isDragOver, setIsDragOver] = useState(false)
   const [beforeSrc, setBeforeSrc] = useState('')
   const [afterSrc, setAfterSrc]   = useState('')
@@ -280,27 +282,37 @@ export default function FileViewSideBySide() {
       <div style={{ display: 'flex', height: '100%', overflow: 'hidden' }}>
 
         {/* VERSION SIDEBAR */}
-        <div style={{ width: 200, flexShrink: 0, borderRight: '1px solid #efefef', overflowY: 'auto', background: '#fff', padding: '12px 8px' }}>
-          <div style={{ fontSize: 10, fontWeight: 600, color: '#bbb', textTransform: 'uppercase', letterSpacing: '.08em', padding: '0 8px', marginBottom: 8 }}>
-            Versions
-          </div>
-          {versions.map((v) => (
-            <div
-              key={v.id}
-              draggable
-              onDragStart={(e) => { e.dataTransfer.setData('versionId', v.id); e.dataTransfer.effectAllowed = 'move' }}
-              style={{ padding: '8px', borderRadius: 8, marginBottom: 6, cursor: 'grab', border: v.id === currentVersionId ? '1.5px solid #111' : '1.5px solid #efefef', background: '#fff' }}
-              onClick={() => setCurrentVersionId(v.id)}
-            >
-              {v.thumbnail ? (
-                <img src={v.thumbnail} style={{ width: '100%', height: 60, objectFit: 'cover', borderRadius: 5, display: 'block' }} />
-              ) : (
-                <div style={{ width: '100%', height: 60, background: 'linear-gradient(135deg,#5BC4C0,#7EB8E8)', borderRadius: 5 }} />
-              )}
-              <div style={{ fontSize: 11, fontWeight: 600, color: '#111', marginTop: 5, fontFamily: 'Instrument Sans, sans-serif' }}>{v.label}</div>
-              <div style={{ fontSize: 10, color: '#bbb' }}>{new Date(v.timestamp).toLocaleTimeString()}</div>
+        <div style={{ width: versionsOpen ? 220 : 40, flexShrink: 0, borderRight: '1px solid #efefef', transition: 'width .25s ease', overflow: 'hidden', background: '#fff', position: 'relative' }}>
+          <button
+            onClick={() => setVersionsOpen(p => !p)}
+            style={{ position: 'absolute', top: 12, right: 8, zIndex: 10, background: '#f5f5f3', border: '1px solid #efefef', borderRadius: 6, width: 24, height: 24, cursor: 'pointer', fontSize: 10, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          >
+            {versionsOpen ? '←' : '→'}
+          </button>
+          {versionsOpen && (
+            <div style={{ padding: '40px 8px 8px' }}>
+              <div style={{ fontSize: 10, fontWeight: 600, color: '#bbb', textTransform: 'uppercase', letterSpacing: '.08em', padding: '0 8px', marginBottom: 8 }}>
+                Versions
+              </div>
+              {versions.map((v) => (
+                <div
+                  key={v.id}
+                  draggable
+                  onDragStart={(e) => { e.dataTransfer.setData('versionId', v.id); e.dataTransfer.effectAllowed = 'move' }}
+                  style={{ padding: '8px', borderRadius: 8, marginBottom: 6, cursor: 'grab', border: v.id === currentVersionId ? '1.5px solid #111' : '1.5px solid #efefef', background: '#fff' }}
+                  onClick={() => setCurrentVersionId(v.id)}
+                >
+                  {v.thumbnail ? (
+                    <img src={v.thumbnail} style={{ width: '100%', height: 60, objectFit: 'cover', borderRadius: 5, display: 'block' }} />
+                  ) : (
+                    <div style={{ width: '100%', height: 60, background: 'linear-gradient(135deg,#5BC4C0,#7EB8E8)', borderRadius: 5 }} />
+                  )}
+                  <div style={{ fontSize: 11, fontWeight: 600, color: '#111', marginTop: 5, fontFamily: 'Instrument Sans, sans-serif' }}>{v.label}</div>
+                  <div style={{ fontSize: 10, color: '#bbb' }}>{new Date(v.timestamp).toLocaleTimeString()}</div>
+                </div>
+              ))}
             </div>
-          ))}
+          )}
         </div>
 
         {/* BEFORE PANEL */}
@@ -391,14 +403,26 @@ export default function FileViewSideBySide() {
         </div>
 
         {/* Change log panel */}
-        <ChangeLogPanel
-          changes={changes}
-          selectedIds={selectedIds}
-          onChangeSelect={handleChangeSelect}
-          onRestore={handleRestoreSelected}
-          onSaveAction={openActionModal}
-          onSaveChain={openChainModal}
-        />
+        <div style={{ width: changesOpen ? 300 : 40, flexShrink: 0, borderLeft: '1px solid #efefef', transition: 'width .25s ease', overflow: 'hidden', background: '#fff', position: 'relative' }}>
+          <button
+            onClick={() => setChangesOpen(p => !p)}
+            style={{ position: 'absolute', top: 12, left: 8, zIndex: 10, background: '#f5f5f3', border: '1px solid #efefef', borderRadius: 6, width: 24, height: 24, cursor: 'pointer', fontSize: 10, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          >
+            {changesOpen ? '→' : '←'}
+          </button>
+          {changesOpen && (
+            <div style={{ padding: '40px 12px 12px' }}>
+              <ChangeLogPanel
+                changes={changes}
+                selectedIds={selectedIds}
+                onChangeSelect={handleChangeSelect}
+                onRestore={handleRestoreSelected}
+                onSaveAction={openActionModal}
+                onSaveChain={openChainModal}
+              />
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Save as Action modal */}
