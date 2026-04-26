@@ -4,6 +4,7 @@ import VersionSidebar from '../components/VersionSidebar'
 import AnnotationDot from '../components/AnnotationDot'
 import ChangeLogPanel from '../components/ChangeLogPanel'
 import { captureBeforeAfter } from '../utils/captureSnapshot'
+import CompanionPanel from '../components/CompanionPanel'
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000'
 
@@ -42,6 +43,9 @@ export default function FileViewSideBySide() {
   const [isDragOver, setIsDragOver] = useState(false)
   const [beforeSrc, setBeforeSrc] = useState('')
   const [afterSrc, setAfterSrc]   = useState('')
+  const [showCompanion, setShowCompanion] = useState(false)
+
+  const demoMode = versions.length === 0 || versions.every(v => v.id?.startsWith('demo-'))
 
   const currentVersion = versions.find(v => v.id === currentVersionId)
   const compareVersion = versions.find(v => v.id === compareVersionId)
@@ -256,11 +260,21 @@ export default function FileViewSideBySide() {
           <button onClick={() => navigate('/file-view')} style={{ padding: '6px 14px', borderRadius: 6, border: 'none', background: 'transparent', fontSize: 12, fontWeight: 600, color: '#888', cursor: 'pointer', fontFamily: 'Instrument Sans, sans-serif' }}>Single</button>
           <button style={{ padding: '6px 14px', borderRadius: 6, border: 'none', background: '#fff', fontSize: 12, fontWeight: 600, color: '#111', cursor: 'pointer', fontFamily: 'Instrument Sans, sans-serif', boxShadow: '0 1px 4px rgba(0,0,0,0.08)' }}>Compare</button>
         </div>
-        <button style={{ display: 'flex', alignItems: 'center', gap: '7px', padding: '8px 16px', background: '#1550E1', color: '#fff', border: 'none', borderRadius: '10px', fontSize: '13px', fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit' }}
-          onClick={() => handleRestoreVersion(currentVersionId)}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
-          Restore Version
+        <button
+          onClick={() => setShowCompanion(true)}
+          style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '6px 14px', borderRadius: 8, border: '1px solid #e8e8e8', background: '#fff', fontSize: 13, fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit' }}>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <rect x="1" y="1" width="5" height="12" rx="1.5" stroke="currentColor" strokeWidth="1.4"/>
+            <rect x="8" y="1" width="5" height="12" rx="1.5" stroke="currentColor" strokeWidth="1.4"/>
+          </svg>
+          Companion
         </button>
+        {demoMode && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 12px', background: 'rgba(91,196,192,0.1)', border: '1px solid rgba(91,196,192,0.3)', borderRadius: 999, fontSize: 11, fontWeight: 600, color: '#5BC4C0', fontFamily: 'Instrument Sans, sans-serif' }}>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#5BC4C0', display: 'inline-block' }}/>
+            Demo mode — upload a file to go live
+          </div>
+        )}
       </div>
 
       <div style={{ display: 'flex', height: '100%', overflow: 'hidden' }}>
@@ -449,6 +463,8 @@ export default function FileViewSideBySide() {
           </div>
         </div>
       )}
+
+      {showCompanion && <CompanionPanel onClose={() => setShowCompanion(false)} />}
     </main>
   )
 }
