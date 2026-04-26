@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>iterait · Share &amp; Collaborate</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/styles.css" />
+</head>
+<body>
+<div class="page-faded">
+  <div class="app-v2">
+    <!-- ── Sidebar ─────────────────────────────────────────── -->
+    <aside class="sidebar-v2" style="overflow-y:auto; gap:6px;">
+      <div class="brand-v2" style="padding-bottom:14px;"><img src="../assets/iterait-logo.svg" class="brand-logo-icon" alt="iterait" /> iterait</div>
+
+      <!-- Pinned -->
+      <div style="display:flex;flex-direction:column;gap:2px;">
+        <div class="nav-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="16" height="16">
+            <path d="M12 2l1.5 4.5h4.5l-3.6 2.7 1.4 4.3-3.8-2.8-3.8 2.8 1.4-4.3L5.5 6.5H10z"/>
+            <line x1="12" y1="13" x2="12" y2="22"/>
+          </svg>
+          Pinned
+        </div>
+        <div class="pin-sub-list">
+          <div class="pin-sub" onclick="location.href='02-file-view.html'">Marketing Landing Page</div>
+          <div class="pin-sub" onclick="location.href='02-file-view.html'">Checkout Flow v3</div>
+          <div class="pin-sub" onclick="location.href='02-file-view.html'">Dashboard Redesign</div>
+        </div>
+      </div>
+
+      <div style="height:8px;"></div>
+
+      <!-- Main nav -->
+      <div style="display:flex;flex-direction:column;gap:2px;">
+        <div class="nav-row" onclick="location.href='12-home.html'">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+          Home
+        </div>
+        <div class="nav-row" onclick="location.href='13-recents.html'">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+          </svg>
+          Files
+        </div>
+        <div class="nav-row" onclick="location.href='16-projects.html'">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+          </svg>
+          Projects
+        </div>
+        <div class="nav-row" onclick="location.href='15-shared.html'">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/>
+            <path d="M16 3.13a4 4 0 010 7.75"/>
+            <path d="M21 21v-2a4 4 0 00-3-3.87"/>
+          </svg>
+          Shared
+        </div>
+        <div class="nav-row" onclick="location.href='14-actions-library.html'">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+          </svg>
+          Action Library
+        </div>
+        <div class="nav-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6l-1 14H6L5 6"/>
+            <path d="M10 11v6M14 11v6"/>
+            <path d="M9 6V4h6v2"/>
+          </svg>
+          Trash
+        </div>
+      </div>
+
+      <!-- Settings footer -->
+      <div class="footer-row" onclick="location.href='11-settings.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
+        </svg>
+        Settings
+      </div>
+    </aside>
+    <!-- ── Main ────────────────────────────────────────────── -->
+    <div class="main-v2">
+      <header class="topbar-v2">
+        <div class="left" style="display:flex;align-items:center;gap:6px;">
+          <a href="13-recents.html" style="color:var(--text-3);text-decoration:none;font-size:14px;">Home</a>
+          <span style="color:var(--text-4);font-size:14px;">/</span>
+          <span style="font-size:14px;color:var(--text);">Dashboard Redesign</span>
+        </div>
+        <div class="search-v2">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--text-3);flex-shrink:0;">
+            <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>
+          </svg>
+          <input placeholder="Search..." />
+        </div>
+        <div class="right">
+          <div class="avatar-circle" title="Miranda"></div>
+        </div>
+      </header>
+      <aside class="history-panel"><div class="history-head"><h3>Versions</h3></div></aside>
+    <main class="canvas-shell">
+      <div class="canvas-head"><div><div class="crumbs">Home / Dashboard Redesign</div><div class="canvas-title"><h2>v12 — Final hover states</h2></div></div></div>
+      <div class="canvas"><div class="mock dashboard"></div></div>
+    </main>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="shareModal">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h3>Share Dashboard Redesign</h3>
+        <div class="muted small" style="margin-top:2px;">Async only — no live editing. Collaborators can comment or suggest.</div>
+      </div>
+      <a class="icon-btn" href="02-file-view.html" style="width:30px; height:30px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M6 18L18 6"/></svg></a>
+    </div>
+
+    <div class="modal-body">
+      <label class="muted tiny" style="text-transform:uppercase; letter-spacing:.08em; font-weight:500;">Invite by email</label>
+      <div style="display:grid; grid-template-columns: 1fr auto auto; gap:8px; margin-top:8px;">
+        <input id="emailInput" class="input" placeholder="name@team.com" />
+        <select class="input" style="width:auto;"><option>Can comment</option><option>Can suggest</option><option>View only</option></select>
+        <button class="btn btn-primary" id="inviteBtn">Invite</button>
+      </div>
+
+      <div style="margin-top:18px;">
+        <label class="muted tiny" style="text-transform:uppercase; letter-spacing:.08em; font-weight:500;">Share link</label>
+        <div style="display:grid; grid-template-columns: 1fr auto auto; gap:8px; margin-top:8px;">
+          <div class="input" style="display:flex; align-items:center; color:var(--text-2); font-family: ui-monospace, monospace; font-size:12.5px;">layersync.app/s/dashboard-9k2x</div>
+          <select class="input" style="width:auto;"><option>View only</option><option>Can comment</option><option>Can suggest</option></select>
+          <button class="btn btn-secondary" data-toast="Link copied to clipboard">Copy link</button>
+        </div>
+        <div class="row-x" style="gap:8px; margin-top:10px;">
+          <span class="switch on" data-toggle data-toast="Public link"></span>
+          <span class="small">Anyone with the link can view</span>
+        </div>
+        <div class="row-x" style="gap:8px; margin-top:8px;">
+          <span class="switch" data-toggle data-toast="Sign-in required"></span>
+          <span class="small">Require sign-in (LayerSync account)</span>
+        </div>
+      </div>
+
+      <div style="margin-top:22px;">
+        <div class="row-x spread"><label class="muted tiny" style="text-transform:uppercase; letter-spacing:.08em; font-weight:500;">Active collaborators</label><span class="muted tiny" id="collabCount">4 people</span></div>
+        <div id="collabList" style="margin-top:10px; display:flex; flex-direction:column; gap:8px;">
+          <div class="row-x" style="gap:10px;">
+            <div class="avatar" style="background:linear-gradient(135deg,#f4c8b3,#e29a85)">M</div>
+            <div style="flex:1;"><div style="font-size:13px; font-weight:600;">Miranda <span class="badge" style="margin-left:6px;">Owner</span></div><div class="muted tiny">michellebui45@gmail.com</div></div>
+            <span class="muted small">Owner</span>
+          </div>
+          <div class="row-x" data-collab="Sam" style="gap:10px;">
+            <div class="avatar" style="background:linear-gradient(135deg,#c7bcfb,#8e7df0)">S</div>
+            <div style="flex:1;"><div style="font-size:13px; font-weight:600;">Sam Patel</div><div class="muted tiny">sam@team.com · added 12m ago</div></div>
+            <select class="input" style="width:auto; padding:6px 10px; font-size:12.5px;"><option>Can comment</option><option>Can suggest</option><option>View only</option><option data-remove>Remove</option></select>
+          </div>
+          <div class="row-x" data-collab="Jordan" style="gap:10px;">
+            <div class="avatar" style="background:linear-gradient(135deg,#a8dcbf,#5da77f)">J</div>
+            <div style="flex:1;"><div style="font-size:13px; font-weight:600;">Jordan Lee</div><div class="muted tiny">jordan@team.com · added yesterday</div></div>
+            <select class="input" style="width:auto; padding:6px 10px; font-size:12.5px;"><option>Can suggest</option><option>Can comment</option><option>View only</option><option data-remove>Remove</option></select>
+          </div>
+          <div class="row-x" data-collab="Aisha" style="gap:10px;">
+            <div class="avatar" style="background:linear-gradient(135deg,#f5c2a0,#d6845a)">A</div>
+            <div style="flex:1;"><div style="font-size:13px; font-weight:600;">Aisha Rahman</div><div class="muted tiny">aisha@team.com · added 3 days ago</div></div>
+            <select class="input" style="width:auto; padding:6px 10px; font-size:12.5px;"><option>View only</option><option>Can comment</option><option>Can suggest</option><option data-remove>Remove</option></select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-foot">
+      <span class="muted small" style="margin-right:auto;">Changes save automatically.</span>
+      <a class="btn btn-secondary" href="02-file-view.html">Done</a>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/app.js"></script>
+<script>
+  // Invite by email — adds a row to the collaborator list
+  document.getElementById('inviteBtn').addEventListener('click', () => {
+    const input = document.getElementById('emailInput');
+    const v = input.value.trim();
+    if (!v) return window.toast('Enter an email to invite');
+    const initial = v[0].toUpperCase();
+    const row = document.createElement('div');
+    row.className = 'row-x';
+    row.style.gap = '10px';
+    row.innerHTML = `<div class="avatar" style="background:linear-gradient(135deg,#bcd5ec,#7a9fc4)">${initial}</div>
+      <div style="flex:1;"><div style="font-size:13px; font-weight:600;">${v}</div><div class="muted tiny">added just now</div></div>
+      <select class="input" style="width:auto; padding:6px 10px; font-size:12.5px;"><option>Can comment</option><option>Can suggest</option><option>View only</option><option data-remove>Remove</option></select>`;
+    document.getElementById('collabList').appendChild(row);
+    input.value = '';
+    updateCount();
+    window.toast(`${v} invited`);
+  });
+  function updateCount() {
+    const n = document.querySelectorAll('#collabList > div').length;
+    document.getElementById('collabCount').textContent = n + ' people';
+  }
+  // Remove handler
+  document.getElementById('collabList').addEventListener('change', (e) => {
+    const opt = e.target.options[e.target.selectedIndex];
+    if (opt.hasAttribute('data-remove')) {
+      const row = e.target.closest('.row-x');
+      const name = row.querySelector('div[style*="font-weight:600"]').textContent;
+      row.remove();
+      updateCount();
+      window.toast(name + ' removed');
+    }
+  });
+</script>
+</body>
+</html>

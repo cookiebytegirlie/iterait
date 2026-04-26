@@ -1,0 +1,7 @@
+{
+  "file": "/absolute/path/to/your/file.html",
+  "project": "My Project",
+  "name": "index.html",
+  "source": "claude-code",
+  "backend": "http://localhost:4000"
+}

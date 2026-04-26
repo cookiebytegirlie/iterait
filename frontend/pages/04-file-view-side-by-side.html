@@ -1,0 +1,991 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>iterait · Before &amp; After</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <style>
+    /* ── Page 04 · File View (Before & After) ───────────────────────── */
+
+    .main-v2 {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    /* Sub-topbar */
+    .sub-topbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 20px;
+      height: 52px;
+      border-bottom: 1px solid var(--border);
+      background: #fff;
+      flex-shrink: 0;
+    }
+    .sub-topbar-title {
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      flex: 1;
+    }
+    .view-label {
+      font-size: 13px;
+      color: var(--text-3);
+    }
+    .view-dropdown {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border: 1px solid #d1d5dc;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      cursor: pointer;
+      background: #fff;
+      white-space: nowrap;
+      font-family: inherit;
+    }
+    .btn-restore-version {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 16px;
+      background: #1550E1;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+    .btn-restore-version:hover { background: #1244c4; }
+
+    /* 3-column body */
+    .fv-body {
+      flex: 1;
+      display: flex;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    /* Left: version panel */
+    .ver-panel {
+      width: 210px;
+      flex-shrink: 0;
+      border-right: 1px solid var(--border);
+      background: rgba(255,255,255,0.8);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .ver-panel-top {
+      padding: 12px 15px 8px;
+      flex-shrink: 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .ver-panel-project {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .ver-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .ver-panel-header span {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .ver-panel-header img {
+      width: 20px;
+      height: 20px;
+      opacity: 0.45;
+      cursor: pointer;
+    }
+    .ver-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      scrollbar-width: none;
+    }
+    .ver-list::-webkit-scrollbar { display: none; }
+
+    /* Version card */
+    .vc {
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 1.5px solid transparent;
+      transition: border-color .15s;
+      position: relative;
+    }
+    .vc.vc-faded { opacity: 0.42; }
+    .vc.vc-active { border-color: #FDD772; opacity: 1; }
+    .vc-img {
+      width: 100%;
+      height: 96px;
+      object-fit: cover;
+      display: block;
+      background: #ccc;
+    }
+    .vc-label {
+      background: #fff;
+      padding: 7px 10px 8px;
+    }
+    .vc-name {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .vc-date {
+      font-size: 10px;
+      color: #909090;
+      margin-top: 2px;
+    }
+    .vc-current-badge {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: rgba(0,0,0,.5);
+      color: #fff;
+      font-size: 9px;
+      font-weight: 500;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .vc-stars {
+      display: flex;
+      gap: 2px;
+      margin-top: 4px;
+      justify-content: flex-end;
+    }
+    .vc-stars svg { width: 11px; height: 11px; }
+
+    /* Center: canvas + frames */
+    .canvas-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #f7f7f7;
+    }
+    .canvas-wrap {
+      flex: 1;
+      background: #222;
+      border-radius: 10px;
+      margin: 8px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    /* Before & After panes */
+    .ba-labels {
+      display: flex;
+      padding: 12px 16px 8px;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+    .ba-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255,255,255,.9);
+      flex: 1;
+      text-align: left;
+    }
+    .ba-label:last-child { text-align: left; }
+    .ba-panes {
+      flex: 1;
+      display: flex;
+      gap: 8px;
+      padding: 0 12px 12px;
+      min-height: 0;
+    }
+    .ba-pane {
+      flex: 1;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      background: #1a1a1a;
+    }
+    .ba-pane img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* Annotation circles */
+    .ann {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 500;
+      color: #fff;
+      cursor: pointer;
+      transform: translate(-50%, -50%);
+      transition: transform .12s;
+      z-index: 5;
+      letter-spacing: -0.15px;
+      font-family: 'Instrument Sans', sans-serif;
+    }
+    .ann:hover { transform: translate(-50%, -50%) scale(1.2); }
+    .ann-blue  { background: #1550E1; }
+    .ann-amber { background: #F59E0B; }
+
+    /* Frames row */
+    .frames-row {
+      padding: 10px 16px 12px;
+      background: #2a2a2a;
+      flex-shrink: 0;
+      border-top: 1px solid rgba(255,255,255,.08);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .frames-row::-webkit-scrollbar { display: none; }
+    .frames-section-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255,255,255,.75);
+      margin-bottom: 8px;
+    }
+    .frames-grid {
+      display: flex;
+      gap: 14px;
+    }
+    .ft {
+      flex-shrink: 0;
+      width: 128px;
+      cursor: pointer;
+    }
+    .ft-inner {
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1.5px solid transparent;
+      transition: border-color .15s;
+    }
+    .ft.ft-active .ft-inner { border-color: #FDD772; }
+    .ft.ft-faded { opacity: 0.42; }
+    .ft img {
+      width: 100%;
+      height: 76px;
+      object-fit: cover;
+      display: block;
+      background: #444;
+    }
+    .ft-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 2px 0;
+    }
+    .ft-name { font-size: 11px; font-weight: 500; color: rgba(255,255,255,.65); }
+    .ft-changes { font-size: 11px; color: #83acba; }
+    .ft.ft-faded .ft-changes { color: rgba(255,255,255,.25); }
+
+    /* Right: changes panel */
+    .changes-panel {
+      width: 270px;
+      flex-shrink: 0;
+      background: #fff;
+      border-radius: 10px;
+      margin: 8px 8px 8px 0;
+      box-shadow: 0 5px 4.9px rgba(0,0,0,.07);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .cp-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 24px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .cp-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+    }
+    .cp-header img { width: 16px; height: 16px; opacity: 0.5; cursor: pointer; }
+    .cp-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .change-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .change-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 500;
+      color: #fff;
+      flex-shrink: 0;
+      font-family: 'Instrument Sans', sans-serif;
+    }
+    .cn-blue  { background: #1550E1; }
+    .cn-amber { background: #F59E0B; }
+    .change-text {
+      flex: 1;
+      font-size: 12px;
+      font-weight: 500;
+      color: #0a0a0a;
+      white-space: nowrap;
+    }
+    .chk {
+      width: 20px;
+      height: 20px;
+      border: 1px solid #909090;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      cursor: pointer;
+      background: #fff;
+    }
+    .chk.chk-dim { opacity: 0.3; }
+    .chk img { width: 12px; height: 12px; }
+    .cp-actions {
+      padding: 12px 24px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      border-top: 1px solid var(--border);
+    }
+    .btn-restore-sel {
+      padding: 8px 16px;
+      background: rgba(21,80,225,.1);
+      border: 1px solid #1550E1;
+      color: #1550E1;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+      text-align: center;
+    }
+    .btn-restore-sel:hover { background: rgba(21,80,225,.18); }
+    .btn-sec {
+      padding: 8px 16px;
+      border: 1px solid #d9d9d9;
+      color: var(--text);
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      background: #fff;
+      font-family: inherit;
+      text-align: center;
+    }
+    .btn-sec:hover { background: var(--bg-2); }
+
+    /* Interactive states */
+    .vc { cursor: pointer; }
+    .vc:hover:not(.vc-active) { opacity: 0.6; }
+    .ba-pane img { transition: opacity .2s ease; }
+    .change-row {
+      cursor: pointer;
+      padding: 5px 8px;
+      border-radius: 8px;
+      margin: 0 -8px;
+      transition: background .12s;
+    }
+    .change-row:hover  { background: rgba(0,0,0,.04); }
+    .change-row.cr-hi  { background: rgba(21,80,225,.09); }
+    .ann { transition: transform .15s, box-shadow .15s; }
+    .ann.ann-pulse { box-shadow: 0 0 0 6px rgba(21,80,225,.25); }
+    .ann-amber.ann-pulse { box-shadow: 0 0 0 6px rgba(245,158,11,.25); }
+    .ft { cursor: pointer; transition: opacity .12s; }
+    .ft:hover:not(.ft-active) { opacity: 0.65; }
+
+    /* Toast */
+    .ls-toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      background: #0a0a0a;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      box-shadow: 0 4px 20px rgba(0,0,0,.22);
+      opacity: 0;
+      transition: opacity .2s, transform .2s;
+      z-index: 9999;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    .ls-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+<div class="app-v2">
+
+  <!-- ── Sidebar ─────────────────────────────────────────── -->
+  <aside class="sidebar-v2" style="overflow-y:auto; gap:6px;">
+    <div class="brand-v2" style="padding-bottom:14px;"><img src="../assets/iterait-logo.svg" class="brand-logo-icon" alt="iterait" /> iterait</div>
+
+    <!-- Pinned -->
+    <div style="display:flex;flex-direction:column;gap:2px;">
+      <div class="nav-row">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="16" height="16">
+          <path d="M12 2l1.5 4.5h4.5l-3.6 2.7 1.4 4.3-3.8-2.8-3.8 2.8 1.4-4.3L5.5 6.5H10z"/>
+          <line x1="12" y1="13" x2="12" y2="22"/>
+        </svg>
+        Pinned
+      </div>
+      <div class="pin-sub-list">
+        <div class="pin-sub" onclick="location.href='02-file-view.html'">Marketing Landing Page</div>
+        <div class="pin-sub" onclick="location.href='02-file-view.html'">Checkout Flow v3</div>
+        <div class="pin-sub" onclick="location.href='02-file-view.html'">Dashboard Redesign</div>
+      </div>
+    </div>
+
+    <div style="height:8px;"></div>
+
+    <!-- Main nav -->
+    <div style="display:flex;flex-direction:column;gap:2px;">
+      <div class="nav-row" onclick="location.href='12-home.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        Home
+      </div>
+      <div class="nav-row active-pg" onclick="location.href='13-recents.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+        </svg>
+        Files
+      </div>
+      <div class="nav-row" onclick="location.href='16-projects.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+        </svg>
+        Projects
+      </div>
+      <div class="nav-row" onclick="location.href='15-shared.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/>
+          <path d="M16 3.13a4 4 0 010 7.75"/>
+          <path d="M21 21v-2a4 4 0 00-3-3.87"/>
+        </svg>
+        Shared
+      </div>
+      <div class="nav-row" onclick="location.href='14-actions-library.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+        </svg>
+        Action Library
+      </div>
+      <div class="nav-row">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <polyline points="3 6 5 6 21 6"/>
+          <path d="M19 6l-1 14H6L5 6"/>
+          <path d="M10 11v6M14 11v6"/>
+          <path d="M9 6V4h6v2"/>
+        </svg>
+        Trash
+      </div>
+    </div>
+
+    <!-- Settings footer -->
+    <div class="footer-row" onclick="location.href='11-settings.html'">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
+      </svg>
+      Settings
+    </div>
+  </aside>
+
+  <!-- ── Main ────────────────────────────────────────────── -->
+  <main class="main-v2">
+
+    <!-- Topbar -->
+    <header class="topbar-v2">
+      <div class="left" style="display:flex;align-items:center;gap:6px;">
+        <a href="12-home.html" style="color:var(--text-3);text-decoration:none;font-size:14px;">Home</a>
+        <span style="color:var(--text-4);font-size:14px;">/</span>
+        <span style="font-size:14px;color:var(--text);">Version History</span>
+      </div>
+      <div class="search-v2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--text-3);flex-shrink:0;">
+          <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>
+        </svg>
+        <input placeholder="Search..." />
+      </div>
+      <div class="right">
+        <div class="avatar-circle" title="Miranda"></div>
+      </div>
+    </header>
+
+    <!-- Sub-topbar -->
+    <div class="sub-topbar">
+      <div class="sub-topbar-title">Version 9</div>
+      <span class="view-label">View</span>
+      <button class="view-dropdown" onclick="location.href='02-file-view.html'">
+        Before &amp; After
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <button class="btn-restore-version" onclick="location.href='08-modal-restore-version.html'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+        Restore Version
+      </button>
+    </div>
+
+    <!-- 3-column body -->
+    <div class="fv-body">
+
+      <!-- Left: version panel -->
+      <div class="ver-panel">
+        <div class="ver-panel-top">
+          <div class="ver-panel-project">Project Name</div>
+          <div class="ver-panel-header">
+            <span>Versions</span>
+            <img src="https://www.figma.com/api/mcp/asset/7d63f85f-b93b-4b65-93c3-9d73af0db955" alt="sort" />
+          </div>
+        </div>
+        <div class="ver-list">
+
+          <!-- Version 10 — faded, current -->
+          <div class="vc vc-faded">
+            <div class="vc-current-badge">Current</div>
+            <img class="vc-img" src="https://www.figma.com/api/mcp/asset/713ce36e-d5d8-4e00-869d-46bc92ac5d08" alt="Version 10" />
+            <div class="vc-label">
+              <div class="vc-name">Version 10 · Current</div>
+              <div class="vc-date">April 2 · 4:15 PM</div>
+            </div>
+          </div>
+
+          <!-- Version 9 — active (yellow border) — After side -->
+          <div class="vc vc-active">
+            <img class="vc-img" src="https://www.figma.com/api/mcp/asset/6d37d460-52c4-4773-b187-29c15dfc1d43" alt="Version 9" />
+            <div class="vc-label">
+              <div class="vc-name">Version 9</div>
+              <div class="vc-date">April 2 · 2:10 PM</div>
+            </div>
+          </div>
+
+          <!-- Version 8 — active (yellow border) — Before side -->
+          <div class="vc vc-active">
+            <img class="vc-img" src="https://www.figma.com/api/mcp/asset/17aead79-6cbe-4b9d-8721-143ce20ead9e" alt="Version 8" />
+            <div class="vc-label">
+              <div class="vc-name">Version 8</div>
+              <div class="vc-date">April 2 · 11:10 PM</div>
+              <div class="vc-stars">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#909090" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="#909090" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="#909090" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="#909090" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="#909090" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Version 7 — faded -->
+          <div class="vc vc-faded">
+            <img class="vc-img" src="https://www.figma.com/api/mcp/asset/6d37d460-52c4-4773-b187-29c15dfc1d43" alt="Version 7" />
+            <div class="vc-label">
+              <div class="vc-name">Version 7</div>
+              <div class="vc-date">April 2 · 9:00 PM</div>
+              <div class="vc-stars">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#909090" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="#909090" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="#909090" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="#909090" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="#909090" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Version 6 — faded -->
+          <div class="vc vc-faded">
+            <img class="vc-img" src="https://www.figma.com/api/mcp/asset/fe63660b-d1ea-416d-addc-12a2120cd3a2" alt="Version 6" />
+            <div class="vc-label">
+              <div class="vc-name">Version 6</div>
+              <div class="vc-date">April 2 · 9:15 AM</div>
+              <div class="vc-stars">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#909090" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="#909090" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="#909090" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="#909090" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="#909090" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Version 5 — faded -->
+          <div class="vc vc-faded">
+            <img class="vc-img" src="https://www.figma.com/api/mcp/asset/877b545a-ad7d-469f-a565-9241f892f8e0" alt="Version 5" />
+            <div class="vc-label">
+              <div class="vc-name">Version 5</div>
+              <div class="vc-date">April 1 · 2:10 PM</div>
+              <div class="vc-stars">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#909090" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="#909090" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="#909090" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="#909090" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="#909090" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- /ver-panel -->
+
+      <!-- Center: canvas + frames -->
+      <div class="canvas-area">
+        <div class="canvas-wrap">
+          <!-- Before & After pane labels -->
+          <div class="ba-labels">
+            <span class="ba-label">Version 8 - Before</span>
+            <span class="ba-label">Version 9 - After</span>
+          </div>
+
+          <!-- Side-by-side panes -->
+          <div class="ba-panes">
+
+            <!-- Before pane (Version 8) -->
+            <div class="ba-pane">
+              <img src="https://www.figma.com/api/mcp/asset/f95e48e1-9e7f-442a-94a1-f5def75e906f"
+                   alt="Version 8 — Before" />
+            </div>
+
+            <!-- After pane (Version 9) — has annotation circles -->
+            <div class="ba-pane" style="position:relative;">
+              <img src="https://www.figma.com/api/mcp/asset/e5c3b7e4-81cc-4aec-b059-9a0e456d32f5"
+                   alt="Version 9 — After" />
+              <!-- Annotation circles on the After pane -->
+              <div class="ann ann-blue"  style="left:55%; top:23%;">2</div>
+              <div class="ann ann-blue"  style="left:28%; top:46%;">4</div>
+              <div class="ann ann-blue"  style="left:58%; top:60%;">3</div>
+              <div class="ann ann-amber" style="left:74%; top:72%;">1</div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Frames row -->
+        <div class="frames-row">
+          <div class="frames-section-label">Frames</div>
+          <div class="frames-grid">
+
+            <div class="ft ft-faded">
+              <div class="ft-inner">
+                <img src="https://www.figma.com/api/mcp/asset/80145484-18b3-42d2-9b98-ce22c8e114d5" alt="Frame 1" />
+              </div>
+              <div class="ft-meta">
+                <span class="ft-name">Frame 1</span>
+                <span class="ft-changes">0 changes</span>
+              </div>
+            </div>
+
+            <div class="ft ft-active">
+              <div class="ft-inner">
+                <img src="https://www.figma.com/api/mcp/asset/fa28f287-4cf4-4d32-af7f-23af24ac50e5" alt="Frame 2" />
+              </div>
+              <div class="ft-meta">
+                <span class="ft-name">Frame 2</span>
+                <span class="ft-changes">2 changes</span>
+              </div>
+            </div>
+
+            <div class="ft ft-faded">
+              <div class="ft-inner">
+                <img src="https://www.figma.com/api/mcp/asset/70a26618-c5cf-4e8e-a70a-462d65ac9465" alt="Frame 3" />
+              </div>
+              <div class="ft-meta">
+                <span class="ft-name">Frame 3</span>
+                <span class="ft-changes">0 changes</span>
+              </div>
+            </div>
+
+            <div class="ft ft-faded">
+              <div class="ft-inner">
+                <img src="https://www.figma.com/api/mcp/asset/37ceb645-d81a-43e8-b700-ff55b4a7aa05" alt="Frame 4" />
+              </div>
+              <div class="ft-meta">
+                <span class="ft-name">Frame 4</span>
+                <span class="ft-changes">0 changes</span>
+              </div>
+            </div>
+
+            <div class="ft ft-faded">
+              <div class="ft-inner">
+                <img src="https://www.figma.com/api/mcp/asset/73c7857d-87bb-4125-8c3a-7d61ff1e1864" alt="Frame 5" />
+              </div>
+              <div class="ft-meta">
+                <span class="ft-name">Frame 5</span>
+                <span class="ft-changes">0 changes</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div><!-- /canvas-area -->
+
+      <!-- Right: changes panel -->
+      <div class="changes-panel">
+        <div class="cp-header">
+          <span class="cp-title">Changes</span>
+          <img src="https://www.figma.com/api/mcp/asset/2e4c707f-12de-4ba7-abf1-4ecb7be58bdd" alt="filter" />
+        </div>
+        <div class="cp-list">
+
+          <div class="change-row">
+            <div class="change-num cn-amber">1</div>
+            <span class="change-text">Image uploaded</span>
+            <div class="chk">
+              <img src="https://www.figma.com/api/mcp/asset/f51e2722-da0a-4695-9417-dd853e527370" alt="✓" />
+            </div>
+          </div>
+
+          <div class="change-row">
+            <div class="change-num cn-blue">2</div>
+            <span class="change-text">Changed background</span>
+            <div class="chk">
+              <img src="https://www.figma.com/api/mcp/asset/f51e2722-da0a-4695-9417-dd853e527370" alt="" />
+            </div>
+          </div>
+
+          <div class="change-row">
+            <div class="change-num cn-blue">3</div>
+            <span class="change-text">Rounded buttons</span>
+            <div class="chk chk-dim">
+              <img src="https://www.figma.com/api/mcp/asset/f51e2722-da0a-4695-9417-dd853e527370" alt="" />
+            </div>
+          </div>
+
+          <div class="change-row">
+            <div class="change-num cn-blue">4</div>
+            <span class="change-text">Change text weight</span>
+            <div class="chk chk-dim">
+              <img src="https://www.figma.com/api/mcp/asset/f51e2722-da0a-4695-9417-dd853e527370" alt="" />
+            </div>
+          </div>
+
+        </div>
+        <div class="cp-actions">
+          <button class="btn-restore-sel" onclick="location.href='08-modal-restore-version.html'">Restore Selected Changes</button>
+          <button class="btn-sec" onclick="location.href='14-actions-library.html'">Save as Action</button>
+          <button class="btn-sec">Save as Chain</button>
+        </div>
+      </div><!-- /changes-panel -->
+
+    </div><!-- /fv-body -->
+  </main>
+</div>
+
+<script src="../assets/app.js"></script>
+<script>
+(function () {
+  /* ── Data ──────────────────────────────────────────────── */
+  // Before / After images keyed by [beforeIdx][afterIdx]
+  const VERSION_IMGS = [
+    { label: 'Version 10', thumb: 'https://www.figma.com/api/mcp/asset/713ce36e-d5d8-4e00-869d-46bc92ac5d08' },
+    { label: 'Version 9',  thumb: 'https://www.figma.com/api/mcp/asset/6d37d460-52c4-4773-b187-29c15dfc1d43',
+      full: 'https://www.figma.com/api/mcp/asset/e5c3b7e4-81cc-4aec-b059-9a0e456d32f5' },
+    { label: 'Version 8',  thumb: 'https://www.figma.com/api/mcp/asset/17aead79-6cbe-4b9d-8721-143ce20ead9e',
+      full: 'https://www.figma.com/api/mcp/asset/f95e48e1-9e7f-442a-94a1-f5def75e906f' },
+    { label: 'Version 7',  thumb: 'https://www.figma.com/api/mcp/asset/6d37d460-52c4-4773-b187-29c15dfc1d43' },
+    { label: 'Version 6',  thumb: 'https://www.figma.com/api/mcp/asset/fe63660b-d1ea-416d-addc-12a2120cd3a2' },
+    { label: 'Version 5',  thumb: 'https://www.figma.com/api/mcp/asset/877b545a-ad7d-469f-a565-9241f892f8e0' },
+  ];
+  const CHANGE_NAMES = ['Image uploaded', 'Changed background', 'Rounded buttons', 'Change text weight'];
+
+  /* ── Elements ───────────────────────────────────────────── */
+  const cards      = Array.from(document.querySelectorAll('.vc'));
+  const titleEl    = document.querySelector('.sub-topbar-title');
+  const labels     = Array.from(document.querySelectorAll('.ba-label'));
+  const paneImgs   = Array.from(document.querySelectorAll('.ba-pane img'));
+  const anns       = Array.from(document.querySelectorAll('.ann'));
+  const changeRows = Array.from(document.querySelectorAll('.change-row'));
+  const frames     = Array.from(document.querySelectorAll('.ft'));
+
+  // Track selected pair: before=8(idx 2), after=9(idx 1)
+  let beforeIdx = 2;
+  let afterIdx  = 1;
+
+  /* ── Helpers ─────────────────────────────────────────────── */
+  function toast(msg) {
+    let el = document.querySelector('.ls-toast');
+    if (!el) { el = document.createElement('div'); el.className = 'ls-toast'; document.body.appendChild(el); }
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(el._t);
+    el._t = setTimeout(() => el.classList.remove('show'), 2400);
+  }
+
+  function fadeImg(imgEl, newSrc) {
+    if (!imgEl) return;
+    imgEl.style.opacity = '0';
+    setTimeout(() => { imgEl.src = newSrc; imgEl.style.opacity = '1'; }, 180);
+  }
+
+  function pulseAnn(i) {
+    const a = anns[i];
+    if (!a) return;
+    a.classList.add('ann-pulse');
+    setTimeout(() => a.classList.remove('ann-pulse'), 500);
+  }
+
+  function highlightChangeRow(i) {
+    changeRows.forEach(r => r.classList.remove('cr-hi'));
+    if (changeRows[i]) {
+      changeRows[i].classList.add('cr-hi');
+      changeRows[i].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
+
+  function updateActiveCards() {
+    cards.forEach((card, i) => {
+      const isSelected = i === beforeIdx || i === afterIdx;
+      card.classList.toggle('vc-active', isSelected);
+      card.classList.toggle('vc-faded', !isSelected);
+    });
+  }
+
+  function updatePanes() {
+    const bv = VERSION_IMGS[beforeIdx];
+    const av = VERSION_IMGS[afterIdx];
+    if (labels[0]) labels[0].textContent = bv.label + ' - Before';
+    if (labels[1]) labels[1].textContent = av.label + ' - After';
+    if (paneImgs[0]) fadeImg(paneImgs[0], bv.full || bv.thumb);
+    if (paneImgs[1]) fadeImg(paneImgs[1], av.full || av.thumb);
+    titleEl.textContent = av.label;
+  }
+
+  /* ── Version card clicks ─────────────────────────────────── */
+  // First click picks the "After" version, second click (alt/shift) picks "Before"
+  // For simplicity: single click cycles through — clicking a card makes it the After,
+  // the previous After becomes the Before.
+  cards.forEach((card, i) => {
+    card.addEventListener('click', () => {
+      if (i === afterIdx) {
+        // Already the After — toggle to swap Before/After
+        const tmp = beforeIdx;
+        beforeIdx = afterIdx;
+        afterIdx = tmp;
+      } else if (i === beforeIdx) {
+        // Already the Before — just swap labels
+        const tmp = beforeIdx;
+        beforeIdx = afterIdx;
+        afterIdx = tmp;
+      } else {
+        // New card — becomes After, old After becomes Before
+        beforeIdx = afterIdx;
+        afterIdx = i;
+      }
+      updateActiveCards();
+      updatePanes();
+      changeRows.forEach(r => r.classList.remove('cr-hi'));
+    });
+  });
+
+  /* ── Annotation circle clicks ───────────────────────────── */
+  anns.forEach((ann, i) => {
+    const num = parseInt(ann.textContent.trim(), 10) - 1;
+    ann.title = CHANGE_NAMES[num] || '';
+    ann.addEventListener('click', (e) => {
+      e.stopPropagation();
+      pulseAnn(i);
+      highlightChangeRow(num);
+    });
+  });
+
+  /* ── Change row hover + click ───────────────────────────── */
+  changeRows.forEach((row, i) => {
+    row.addEventListener('mouseenter', () => {
+      if (anns[i]) anns[i].style.transform = 'translate(-50%, -50%) scale(1.18)';
+    });
+    row.addEventListener('mouseleave', () => {
+      if (anns[i]) anns[i].style.transform = '';
+    });
+    row.addEventListener('click', () => {
+      highlightChangeRow(i);
+      pulseAnn(i);
+    });
+    const chk = row.querySelector('.chk');
+    if (chk) {
+      chk.addEventListener('click', (e) => {
+        e.stopPropagation();
+        chk.classList.toggle('checked');
+      });
+    }
+  });
+
+  /* ── Frame thumbnail clicks ──────────────────────────────── */
+  frames.forEach(ft => {
+    ft.addEventListener('click', () => {
+      frames.forEach(f => { f.classList.remove('ft-active'); f.classList.add('ft-faded'); });
+      ft.classList.remove('ft-faded');
+      ft.classList.add('ft-active');
+    });
+  });
+
+  /* ── Panel action buttons ────────────────────────────────── */
+  document.querySelectorAll('.btn-sec').forEach(btn => {
+    if (btn.textContent.trim() === 'Save as Chain') {
+      btn.addEventListener('click', () => toast('Saved to action chain ✓'));
+    }
+  });
+
+  const restoreSelBtn = document.querySelector('.btn-restore-sel');
+  if (restoreSelBtn) {
+    restoreSelBtn.addEventListener('click', () => location.href = '08-modal-restore-version.html');
+  }
+})();
+</script>
+</body>
+</html>

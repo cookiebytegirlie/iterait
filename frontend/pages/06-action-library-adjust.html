@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>iterait · Adjust Action</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/styles.css" />
+</head>
+<body>
+<div class="app-v2">
+  <!-- ── Sidebar ─────────────────────────────────────────── -->
+  <aside class="sidebar-v2" style="overflow-y:auto; gap:6px;">
+    <div class="brand-v2" style="padding-bottom:14px;"><img src="../assets/iterait-logo.svg" class="brand-logo-icon" alt="iterait" /> iterait</div>
+
+    <!-- Pinned -->
+    <div style="display:flex;flex-direction:column;gap:2px;">
+      <div class="nav-row">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="16" height="16">
+          <path d="M12 2l1.5 4.5h4.5l-3.6 2.7 1.4 4.3-3.8-2.8-3.8 2.8 1.4-4.3L5.5 6.5H10z"/>
+          <line x1="12" y1="13" x2="12" y2="22"/>
+        </svg>
+        Pinned
+      </div>
+      <div class="pin-sub-list">
+        <div class="pin-sub" onclick="location.href='02-file-view.html'">Marketing Landing Page</div>
+        <div class="pin-sub" onclick="location.href='02-file-view.html'">Checkout Flow v3</div>
+        <div class="pin-sub" onclick="location.href='02-file-view.html'">Dashboard Redesign</div>
+      </div>
+    </div>
+
+    <div style="height:8px;"></div>
+
+    <!-- Main nav -->
+    <div style="display:flex;flex-direction:column;gap:2px;">
+      <div class="nav-row" onclick="location.href='12-home.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        Home
+      </div>
+      <div class="nav-row" onclick="location.href='13-recents.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+        </svg>
+        Files
+      </div>
+      <div class="nav-row" onclick="location.href='16-projects.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+        </svg>
+        Projects
+      </div>
+      <div class="nav-row" onclick="location.href='15-shared.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/>
+          <path d="M16 3.13a4 4 0 010 7.75"/>
+          <path d="M21 21v-2a4 4 0 00-3-3.87"/>
+        </svg>
+        Shared
+      </div>
+      <div class="nav-row" onclick="location.href='14-actions-library.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+        </svg>
+        Action Library
+      </div>
+      <div class="nav-row">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <polyline points="3 6 5 6 21 6"/>
+          <path d="M19 6l-1 14H6L5 6"/>
+          <path d="M10 11v6M14 11v6"/>
+          <path d="M9 6V4h6v2"/>
+        </svg>
+        Trash
+      </div>
+    </div>
+
+    <!-- Settings footer -->
+    <div class="footer-row" onclick="location.href='11-settings.html'">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
+      </svg>
+      Settings
+    </div>
+  </aside>
+
+  <main class="main-v2">
+    <header class="topbar-v2">
+      <div class="left">Action Library</div>
+      <div class="search-v2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--text-3);flex-shrink:0;"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input placeholder="Search..." />
+      </div>
+      <div class="right">
+        <div class="avatar-circle" title="Miranda"></div>
+      </div>
+    </header>
+
+    <div style="padding: 8px 32px 60px;">
+      <div class="crumbs"><a href="14-actions-library.html">Action library</a> <span>/</span> <span style="color:var(--text);">Notion-warm dashboard polish</span> <span>/</span> <span>Adjust</span></div>
+
+      <div style="display:grid; grid-template-columns: 360px 1fr; gap:18px; align-items:start;">
+        <section style="background:#fff; border:1px solid var(--border); border-radius: var(--r-lg); padding:18px; box-shadow: var(--shadow-sm); position:sticky; top:18px;">
+          <div class="row-x spread"><h2 style="font-size:18px;">Adjust action</h2><span class="badge draft">Editing</span></div>
+          <p class="muted small" style="margin-top:6px;">Tweak parameters before applying. Live preview updates on the right.</p>
+
+          <div class="field" style="margin-top:14px;">
+            <label class="muted tiny" style="text-transform:uppercase; letter-spacing:.08em;">Action name</label>
+            <input class="input" value="Notion-warm dashboard polish" style="margin-top:6px;" />
+          </div>
+
+          <div class="field">
+            <label class="muted tiny" style="text-transform:uppercase; letter-spacing:.08em;">Card row gap · <span id="gapVal">16</span>px</label>
+            <input id="gapSlider" type="range" min="8" max="32" value="16" class="slider" />
+          </div>
+
+          <div class="field">
+            <label class="muted tiny" style="text-transform:uppercase; letter-spacing:.08em;">Heading letter-spacing · <span id="lsVal">−0.03em</span></label>
+            <input id="lsSlider" type="range" min="-50" max="0" value="-30" class="slider" />
+          </div>
+
+          <div class="field">
+            <label class="muted tiny" style="text-transform:uppercase; letter-spacing:.08em;">Background warmth</label>
+            <div class="row-x" style="gap:6px; margin-top:8px; flex-wrap:wrap;" data-group id="bgGroup">
+              <span class="pill" data-group-item="#FAFAF9" style="background:#FAFAF9;">#FAFAF9</span>
+              <span class="pill active" data-group-item="#F5F5F4" style="background:#F5F5F4; color:#1A1A19; border-color:var(--border-strong);">#F5F5F4</span>
+              <span class="pill" data-group-item="#F0EFEC" style="background:#F0EFEC;">#F0EFEC</span>
+              <span class="pill" data-group-item="#FBF7EF" style="background:#FBF7EF;">#FBF7EF</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="muted tiny" style="text-transform:uppercase; letter-spacing:.08em;">Apply to</label>
+            <div class="checklist" style="margin-top:8px;">
+              <div class="check-item"><div class="checkbox checked" data-check><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></div><span class="badge current">All cards</span><span class="small">Top-level grid items</span></div>
+              <div class="check-item"><div class="checkbox checked" data-check><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></div><span class="badge draft">Headings</span><span class="small">H1, H2 only</span></div>
+              <div class="check-item"><div class="checkbox" data-check></div><span class="badge archived">Hover states</span><span class="small">Skip — keep file's existing</span></div>
+            </div>
+          </div>
+
+          <div class="page-actions" style="margin-top:18px;">
+            <a class="btn btn-ghost" href="14-actions-library.html">Cancel</a>
+            <a class="btn btn-primary" href="07-modal-diff-conflict.html">Apply with these settings</a>
+          </div>
+        </section>
+
+        <section>
+          <div class="row-x spread" style="margin-bottom:10px;">
+            <div>
+              <h2 style="font-size:18px;">Live preview</h2>
+              <p class="muted small" style="margin-top:4px;">Showing on <b>Dashboard Redesign · v12</b></p>
+            </div>
+            <div class="seg" data-group>
+              <button class="active" data-group-item="before">Before</button>
+              <button data-group-item="after">After</button>
+              <button data-group-item="split">Split</button>
+            </div>
+          </div>
+          <div class="canvas" id="previewCanvas" style="height:520px;">
+            <div class="annot-counter">5 changes will apply</div>
+            <div class="mock dashboard" id="previewMock" style="background:#F5F5F4;">
+              <div class="mock-bar"><span class="mock-dot" style="background:#FF6058"></span><span class="mock-dot" style="background:#FFBD2E"></span><span class="mock-dot" style="background:#27C93F"></span></div>
+              <div class="h1" style="height:30px;"></div>
+              <div class="mock-content" style="top:108px;">
+                <div class="row m"></div><div class="row s"></div>
+                <div class="card-row" id="previewCardRow" style="gap:16px;">
+                  <div class="card-mock"><div class="strip" style="background:#1A1A19; height:8px;"></div><div class="strip" style="width:60%"></div></div>
+                  <div class="card-mock"><div class="strip" style="background:#FF5A82; height:8px;"></div><div class="strip" style="width:60%"></div></div>
+                  <div class="card-mock"><div class="strip" style="background:#D97757; height:8px;"></div><div class="strip" style="width:60%"></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="callout" style="top:96px; left:10%;">1</div>
+            <div class="callout" style="top:170px; left:24%;">2</div>
+            <div class="callout" style="top:230px; left:50%;">3</div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="../assets/app.js"></script>
+<script>
+  // Live preview wiring
+  const gapSlider = document.getElementById('gapSlider');
+  const gapVal = document.getElementById('gapVal');
+  const lsSlider = document.getElementById('lsSlider');
+  const lsVal = document.getElementById('lsVal');
+  const previewCardRow = document.getElementById('previewCardRow');
+  const previewMock = document.getElementById('previewMock');
+
+  gapSlider.addEventListener('input', () => {
+    gapVal.textContent = gapSlider.value;
+    previewCardRow.style.gap = gapSlider.value + 'px';
+  });
+  lsSlider.addEventListener('input', () => {
+    const em = (lsSlider.value / 1000).toFixed(3);
+    lsVal.textContent = em + 'em';
+    previewMock.style.letterSpacing = em + 'em';
+  });
+
+  document.getElementById('bgGroup').addEventListener('click', (e) => {
+    const item = e.target.closest('[data-group-item]');
+    if (!item) return;
+    previewMock.style.background = item.dataset.groupItem;
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>iterait · Restore Version</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/styles.css" />
+</head>
+<body>
+<div class="page-faded">
+  <div class="app-v2">
+    <!-- ── Sidebar ─────────────────────────────────────────── -->
+    <aside class="sidebar-v2" style="overflow-y:auto; gap:6px;">
+      <div class="brand-v2" style="padding-bottom:14px;"><img src="../assets/iterait-logo.svg" class="brand-logo-icon" alt="iterait" /> iterait</div>
+
+      <!-- Pinned -->
+      <div style="display:flex;flex-direction:column;gap:2px;">
+        <div class="nav-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="16" height="16">
+            <path d="M12 2l1.5 4.5h4.5l-3.6 2.7 1.4 4.3-3.8-2.8-3.8 2.8 1.4-4.3L5.5 6.5H10z"/>
+            <line x1="12" y1="13" x2="12" y2="22"/>
+          </svg>
+          Pinned
+        </div>
+        <div class="pin-sub-list">
+          <div class="pin-sub" onclick="location.href='02-file-view.html'">Marketing Landing Page</div>
+          <div class="pin-sub" onclick="location.href='02-file-view.html'">Checkout Flow v3</div>
+          <div class="pin-sub" onclick="location.href='02-file-view.html'">Dashboard Redesign</div>
+        </div>
+      </div>
+
+      <div style="height:8px;"></div>
+
+      <!-- Main nav -->
+      <div style="display:flex;flex-direction:column;gap:2px;">
+        <div class="nav-row" onclick="location.href='12-home.html'">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+          Home
+        </div>
+        <div class="nav-row" onclick="location.href='13-recents.html'">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+          </svg>
+          Files
+        </div>
+        <div class="nav-row" onclick="location.href='16-projects.html'">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+          </svg>
+          Projects
+        </div>
+        <div class="nav-row" onclick="location.href='15-shared.html'">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/>
+            <path d="M16 3.13a4 4 0 010 7.75"/>
+            <path d="M21 21v-2a4 4 0 00-3-3.87"/>
+          </svg>
+          Shared
+        </div>
+        <div class="nav-row" onclick="location.href='14-actions-library.html'">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+          </svg>
+          Action Library
+        </div>
+        <div class="nav-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6l-1 14H6L5 6"/>
+            <path d="M10 11v6M14 11v6"/>
+            <path d="M9 6V4h6v2"/>
+          </svg>
+          Trash
+        </div>
+      </div>
+
+      <!-- Settings footer -->
+      <div class="footer-row" onclick="location.href='11-settings.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
+        </svg>
+        Settings
+      </div>
+    </aside>
+    <!-- ── Main ────────────────────────────────────────────── -->
+    <div class="main-v2">
+      <header class="topbar-v2">
+        <div class="left" style="display:flex;align-items:center;gap:6px;">
+          <a href="13-recents.html" style="color:var(--text-3);text-decoration:none;font-size:14px;">Home</a>
+          <span style="color:var(--text-4);font-size:14px;">/</span>
+          <span style="font-size:14px;color:var(--text);">Dashboard Redesign</span>
+        </div>
+        <div class="search-v2">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--text-3);flex-shrink:0;">
+            <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>
+          </svg>
+          <input placeholder="Search..." />
+        </div>
+        <div class="right">
+          <div class="avatar-circle" title="Miranda"></div>
+        </div>
+      </header>
+      <aside class="history-panel"><div class="history-head"><h3>Versions</h3></div></aside>
+    <main class="canvas-shell">
+      <div class="canvas-head"><div><div class="crumbs">Home / Dashboard Redesign</div><div class="canvas-title"><h2>v12 — Final hover states</h2></div></div></div>
+      <div class="canvas"><div class="mock dashboard"></div></div>
+    </main>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="restoreModal">
+  <div class="modal" style="max-width:520px;">
+    <div class="modal-head">
+      <div class="row-x" style="gap:10px;">
+        <div style="width:36px; height:36px; border-radius:10px; background:#FEF3C7; color:#B45309; display:grid; place-items:center;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 3.86l-8.4 14.5A2 2 0 0 0 3.6 21h16.7a2 2 0 0 0 1.7-2.6l-8.4-14.6a2 2 0 0 0-3.4 0z"/></svg>
+        </div>
+        <div>
+          <h3>Restore version v9?</h3>
+          <div class="muted small" style="margin-top:2px;">This will replace your current file in Loveable.</div>
+        </div>
+      </div>
+      <a class="icon-btn" href="02-file-view.html" style="width:30px; height:30px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M6 18L18 6"/></svg></a>
+    </div>
+
+    <div class="modal-body">
+      <div style="display:grid; grid-template-columns: 88px 1fr; gap:14px; align-items:center; padding:12px; background:var(--bg); border:1px solid var(--border); border-radius: var(--r-md);">
+        <div style="height:88px; border-radius:8px; border:1px solid var(--border); overflow:hidden;">
+          <div class="mock dashboard" style="position:relative; height:100%; filter:hue-rotate(60deg);"></div>
+        </div>
+        <div>
+          <div style="font-weight:600; font-size:14px;">v9 — Card grid pass</div>
+          <div class="muted small" style="margin-top:4px;">Saved 3 days ago by Michelle · 8 changes from v8</div>
+          <div class="row-x" style="gap:6px; margin-top:8px;">
+            <span class="badge archived">Archived</span>
+            <span class="brand-pill"><span class="b-dot" style="background:#FF5A82"></span> Loveable</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:14px; padding:12px 14px; background:#FEF6E7; border:1px solid #F4D88A; border-radius: var(--r-md);">
+        <div style="font-size:13px; font-weight:600; color:#7A4E0A;">⚠ Heads up — restoring will:</div>
+        <ul class="small" style="margin:8px 0 0 18px; color:#7A4E0A; line-height:1.6;">
+          <li>Roll back <b>3 versions</b> (v12 → v9)</li>
+          <li>Discard <b>11 unsaved changes</b> from v10–v12</li>
+          <li>Re-sync the canonical file in Loveable</li>
+        </ul>
+      </div>
+
+      <label class="row-x" style="gap:8px; margin-top:14px; cursor:pointer;">
+        <span class="checkbox checked" data-check><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></span>
+        <span class="small">Save current state (v12) as a recovery action chain first</span>
+      </label>
+    </div>
+
+    <div class="modal-foot">
+      <a class="btn btn-ghost" href="02-file-view.html">Cancel</a>
+      <a class="btn btn-primary" href="02-file-view.html" id="confirmBtn" style="background:#B45309;">Confirm restore</a>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/app.js"></script>
+<script>
+  document.getElementById('confirmBtn').addEventListener('click', () => window.toast('Restored to v9 · recovery chain saved'));
+</script>
+</body>
+</html>

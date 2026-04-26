@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LayerSync · Design Tokens</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../assets/styles.css" />
+</head>
+<body>
+  <div class="index-wrap">
+    <div class="crumbs"><a href="../index.html">Index</a> <span>/</span> <span style="color:var(--text);">Design Tokens</span></div>
+    <h1>Design Tokens</h1>
+    <p class="muted" style="margin-top:6px;">Locked palette, type scale, spacing, shadows, and radii for LayerSync.</p>
+
+    <h2 style="margin-top:32px;">Surfaces &amp; text</h2>
+    <div class="tokens-grid" style="margin-top:12px;">
+      <div class="token-card"><div class="swatch-block" style="background:#FAFAF9"></div><div class="name">Background</div><div class="val">#FAFAF9</div></div>
+      <div class="token-card"><div class="swatch-block" style="background:#F5F5F4"></div><div class="name">BG-2</div><div class="val">#F5F5F4</div></div>
+      <div class="token-card"><div class="swatch-block" style="background:#FFFFFF"></div><div class="name">Surface</div><div class="val">#FFFFFF</div></div>
+      <div class="token-card"><div class="swatch-block" style="background:#ECECEA"></div><div class="name">Border</div><div class="val">#ECECEA</div></div>
+      <div class="token-card"><div class="swatch-block" style="background:#1A1A19"></div><div class="name">Text / Primary</div><div class="val">#1A1A19</div></div>
+      <div class="token-card"><div class="swatch-block" style="background:#4B4B47"></div><div class="name">Text-2</div><div class="val">#4B4B47</div></div>
+      <div class="token-card"><div class="swatch-block" style="background:#8A8A85"></div><div class="name">Text-3</div><div class="val">#8A8A85</div></div>
+    </div>
+
+    <h2 style="margin-top:32px;">Pastel folder palette</h2>
+    <div class="tokens-grid" style="margin-top:12px;">
+      <div class="token-card"><div class="swatch-block" style="background:#EDE9FE"></div><div class="name">Lavender — Figma</div><div class="val">#EDE9FE</div></div>
+      <div class="token-card"><div class="swatch-block" style="background:#DBEAFE"></div><div class="name">Baby blue — Loveable</div><div class="val">#DBEAFE</div></div>
+      <div class="token-card"><div class="swatch-block" style="background:#FFE4D2"></div><div class="name">Peach — Cursor</div><div class="val">#FFE4D2</div></div>
+      <div class="token-card"><div class="swatch-block" style="background:#D9F2E4"></div><div class="name">Mint — Claude</div><div class="val">#D9F2E4</div></div>
+      <div class="token-card"><div class="swatch-block" style="background:#FEF3C7"></div><div class="name">Soft yellow — Replit</div><div class="val">#FEF3C7</div></div>
+      <div class="token-card"><div class="swatch-block" style="background:#FCE7F3"></div><div class="name">Pink — Glitch</div><div class="val">#FCE7F3</div></div>
+    </div>
+
+    <h2 style="margin-top:32px;">Brand dots (real platform colors)</h2>
+    <div class="tokens-grid" style="margin-top:12px;">
+      <div class="token-card"><div class="swatch-block" style="background:#F24E1E"></div><div class="name">Figma</div><div class="val">#F24E1E</div></div>
+      <div class="token-card"><div class="swatch-block" style="background:#FF5A82"></div><div class="name">Loveable</div><div class="val">#FF5A82</div></div>
+      <div class="token-card"><div class="swatch-block" style="background:#111111"></div><div class="name">Cursor</div><div class="val">#111111</div></div>
+      <div class="token-card"><div class="swatch-block" style="background:#D97757"></div><div class="name">Claude</div><div class="val">#D97757</div></div>
+      <div class="token-card"><div class="swatch-block" style="background:#F26207"></div><div class="name">Replit</div><div class="val">#F26207</div></div>
+      <div class="token-card"><div class="swatch-block" style="background:#C72FBF"></div><div class="name">Glitch</div><div class="val">#C72FBF</div></div>
+    </div>
+
+    <h2 style="margin-top:32px;">Typography</h2>
+    <div class="settings-card" style="margin-top:12px;">
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <div><div class="muted tiny">H1 · 32 / 1.15 · -0.03em · 600</div><div style="font-size:32px; line-height:1.15; letter-spacing:-0.03em; font-weight:600;">Iteration history, made visual.</div></div>
+        <div><div class="muted tiny">H2 · 22 / 1.2 · -0.02em · 600</div><div style="font-size:22px; line-height:1.2; letter-spacing:-0.02em; font-weight:600;">Recent files</div></div>
+        <div><div class="muted tiny">H3 · 16 / 1.3 · 600</div><div style="font-size:16px; font-weight:600;">Dashboard Redesign</div></div>
+        <div><div class="muted tiny">Body · 14 / 1.55 · 400</div><div style="font-size:14px; line-height:1.55;">A unified version control and change management platform for designers.</div></div>
+        <div><div class="muted tiny">Caption · 12 · text-3</div><div style="font-size:12px; color:var(--text-3);">2 days ago · Figma</div></div>
+      </div>
+    </div>
+
+    <h2 style="margin-top:32px;">Spacing &amp; radii</h2>
+    <div class="tokens-grid" style="margin-top:12px;">
+      <div class="token-card"><div style="height:60px; background:#fff; border:1px solid var(--border); border-radius:8px;"></div><div class="name">Radius — sm</div><div class="val">8px</div></div>
+      <div class="token-card"><div style="height:60px; background:#fff; border:1px solid var(--border); border-radius:12px;"></div><div class="name">Radius — md</div><div class="val">12px</div></div>
+      <div class="token-card"><div style="height:60px; background:#fff; border:1px solid var(--border); border-radius:16px;"></div><div class="name">Radius — lg</div><div class="val">16px</div></div>
+      <div class="token-card"><div style="height:60px; background:#fff; border:1px solid var(--border); border-radius:20px;"></div><div class="name">Radius — xl</div><div class="val">20px</div></div>
+      <div class="token-card"><div style="height:60px; background:#fff; border:1px solid var(--border); border-radius:999px;"></div><div class="name">Pill</div><div class="val">999px</div></div>
+    </div>
+
+    <h2 style="margin-top:32px;">Shadows</h2>
+    <div class="tokens-grid" style="margin-top:12px;">
+      <div class="token-card"><div style="height:60px; background:#fff; border-radius:12px; box-shadow:var(--shadow-sm);"></div><div class="name">shadow-sm</div></div>
+      <div class="token-card"><div style="height:60px; background:#fff; border-radius:12px; box-shadow:var(--shadow-md);"></div><div class="name">shadow-md</div></div>
+      <div class="token-card"><div style="height:60px; background:#fff; border-radius:12px; box-shadow:var(--shadow-lg);"></div><div class="name">shadow-lg</div></div>
+      <div class="token-card"><div style="height:60px; background:#fff; border-radius:12px; box-shadow:var(--shadow-pop);"></div><div class="name">shadow-pop</div></div>
+    </div>
+  </div>
+</body>
+</html>

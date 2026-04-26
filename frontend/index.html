@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LayerSync — Prototype Index</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div class="index-wrap">
+    <div class="row-x" style="gap:12px; align-items:flex-start;">
+      <div class="brand-mark">L</div>
+      <div>
+        <div class="brand-name" style="font-size:20px;">LayerSync</div>
+        <div class="brand-sub">GitHub for designers — but visual, intuitive, and accessible to non-developers.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:28px;">
+      <h1 style="font-size:28px;">Working prototype</h1>
+      <p class="muted small" style="margin-top:8px; max-width:680px; line-height:1.6;">
+        Click any screen to test the live flow. Most pages are interactive — sidebar nav, search,
+        version switching, comment replies, modals (Esc / overlay click), toasts, and slider previews
+        all work. Start with <a href="pages/13-recents.html" style="color:var(--text); border-bottom:1px solid var(--text-2);">13 · Recents</a>.
+      </p>
+    </div>
+
+    <div style="margin-top:28px;">
+      <div class="muted tiny" style="letter-spacing:.12em; text-transform:uppercase; font-weight:500;">Try it</div>
+      <div class="index-grid">
+        <a class="index-card" href="pages/02-file-view.html"><div class="num">02 · file view</div><h3>Version history · Single view</h3><p>Version list panel on the left, live canvas with change annotations, and a Changes panel on the right. Click "Restore Version" or switch to Before &amp; After view.</p></a>
+        <a class="index-card" href="pages/03-file-view-comment.html"><div class="num">03 · comment</div><h3>Reply · resolve thread</h3><p>Type a reply and hit Enter to post inline. Click Resolve → to close the thread (counters update).</p></a>
+        <a class="index-card" href="pages/04-file-view-side-by-side.html"><div class="num">04 · side-by-side</div><h3>Before &amp; After comparison</h3><p>Split canvas showing Version 8 (Before) and Version 9 (After) side by side. Both selected versions are highlighted in the version list.</p></a>
+        <a class="index-card" href="pages/06-action-library-adjust.html"><div class="num">06 · adjust</div><h3>Live preview sliders</h3><p>Drag sliders for gap and letter-spacing — preview updates live. Click background swatches to change canvas.</p></a>
+        <a class="index-card" href="pages/07-modal-diff-conflict.html"><div class="num">07 · diff modal</div><h3>Conflict resolution</h3><p>Pick Skip / Override / Merge per conflict. Esc / overlay click dismisses.</p></a>
+        <a class="index-card" href="pages/08-modal-restore-version.html"><div class="num">08 · restore modal</div><h3>Confirm rollback</h3><p>Source preview, warning, recovery-chain checkbox.</p></a>
+        <a class="index-card" href="pages/09-modal-share.html"><div class="num">09 · share modal</div><h3>Invite · permissions</h3><p>Type an email + Invite to add a real row to the collaborator list. Pick Remove to drop them.</p></a>
+        <a class="index-card" href="pages/10-notifications.html"><div class="num">10 · notifications</div><h3>Filter · mark read</h3><p>Filter by Comments / Suggestions / Shares / Actions. "Mark all read" clears unread highlights.</p></a>
+        <a class="index-card" href="pages/11-settings.html"><div class="num">11 · settings</div><h3>Account · platforms · plugins</h3><p>Sidebar links smooth-scroll to each section. Switches toggle. Connect / disconnect platforms with feedback.</p></a>
+        <a class="index-card" href="pages/12-home.html"><div class="num">12 · home</div><h3>Welcome back · Recents · Projects</h3><p>Figma-designed home page with gradient hero banner, photo card rows for recent files, and stacked-thumbnail project cards.</p></a>
+        <a class="index-card" href="pages/13-recents.html"><div class="num">13 · recents</div><h3>Recents · Projects · Breadcrumb nav</h3><p>Figma-designed recents view with "Home / Recents" breadcrumb, pinned sidebar sub-items, and dual card rows.</p></a>
+        <a class="index-card" href="pages/14-actions-library.html"><div class="num">14 · actions library</div><h3>Actions · Chains · Builder · Apply</h3><p>Full actions library with type/platform filters, detail panel, chain builder with drag-order preview, and paste-ready prompt generator.</p></a>
+      </div>
+    </div>
+
+    <div style="margin-top:36px;">
+      <div class="muted tiny" style="letter-spacing:.12em; text-transform:uppercase; font-weight:500;">References</div>
+      <div class="index-grid">
+        <a class="index-card" href="shared/design-tokens.html"><div class="num">REF</div><h3>Design tokens</h3><p>Color palette, type scale, spacing, shadows.</p></a>
+        <a class="index-card" href="shared/components.html"><div class="num">REF</div><h3>Components</h3><p>Buttons, pills, cards, callouts, comment pins.</p></a>
+      </div>
+    </div>
+
+    <div class="muted tiny" style="margin-top:40px;">Light mode · Instrument Sans · No build step — open any HTML file directly.</div>
+  </div>
+</body>
+</html>

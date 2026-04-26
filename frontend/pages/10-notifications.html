@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>iterait · Notifications</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/styles.css" />
+</head>
+<body>
+<div class="app-v2">
+  <!-- ── Sidebar ─────────────────────────────────────────── -->
+  <aside class="sidebar-v2" style="overflow-y:auto; gap:6px;">
+    <div class="brand-v2" style="padding-bottom:14px;"><img src="../assets/iterait-logo.svg" class="brand-logo-icon" alt="iterait" /> iterait</div>
+
+    <!-- Pinned -->
+    <div style="display:flex;flex-direction:column;gap:2px;">
+      <div class="nav-row">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="16" height="16">
+          <path d="M12 2l1.5 4.5h4.5l-3.6 2.7 1.4 4.3-3.8-2.8-3.8 2.8 1.4-4.3L5.5 6.5H10z"/>
+          <line x1="12" y1="13" x2="12" y2="22"/>
+        </svg>
+        Pinned
+      </div>
+      <div class="pin-sub-list">
+        <div class="pin-sub" onclick="location.href='02-file-view.html'">Marketing Landing Page</div>
+        <div class="pin-sub" onclick="location.href='02-file-view.html'">Checkout Flow v3</div>
+        <div class="pin-sub" onclick="location.href='02-file-view.html'">Dashboard Redesign</div>
+      </div>
+    </div>
+
+    <div style="height:8px;"></div>
+
+    <!-- Main nav -->
+    <div style="display:flex;flex-direction:column;gap:2px;">
+      <div class="nav-row" onclick="location.href='12-home.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        Home
+      </div>
+      <div class="nav-row" onclick="location.href='13-recents.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+        </svg>
+        Files
+      </div>
+      <div class="nav-row" onclick="location.href='16-projects.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+        </svg>
+        Projects
+      </div>
+      <div class="nav-row" onclick="location.href='15-shared.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/>
+          <path d="M16 3.13a4 4 0 010 7.75"/>
+          <path d="M21 21v-2a4 4 0 00-3-3.87"/>
+        </svg>
+        Shared
+      </div>
+      <div class="nav-row" onclick="location.href='14-actions-library.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+        </svg>
+        Action Library
+      </div>
+      <div class="nav-row">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <polyline points="3 6 5 6 21 6"/>
+          <path d="M19 6l-1 14H6L5 6"/>
+          <path d="M10 11v6M14 11v6"/>
+          <path d="M9 6V4h6v2"/>
+        </svg>
+        Trash
+      </div>
+    </div>
+
+    <!-- Settings footer -->
+    <div class="footer-row" onclick="location.href='11-settings.html'">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
+      </svg>
+      Settings
+    </div>
+  </aside>
+
+  <main class="main-v2">
+    <header class="topbar-v2">
+      <div class="left">Notifications</div>
+      <div class="search-v2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--text-3);flex-shrink:0;"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input data-search placeholder="Search..." />
+      </div>
+      <div class="right">
+        <div class="avatar-circle" title="Miranda"></div>
+      </div>
+    </header>
+
+    <div style="padding: 8px 32px 60px; max-width:780px;">
+      <div class="row-x spread" style="margin-bottom:16px;">
+        <div>
+          <h1 style="font-size:30px;">Notifications</h1>
+          <p class="muted small" style="margin-top:6px;">3 unread · last 7 days</p>
+        </div>
+        <button class="btn btn-secondary" id="markAllRead">Mark all read</button>
+      </div>
+
+      <div class="filters" data-group data-group-filter="data-tags">
+        <span class="pill active" data-group-item="all">All</span>
+        <span class="pill" data-group-item="comment">Comments</span>
+        <span class="pill" data-group-item="suggestion">Suggestions</span>
+        <span class="pill" data-group-item="share">Shares</span>
+        <span class="pill" data-group-item="action">Actions</span>
+      </div>
+
+      <div style="margin-top:18px; display:flex; flex-direction:column; gap:8px;">
+        <div class="muted tiny" style="text-transform:uppercase; letter-spacing:.08em; padding-top:6px;">Today</div>
+
+        <div class="notif-item unread" data-tags="comment" data-searchable="Sam Patel comment Umi onboarding">
+          <div class="av">S</div>
+          <div>
+            <div class="text"><b>Sam Patel</b> left a comment on <b>Umi onboarding</b></div>
+            <div class="muted small" style="margin-top:6px;">"Can we try the pink CTA at #FF5A82 for the second card too?"</div>
+            <div class="meta"><span class="type-badge">Comment</span> · 12 min ago</div>
+            <div class="actions">
+              <a class="btn btn-secondary" href="03-file-view-comment.html" style="padding:6px 10px; font-size:12px;">Go to file</a>
+              <button class="btn btn-ghost" style="padding:6px 10px; font-size:12px;" data-toast="Marked as read">Mark read</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="notif-item unread" data-tags="suggestion" data-searchable="Jordan suggestion Truus contact">
+          <div class="av" style="background:linear-gradient(135deg,#a8dcbf,#5da77f)">J</div>
+          <div>
+            <div class="text"><b>Jordan Lee</b> suggested a change on <b>Truus contact</b></div>
+            <div class="muted small" style="margin-top:6px;">"Hero gradient looks great. Suggesting subtitle line-height 1.5."</div>
+            <div class="meta"><span class="type-badge" style="background:#EDE9FE; color:#5B21B6;">Suggestion</span> · 1h ago</div>
+            <div class="actions">
+              <a class="btn btn-secondary" href="02-file-view.html" style="padding:6px 10px; font-size:12px;">Review</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="notif-item unread" data-tags="share" data-searchable="Aisha shared Wanderly map">
+          <div class="av" style="background:linear-gradient(135deg,#f5c2a0,#d6845a)">A</div>
+          <div>
+            <div class="text"><b>Aisha Rahman</b> shared <b>Wanderly map</b> with you</div>
+            <div class="meta"><span class="type-badge" style="background:#DCFCE7; color:#15803D;">Share</span> · 2h ago</div>
+            <div class="actions">
+              <a class="btn btn-primary" href="02-file-view.html" style="padding:6px 10px; font-size:12px;">Open file</a>
+              <button class="btn btn-ghost" style="padding:6px 10px; font-size:12px;" data-toast="Share declined">Decline</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="muted tiny" style="text-transform:uppercase; letter-spacing:.08em; padding-top:14px;">Earlier this week</div>
+
+        <div class="notif-item" data-tags="comment" data-searchable="Sam resolved comments Pricing">
+          <div class="av">S</div>
+          <div>
+            <div class="text"><b>Sam Patel</b> resolved 2 comments on <b>Pricing page</b></div>
+            <div class="meta"><span class="type-badge">Comment</span> · Yesterday</div>
+          </div>
+        </div>
+
+        <div class="notif-item" data-tags="action" data-searchable="action applied Notion-warm">
+          <div class="av" style="background:linear-gradient(135deg,#c7bcfb,#8e7df0)">M</div>
+          <div>
+            <div class="text"><b>You</b> applied <b>Notion-warm dashboard polish</b></div>
+            <div class="muted small" style="margin-top:4px;">5 changes applied · 2 conflicts resolved</div>
+            <div class="meta"><span class="type-badge" style="background:#FEF3C7; color:#B45309;">Action</span> · 2 days ago</div>
+          </div>
+        </div>
+
+        <div class="notif-item" data-tags="comment" data-searchable="Jordan commented mobile wireframes">
+          <div class="av" style="background:linear-gradient(135deg,#a8dcbf,#5da77f)">J</div>
+          <div>
+            <div class="text"><b>Jordan Lee</b> commented on <b>Mobile wireframes</b></div>
+            <div class="muted small" style="margin-top:4px;">"Top nav padding feels tight on small screens."</div>
+            <div class="meta"><span class="type-badge">Comment</span> · 3 days ago</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="../assets/app.js"></script>
+<script>
+  document.getElementById('markAllRead').addEventListener('click', () => {
+    document.querySelectorAll('.notif-item.unread').forEach(n => n.classList.remove('unread'));
+    window.toast('All notifications marked as read');
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iterait · Actions Library</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/styles.css" />
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f7f7f7;--surface:#fff;--border:#dedede;--text:#000;
+  --muted:#888484;--muted2:#909090;--accent:#0059FF;
+  --tag-cursor-bg:#C8F0EA;--tag-cursor-fg:#2A9D8F;
+  --tag-loveable-bg:#FFD6E7;--tag-loveable-fg:#9D1A56;
+  --tag-claude-bg:#FFE4C2;--tag-claude-fg:#8A4A00;
+  --tag-figma-bg:#E8D5FF;--tag-figma-fg:#5B1D9D;
+  --tag-stitch-bg:#C8F5D8;--tag-stitch-fg:#1A6640;
+  --card-shadow:0 4px 3.9px rgba(0,0,0,.09);
+  --sel-shadow:0 4px 7.8px rgba(21,93,252,.19);
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);}
+
+/* ── Sidebar ── */
+.sidebar{width:210px;background:rgba(255,255,255,.85);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;backdrop-filter:blur(10px)}
+.sidebar-logo{padding:16px 20px;font-family:'Instrument Sans',sans-serif;font-size:22px;font-weight:600;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.sidebar-toggle{margin-left:auto;opacity:.35;cursor:pointer;font-size:16px}
+.sidebar-nav{padding:18px 12px;flex:1;overflow-y:auto}
+.nav-section-label{font-size:14px;font-weight:600;margin-bottom:6px;padding:0 6px;color:var(--text)}
+.nav-section-label.second{margin-top:20px}
+.nav-item{display:flex;align-items:center;gap:9px;padding:6px 8px;border-radius:6px;cursor:pointer;font-size:14px;color:var(--muted);transition:all .15s;margin-bottom:2px}
+.nav-item:hover{background:rgba(0,0,0,.04);color:var(--text)}
+.nav-item.active{color:var(--text);font-weight:500}
+.nav-item svg{flex-shrink:0;opacity:.55}
+.sidebar-footer{padding:14px 12px;border-top:1px solid var(--border)}
+
+/* ── Main ── */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{height:60px;background:rgba(255,255,255,.85);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 28px;gap:14px;flex-shrink:0;backdrop-filter:blur(10px)}
+/* Constrain topbar so search grows without leaving dead space */
+.main .topbar-v2{grid-template-columns:auto 1fr auto;gap:16px}
+.main .topbar-v2 .search-v2{width:100%;max-width:560px}
+.breadcrumb{font-family:'Instrument Sans',sans-serif;font-size:14px;color:var(--text)}
+.search-bar{margin-left:auto;display:flex;align-items:center;gap:8px;background:#f2f2f2;border:1px solid #f0f0f0;border-radius:20px;padding:7px 16px;width:360px}
+.search-bar input{background:none;border:none;outline:none;font-family:'Instrument Sans',sans-serif;font-size:14px;color:#848484;width:100%}
+.avatar{width:36px;height:36px;border-radius:50%;background:#d9d9d9;flex-shrink:0}
+
+/* ── Screens ── */
+.content{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.screen{display:none;flex:1;overflow:hidden;flex-direction:column}
+.screen.active{display:flex}
+
+/* ── Tab switcher ── */
+.tab-switcher{display:flex;border-bottom:1px solid var(--border);padding:0 28px;flex-shrink:0;background:white}
+.tab-btn{padding:11px 14px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{color:var(--text);border-bottom-color:var(--text)}
+.tab-content{display:none;flex:1;overflow:hidden;flex-direction:column}
+.tab-content.active{display:flex}
+
+/* ── Library header ── */
+.lib-header{padding:22px 32px 0;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.lib-title{font-family:'Instrument Sans',sans-serif;font-size:32px;font-weight:600}
+.lib-header-btns{display:flex;gap:8px}
+
+/* ── Filters ── */
+.filters-bar{padding:14px 32px 0;display:flex;align-items:center;gap:6px;flex-shrink:0;flex-wrap:wrap}
+.filter-sep{width:1px;height:18px;background:var(--border);margin:0 2px}
+.filter-label{font-size:11px;font-weight:500;color:var(--muted);margin-right:2px}
+.fpill{display:inline-flex;align-items:center;gap:4px;padding:4px 11px;border-radius:30px;border:none;background:white;font-size:12px;font-weight:500;color:var(--muted);cursor:pointer;transition:all .15s;box-shadow:0 1px 3px rgba(0,0,0,.09),0 0 0 1px rgba(0,0,0,.04)}
+.fpill:hover{box-shadow:0 2px 7px rgba(0,0,0,.13),0 0 0 1px rgba(0,0,0,.06);color:var(--text)}
+.fpill.active{background:var(--text);color:white;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.fdot{width:6px;height:6px;border-radius:50%}
+
+/* ── Library body ── */
+.lib-body{flex:1;display:flex;overflow:hidden}
+.cards-area{flex:1;overflow-y:auto;padding:18px 32px 28px}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:18px}
+
+/* ── Card ── */
+.action-card{background:#fff;border-radius:14px;overflow:hidden;padding:0;cursor:pointer;transition:all .2s;box-shadow:0 4px 20px rgba(0,0,0,.08);position:relative;border:none}
+.action-card:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.15)}
+.action-card.selected{box-shadow:0 0 0 2px rgba(0,89,255,.72),0 4px 20px rgba(0,0,0,.10);transform:translateY(-2px)}
+.card-thumb{height:160px;background-size:cover;background-position:center;position:relative;display:block;margin:0;padding:0;width:100%;border-radius:14px 14px 0 0;overflow:hidden}
+.card-thumb::after{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px 200px;opacity:.07;mix-blend-mode:overlay;pointer-events:none}
+.card-menu{position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:6px;background:rgba(255,255,255,.85);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;font-size:18px;cursor:pointer;line-height:1;color:#444}
+.action-card:hover .card-menu{display:flex}
+.chain-select-mode .card-menu{display:none!important}
+.card-cb{position:absolute;top:9px;right:9px;width:22px;height:22px;border-radius:6px;border:2px solid white;background:rgba(255,255,255,.3);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;font-size:11px;color:white;font-weight:700;cursor:pointer;transition:all .15s}
+.chain-select-mode .card-cb{display:flex}
+.action-card.chain-sel .card-cb{background:var(--accent);border-color:var(--accent)}
+.card-info{background:#fff;padding:14px 16px}
+.card-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+.card-name{font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:68%;color:#111}
+.card-date{font-size:13px;color:#999}
+.ctag{display:inline-flex;align-items:center;padding:3px 12px;border-radius:999px;font-size:12px;font-weight:500}
+.tag-cursor{background:var(--tag-cursor-bg);color:var(--tag-cursor-fg)}
+.tag-loveable{background:var(--tag-loveable-bg);color:var(--tag-loveable-fg)}
+.tag-claude{background:var(--tag-claude-bg);color:var(--tag-claude-fg)}
+.tag-figma{background:var(--tag-figma-bg);color:var(--tag-figma-fg)}
+.tag-stitch{background:var(--tag-stitch-bg);color:var(--tag-stitch-fg)}
+
+/* ── Detail Panel (full-height overlay) ── */
+.detail-panel{position:fixed;right:0;top:0;height:100vh;width:0;background:white;border-left:1px solid var(--border);overflow:hidden;transition:width .3s cubic-bezier(.4,0,.2,1),box-shadow .3s ease;display:flex;flex-direction:column;z-index:200;box-shadow:none}
+.detail-panel.open{width:480px;box-shadow:-8px 0 32px rgba(0,0,0,.10)}
+.detail-inner{width:480px;overflow-y:auto;height:100%;display:flex;flex-direction:column}
+/* Dim overlay */
+.detail-dim{position:fixed;inset:0;background:rgba(0,0,0,.22);z-index:199;opacity:0;pointer-events:none;transition:opacity .3s ease}
+.detail-dim.show{opacity:1;pointer-events:auto}
+.detail-preview{height:220px;background-size:cover;background-position:center;position:relative;display:flex;align-items:center;justify-content:center;gap:14px;padding:20px;flex-shrink:0}
+.prev-box{background:white;border-radius:10px;padding:16px 22px;font-family:'Instrument Sans',sans-serif;font-size:24px;font-weight:600;box-shadow:0 4px 16px rgba(0,0,0,.15)}
+.prev-box.after{background:rgba(149,255,151,.46)}
+.prev-arrow{color:rgba(255,255,255,.9);font-size:20px;font-weight:300}
+.detail-close{position:absolute;top:10px;right:12px;width:26px;height:26px;border-radius:6px;background:rgba(255,255,255,.8);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;color:#555}
+.detail-close:hover{background:white}
+.detail-body{padding:22px 24px;flex:1}
+.detail-title{font-family:'Instrument Sans',sans-serif;font-size:26px;font-weight:600;margin-bottom:6px;line-height:1.15}
+.detail-desc{font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:500;color:#333;line-height:1.6;margin-bottom:18px;letter-spacing:-.01em}
+.detail-acts{display:flex;gap:7px;margin-bottom:20px;flex-wrap:wrap}
+.div{height:1px;background:var(--border);margin:16px 0}
+.section-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px}
+.cgroup{margin-bottom:12px}
+.cgroup-title{font-size:12px;font-weight:600;display:flex;align-items:center;gap:5px;margin-bottom:5px}
+.cgroup-icon{width:19px;height:19px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0}
+.citem{font-size:12px;color:#444;padding:2px 0 2px 22px;line-height:1.45;position:relative}
+.citem::before{content:'·';position:absolute;left:10px;color:var(--muted)}
+.source-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.source-box{background:#f7f7f7;border-radius:8px;padding:9px 11px}
+.source-lbl{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px}
+.source-val{font-size:12px;font-weight:600}
+.compat-box{background:#fffbea;border:1px solid #f0e68c;border-radius:8px;padding:10px 13px;font-size:12px;color:#7a6500;line-height:1.5}
+.usage-row{display:flex;gap:10px}
+.usage-box{flex:1;background:#f7f7f7;border-radius:8px;padding:10px;text-align:center}
+.usage-val{font-size:18px;font-weight:700}
+.usage-lbl{font-size:11px;color:var(--muted);margin-top:1px}
+
+/* ── Buttons ── */
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:7px;font-size:12px;font-weight:500;cursor:pointer;border:none;transition:all .15s;font-family:'Inter',sans-serif}
+.btn-primary{background:var(--text);color:white}
+.btn-primary:hover{background:#333}
+.btn-primary:disabled{opacity:.45;cursor:not-allowed}
+.btn-outline{background:transparent;color:var(--text);border:1px solid var(--border)}
+.btn-outline:hover{border-color:#aaa;background:#f5f5f5}
+.btn-ghost{background:transparent;color:var(--muted);border:1px solid transparent}
+.btn-ghost:hover{background:#f0f0f0;color:var(--text)}
+.btn-danger{background:rgba(220,38,38,.07);color:#dc2626;border:1px solid rgba(220,38,38,.2)}
+.btn-danger:hover{background:rgba(220,38,38,.13)}
+.btn-sm{padding:5px 10px;font-size:11px;border-radius:6px}
+
+/* ── Existing Chains tab ── */
+.chains-list{display:flex;flex-direction:column;gap:10px}
+.chain-row{background:white;border:1px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .15s;box-shadow:var(--card-shadow)}
+.chain-row:hover{border-color:#aaa}
+.chain-thumbs{display:flex}
+.chain-mini{width:30px;height:30px;border-radius:6px;border:2px solid white;background-size:cover;background-position:center;margin-left:-7px}
+.chain-mini:first-child{margin-left:0}
+.chain-info{flex:1}
+.chain-name{font-size:14px;font-weight:600}
+.chain-meta{font-size:12px;color:var(--muted);margin-top:2px}
+.chain-count{font-size:11px;font-weight:600;background:#f0f0f0;color:var(--muted);padding:2px 8px;border-radius:10px;white-space:nowrap}
+
+/* ── Chain Builder ── */
+.builder-header{padding:16px 28px;background:white;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;flex-shrink:0}
+.builder-title{font-family:'Instrument Sans',sans-serif;font-size:18px;font-weight:600;white-space:nowrap}
+.builder-name-input{background:#f2f2f2;border:1px solid var(--border);border-radius:7px;padding:6px 13px;font-size:13px;font-family:'Inter',sans-serif;outline:none;width:240px;color:var(--text)}
+.builder-name-input:focus{border-color:var(--accent)}
+.builder-body{flex:1;display:flex;overflow:hidden}
+.builder-select-area{flex:1;overflow-y:auto;padding:18px 28px 28px}
+.builder-hint{font-size:13px;color:var(--muted);margin-bottom:16px}
+
+/* Chain preview panel */
+.chain-preview{width:300px;flex-shrink:0;border-left:1px solid var(--border);background:white;display:flex;flex-direction:column}
+.chain-preview-hd{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:600}
+.chain-count-badge{font-size:11px;font-weight:600;background:rgba(0,89,255,.08);color:var(--accent);padding:2px 8px;border-radius:10px}
+.chain-preview-list{flex:1;overflow-y:auto;padding:10px}
+.chain-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:180px;color:var(--muted);font-size:13px;text-align:center;gap:8px}
+.chain-step{display:flex;align-items:center;gap:9px;padding:9px 11px;background:#f7f7f7;border-radius:8px;margin-bottom:6px;position:relative}
+.step-num{position:absolute;top:-6px;left:-4px;width:17px;height:17px;border-radius:50%;background:var(--text);color:white;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.step-thumb{width:34px;height:34px;border-radius:6px;background-size:cover;background-position:center;flex-shrink:0}
+.step-name{font-size:12px;font-weight:600;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.step-remove{font-size:14px;color:var(--muted);cursor:pointer;padding:2px 4px;border-radius:4px}
+.step-remove:hover{color:#dc2626;background:rgba(220,38,38,.07)}
+.chain-connector{text-align:center;font-size:14px;color:var(--muted);padding:2px 0;margin-left:20px}
+.chain-preview-footer{padding:12px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:8px}
+.chain-desc-input{width:100%;background:#f2f2f2;border:1px solid var(--border);border-radius:7px;padding:7px 11px;font-size:12px;font-family:'Inter',sans-serif;outline:none;resize:none;min-height:52px;color:var(--text)}
+.chain-desc-input:focus{border-color:var(--accent)}
+
+/* ── Modals ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.22);z-index:300;display:none;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:white;border-radius:13px;box-shadow:0 24px 64px rgba(0,0,0,.14);width:500px;max-height:82vh;display:flex;flex-direction:column;overflow:hidden;animation:popIn .18s ease}
+@keyframes popIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+.modal-hd{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.modal-title{font-family:'Instrument Sans',sans-serif;font-size:16px;font-weight:600;flex:1}
+.modal-x{font-size:17px;color:var(--muted);cursor:pointer;line-height:1}
+.modal-x:hover{color:var(--text)}
+.modal-body{padding:20px;overflow-y:auto;flex:1}
+.modal-ft{padding:12px 20px;border-top:1px solid var(--border);display:flex;gap:7px;justify-content:flex-end}
+.modal-steps{display:flex;align-items:center;gap:7px;margin-bottom:16px}
+.mstep{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted)}
+.mstep.active{color:var(--text);font-weight:600}
+.mstep.done{color:#059669}
+.scircle{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700}
+.mstep.active .scircle{border-color:var(--text);background:var(--text);color:white}
+.mstep.done .scircle{border-color:#059669;background:#059669;color:white}
+.sarrow{color:var(--border);font-size:12px}
+.file-list{display:flex;flex-direction:column;gap:7px;max-height:270px;overflow-y:auto}
+.file-opt{display:flex;align-items:center;gap:11px;padding:10px 13px;border-radius:9px;border:1.5px solid var(--border);cursor:pointer;transition:all .15s}
+.file-opt:hover{border-color:#aaa}
+.file-opt.selected{border-color:var(--accent);background:rgba(0,89,255,.03)}
+.file-thumb-sm{width:40px;height:40px;border-radius:7px;background-size:cover;background-position:center;flex-shrink:0}
+.file-opt-name{font-size:13px;font-weight:600;flex:1}
+.file-opt-meta{font-size:11px;color:var(--muted);margin-top:2px}
+.file-opt-check{width:18px;height:18px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0}
+.file-opt.selected .file-opt-check{border-color:var(--accent);background:var(--accent);color:white}
+.prompt-lbl{font-size:11px;font-weight:600;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+.prompt-box{background:#f7f7f7;border:1px solid var(--border);border-radius:9px;padding:14px;font-family:'SF Mono',Menlo,monospace;font-size:11px;line-height:1.7;color:#333;white-space:pre-wrap;max-height:260px;overflow-y:auto}
+
+/* ── Context menu ── */
+.ctx{position:fixed;background:white;border:1px solid var(--border);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.11);z-index:400;overflow:hidden;min-width:160px;display:none}
+.ctx.open{display:block}
+.ctx-item{display:flex;align-items:center;gap:8px;padding:9px 14px;font-size:13px;cursor:pointer;transition:background .1s}
+.ctx-item:hover{background:#f5f5f5}
+.ctx-item.danger{color:#dc2626}
+.ctx-div{height:1px;background:var(--border)}
+
+/* ── Toast ── */
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--text);color:white;border-radius:8px;padding:9px 16px;font-size:12px;font-weight:500;z-index:999;opacity:0;pointer-events:none;transition:opacity .2s;white-space:nowrap}
+.toast.show{opacity:1}
+
+/* Empty state */
+.empty-state{grid-column:1/-1;text-align:center;padding:50px 20px;color:var(--muted);font-size:13px}
+
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+</style>
+</head>
+<body>
+
+<div class="app-v2">
+
+<!-- ── Sidebar ─────────────────────────────────────────── -->
+<aside class="sidebar-v2" style="overflow-y:auto; gap:6px;">
+  <div class="brand-v2" style="padding-bottom:14px;"><img src="../assets/iterait-logo.svg" class="brand-logo-icon" alt="iterait" /> iterait</div>
+
+  <!-- Pinned -->
+  <div style="display:flex;flex-direction:column;gap:2px;">
+    <div class="nav-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="16" height="16">
+        <path d="M12 2l1.5 4.5h4.5l-3.6 2.7 1.4 4.3-3.8-2.8-3.8 2.8 1.4-4.3L5.5 6.5H10z"/>
+        <line x1="12" y1="13" x2="12" y2="22"/>
+      </svg>
+      Pinned
+    </div>
+    <div class="pin-sub-list">
+      <div class="pin-sub" onclick="location.href='02-file-view.html'">Marketing Landing Page</div>
+      <div class="pin-sub" onclick="location.href='02-file-view.html'">Checkout Flow v3</div>
+      <div class="pin-sub" onclick="location.href='02-file-view.html'">Dashboard Redesign</div>
+    </div>
+  </div>
+
+  <div style="height:8px;"></div>
+
+  <!-- Main nav -->
+  <div style="display:flex;flex-direction:column;gap:2px;">
+    <div class="nav-row" onclick="location.href='12-home.html'">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      Home
+    </div>
+    <div class="nav-row" onclick="location.href='13-recents.html'">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="16" y1="13" x2="8" y2="13"/>
+        <line x1="16" y1="17" x2="8" y2="17"/>
+      </svg>
+      Files
+    </div>
+    <div class="nav-row" onclick="location.href='16-projects.html'">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+        <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+      </svg>
+      Projects
+    </div>
+    <div class="nav-row" onclick="location.href='15-shared.html'">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+        <circle cx="9" cy="7" r="4"/>
+        <path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/>
+        <path d="M16 3.13a4 4 0 010 7.75"/>
+        <path d="M21 21v-2a4 4 0 00-3-3.87"/>
+      </svg>
+      Shared
+    </div>
+    <div class="nav-row active-pg" onclick="location.href='14-actions-library.html'">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+      </svg>
+      Action Library
+    </div>
+    <div class="nav-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+        <polyline points="3 6 5 6 21 6"/>
+        <path d="M19 6l-1 14H6L5 6"/>
+        <path d="M10 11v6M14 11v6"/>
+        <path d="M9 6V4h6v2"/>
+      </svg>
+      Trash
+    </div>
+  </div>
+
+  <!-- Settings footer -->
+  <div class="footer-row" onclick="location.href='11-settings.html'">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+      <circle cx="12" cy="12" r="3"/>
+      <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
+    </svg>
+    Settings
+  </div>
+</aside>
+
+<!-- ═══ MAIN ═══ -->
+<div class="main">
+  <header class="topbar-v2">
+    <div class="left" style="display:flex;align-items:center;gap:6px;">
+      <a href="13-recents.html" style="color:var(--text-3);text-decoration:none;font-size:14px;">Home</a>
+      <span style="color:var(--text-4);font-size:14px;">/</span>
+      <span style="font-size:14px;color:var(--text);" id="breadcrumb">Actions Library</span>
+    </div>
+    <div class="search-v2">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--text-3);flex-shrink:0;">
+        <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>
+      </svg>
+      <input placeholder="Search..." oninput="doSearch(this.value)" />
+    </div>
+    <div class="right">
+      <div class="avatar-circle" title="Miranda"></div>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- ══ SCREEN: Library ══ -->
+    <div class="screen active" id="screen-library">
+      <div class="tab-switcher">
+        <div class="tab-btn active" id="tbtn-actions" onclick="showTab('actions')">Actions</div>
+        <div class="tab-btn" id="tbtn-chains" onclick="showTab('chains')">Action Chains</div>
+      </div>
+
+      <!-- ACTIONS tab -->
+      <div class="tab-content active" id="tab-actions">
+        <div class="lib-header">
+          <div class="lib-title">Actions Library</div>
+          <div class="lib-header-btns">
+            <button class="btn btn-outline btn-sm" onclick="openNewAction()">+ New Action</button>
+            <button class="btn btn-primary btn-sm" onclick="goChainBuilder()">⊞ Create Chain</button>
+          </div>
+        </div>
+        <div class="filters-bar" id="filters-bar">
+          <span class="filter-label">Type:</span>
+          <div class="fpill active" onclick="setTypeFilter('all',this)">All</div>
+          <div class="fpill" onclick="setTypeFilter('visual',this)"><span class="fdot" style="background:#6366f1"></span>Visual</div>
+          <div class="fpill" onclick="setTypeFilter('layout',this)"><span class="fdot" style="background:#10b981"></span>Layout</div>
+          <div class="fpill" onclick="setTypeFilter('color',this)"><span class="fdot" style="background:#f59e0b"></span>Color</div>
+          <div class="fpill" onclick="setTypeFilter('typography',this)"><span class="fdot" style="background:#8b5cf6"></span>Typography</div>
+          <div class="filter-sep"></div>
+          <span class="filter-label">From:</span>
+          <div class="fpill" onclick="setPlatFilter('all',this)">All platforms</div>
+          <div class="fpill" onclick="setPlatFilter('cursor',this)">Cursor</div>
+          <div class="fpill" onclick="setPlatFilter('loveable',this)">Loveable</div>
+          <div class="fpill" onclick="setPlatFilter('claude',this)">Claude</div>
+          <div class="fpill" onclick="setPlatFilter('figma',this)">Figma Make</div>
+          <div class="fpill" onclick="setPlatFilter('stitch',this)">Stitch</div>
+        </div>
+        <div class="lib-body">
+          <div class="cards-area"><div class="cards-grid" id="cards-grid"></div></div>
+          <div class="detail-panel" id="detail-panel">
+            <div class="detail-inner" id="detail-inner"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHAINS tab -->
+      <div class="tab-content" id="tab-chains">
+        <div class="lib-header">
+          <div class="lib-title">Action Chains</div>
+          <div class="lib-header-btns">
+            <button class="btn btn-primary btn-sm" onclick="goChainBuilder()">⊞ Create Chain</button>
+          </div>
+        </div>
+        <div class="cards-area"><div class="chains-list" id="chains-list"></div></div>
+      </div>
+    </div>
+
+    <!-- ══ SCREEN: Chain Builder ══ -->
+    <div class="screen" id="screen-builder">
+      <div class="builder-header">
+        <button class="btn btn-ghost btn-sm" onclick="cancelBuilder()">← Back</button>
+        <div class="builder-title">Create Action Chain</div>
+        <input class="builder-name-input" id="builder-name" placeholder="Chain name…">
+        <div style="margin-left:auto;display:flex;gap:8px">
+          <button class="btn btn-outline btn-sm" onclick="cancelBuilder()">Cancel</button>
+          <button class="btn btn-primary btn-sm" id="save-chain-btn" onclick="saveChain()" disabled>Save Chain</button>
+        </div>
+      </div>
+      <div class="builder-body chain-select-mode">
+        <div class="builder-select-area">
+          <div class="builder-hint">Click actions to add them to your chain — they'll apply in the order selected.</div>
+          <div class="cards-grid" id="builder-grid"></div>
+        </div>
+        <div class="chain-preview">
+          <div class="chain-preview-hd">
+            Chain Preview
+            <span class="chain-count-badge" id="chain-badge">0 selected</span>
+          </div>
+          <div class="chain-preview-list" id="chain-preview-list">
+            <div class="chain-empty">
+              <div style="font-size:26px;opacity:.25">⊞</div>
+              <div>Select actions to build<br>your chain</div>
+            </div>
+          </div>
+          <div class="chain-preview-footer">
+            <textarea class="chain-desc-input" id="builder-desc" placeholder="Description (optional)…" rows="2"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- Detail dim overlay -->
+<div class="detail-dim" id="detail-dim" onclick="closeDetail()"></div>
+
+<!-- Context menu -->
+<div class="ctx" id="ctx">
+  <div class="ctx-item" onclick="ctxDo('edit')">✏️ &nbsp;Edit action</div>
+  <div class="ctx-item" onclick="ctxDo('duplicate')">⊕ &nbsp;Duplicate</div>
+  <div class="ctx-item" onclick="ctxDo('chain')">⊞ &nbsp;Add to a chain</div>
+  <div class="ctx-div"></div>
+  <div class="ctx-item danger" onclick="ctxDo('delete')">🗑 &nbsp;Delete</div>
+</div>
+
+<!-- Apply modal -->
+<div class="modal-overlay" id="modal-apply" onclick="if(event.target===this)closeApply()">
+  <div class="modal">
+    <div class="modal-hd">
+      <div class="modal-title" id="apply-title">Apply to File</div>
+      <span class="modal-x" onclick="closeApply()">✕</span>
+    </div>
+    <div class="modal-body" id="apply-body"></div>
+    <div class="modal-ft" id="apply-ft"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- New Action modal -->
+<div class="modal-overlay" id="modal-new" onclick="if(event.target===this)closeNewAction()">
+  <div class="modal">
+    <div class="modal-hd">
+      <div class="modal-title">New Action</div>
+      <span class="modal-x" onclick="closeNewAction()">✕</span>
+    </div>
+    <div class="modal-body" id="new-action-body"></div>
+    <div class="modal-ft" id="new-action-ft"></div>
+  </div>
+</div>
+
+<script>
+// ─── Data ────────────────────────────────────────────────────────────────────
+
+const IMG = [
+  'https://www.figma.com/api/mcp/asset/b980d44e-ed43-45a3-b081-90b789dfbbb4',
+  'https://www.figma.com/api/mcp/asset/384cbdf3-8a9a-451d-906b-8755866a2562',
+  'https://www.figma.com/api/mcp/asset/90b9ac27-3e84-49ff-aaa3-3ae58739a9c7',
+  'https://www.figma.com/api/mcp/asset/6a0b4ec8-6722-47c2-9bd6-ecbfcc1f5c81',
+  'https://www.figma.com/api/mcp/asset/bb358d8d-e36a-4191-8465-176c8a57afce',
+  'https://www.figma.com/api/mcp/asset/67b6dcc3-396a-4164-8d28-2c14c982d846',
+  'https://www.figma.com/api/mcp/asset/f7eb8fb7-0373-48ef-9251-fd86225e1606',
+  'https://www.figma.com/api/mcp/asset/4e34e580-2f6f-4c9e-8f2a-facaf2ca43b2',
+];
+
+const GRAD_CSS = [
+  'linear-gradient(135deg, #FF8C61 0%, #F5C2A2 45%, #C4B5F4 100%)',
+  'linear-gradient(135deg, #81E6D9 0%, #93C5FD 50%, #F9A8D4 100%)',
+  'linear-gradient(135deg, #FDE68A 0%, #FDBA74 50%, #FB7185 100%)',
+  'linear-gradient(135deg, #C4B5F4 0%, #93C5FD 55%, #6EE7B7 100%)',
+  'linear-gradient(135deg, #FDA4AF 0%, #FDBA74 50%, #FDE68A 100%)',
+  'linear-gradient(135deg, #5EEAD4 0%, #A78BFA 50%, #FB7185 100%)',
+  'linear-gradient(135deg, #C084FC 0%, #F472B6 55%, #FB923C 100%)',
+  'linear-gradient(135deg, #86EFAC 0%, #34D399 50%, #67E8F9 100%)',
+];
+
+function th(i) {
+  return `background-image:url('${IMG[i]}'),${GRAD_CSS[i]};background-size:cover;background-position:center`;
+}
+
+const PTAG = {
+  cursor:   {label:'Cursor',   cls:'tag-cursor'},
+  loveable: {label:'Loveable', cls:'tag-loveable'},
+  claude:   {label:'Claude',   cls:'tag-claude'},
+  figma:    {label:'Figma Make',cls:'tag-figma'},
+  stitch:   {label:'Stitch',   cls:'tag-stitch'},
+};
+
+const TC = {visual:'#6366f1',layout:'#10b981',color:'#f59e0b',typography:'#8b5cf6'};
+const TI = {visual:'◈',layout:'⊞',color:'◉',typography:'T'};
+
+const ACTIONS = [
+  {id:1,name:'Elevated Card System',date:'Apr 20',g:0,plat:'loveable',built:'cursor',
+   types:['visual','layout'],
+   desc:'Improves visual hierarchy by adding soft shadows, increasing spacing, and refining typography across card-based components.',
+   changes:{
+     visual:['Adds soft shadow (Elevation Level 2)','Updates primary font scale (+1 step)','Improves color contrast for text'],
+     layout:['Increases spacing system (8px → 12px)','Adds padding to cards and containers'],
+     components:['Cards','Buttons','Section headers'],
+   },
+   compat:'Adapts spacing and shadow tokens to match your current platform. Minor adjustments may occur in typography scaling.',
+   used:12,plats:3,last:'2 days ago',created:'Apr 20, 2026'},
+  {id:2,name:'Typography Scale',date:'Apr 18',g:1,plat:'claude',built:'claude',
+   types:['typography'],
+   desc:'Applies a modular 1.25× type scale from a given base size, updating all heading and body sizes for consistent visual rhythm.',
+   changes:{
+     visual:['Increases heading contrast','Tightens letter-spacing on headings'],
+     layout:['Adjusts line-height system-wide (1.4 → 1.6)'],
+     components:['h1–h6 headings','Body copy','Labels & captions'],
+   },
+   compat:'Font family mappings may vary. Claude will attempt to match your existing font stack before applying scale changes.',
+   used:8,plats:4,last:'5 days ago',created:'Apr 18, 2026'},
+  {id:3,name:'Colour Harmonize',date:'Apr 17',g:2,plat:'figma',built:'figma',
+   types:['color'],
+   desc:'Shifts the entire colour palette 8° cooler on the hue wheel and regenerates all tint/shade tokens for a cohesive system.',
+   changes:{
+     visual:['Rotates hue +8° across all brand colors','Regenerates 50–900 shade scales'],
+     layout:[],
+     components:['Design tokens','Primary button','Background surfaces'],
+   },
+   compat:'Token names will be preserved. Works best when your project uses CSS custom properties or a design token file.',
+   used:5,plats:2,last:'1 week ago',created:'Apr 17, 2026'},
+  {id:4,name:'Dark Mode Tokens',date:'Apr 15',g:3,plat:'stitch',built:'stitch',
+   types:['color'],
+   desc:'Generates a complete dark mode stylesheet by inverting luminosity values and desaturating colors by 15% for eye comfort.',
+   changes:{
+     visual:['Inverts luminosity on all surface colors','Desaturates accent colors by 15%'],
+     layout:['Adjusts shadow opacity for dark contexts'],
+     components:['All surface components','Text colors','Icon fills'],
+   },
+   compat:'Wraps output in a prefers-color-scheme media query. Platform-specific class names will be adapted automatically.',
+   used:19,plats:3,last:'Yesterday',created:'Apr 15, 2026'},
+  {id:5,name:'Hover Micro-interactions',date:'Apr 14',g:4,plat:'figma',built:'cursor',
+   types:['visual'],
+   desc:'Adds subtle scale + shadow lift transitions to all interactive elements for a polished, responsive feel.',
+   changes:{
+     visual:['Adds transform: scale(1.02) on hover','Adds box-shadow transition on lift'],
+     layout:['Sets transition: all 0.2s ease globally'],
+     components:['Buttons','Cards','Nav links','Form inputs'],
+   },
+   compat:'CSS transitions are universally supported. Minor differences may occur in Stitch due to its animation system.',
+   used:23,plats:5,last:'Today',created:'Apr 14, 2026'},
+  {id:6,name:'Grid Snap & Align',date:'Apr 12',g:5,plat:'claude',built:'claude',
+   types:['layout'],
+   desc:'Enforces an 8px base grid across all spacing, padding, and margin values to keep layouts consistent and pixel-perfect.',
+   changes:{
+     visual:[],
+     layout:['Audits all spacing values','Rounds to nearest 8px multiple','Flags non-conforming values'],
+     components:['All containers','Grid systems','Form layouts'],
+   },
+   compat:'Compatible with all platforms. Non-conforming values are flagged for review before being auto-corrected.',
+   used:7,plats:3,last:'3 days ago',created:'Apr 12, 2026'},
+  {id:7,name:'Shadow Polish',date:'Apr 10',g:6,plat:'loveable',built:'loveable',
+   types:['visual'],
+   desc:'Applies a consistent 2-layer shadow system to all card and panel components, creating a clear depth hierarchy.',
+   changes:{
+     visual:['Adds rest + hover shadow layers','Adjusts shadow color to match brand hue'],
+     layout:[],
+     components:['Cards','Modals','Dropdowns','Panels'],
+   },
+   compat:'Shadow syntax is adapted per platform. Loveable uses Tailwind, Claude uses raw CSS, Cursor injects via style attrs.',
+   used:15,plats:4,last:'4 days ago',created:'Apr 10, 2026'},
+  {id:8,name:'Button Hierarchy',date:'Apr 8',g:7,plat:'cursor',built:'cursor',
+   types:['visual','typography'],
+   desc:'Establishes a clear primary / secondary / ghost button hierarchy with consistent sizing, weight, and color roles.',
+   changes:{
+     visual:['Primary: filled accent','Secondary: outlined with border','Ghost: transparent background'],
+     layout:['Standardizes padding (8px 16px)','Sets min-width for icon buttons'],
+     components:['All button variants','CTA elements','Form submit buttons'],
+   },
+   compat:"Class naming conventions will be mapped to your platform's existing button components where possible.",
+   used:11,plats:5,last:'1 week ago',created:'Apr 8, 2026'},
+];
+
+const FILES = [
+  {id:1,name:'Dashboard Redesign',plat:'loveable',versions:8,g:0},
+  {id:2,name:'Marketing Landing Page',plat:'figma',versions:5,g:2},
+  {id:3,name:'Product Card System',plat:'claude',versions:12,g:1},
+  {id:4,name:'Onboarding Flow',plat:'stitch',versions:6,g:3},
+  {id:5,name:'Auth Screen',plat:'cursor',versions:4,g:4},
+];
+
+let CHAINS = [
+  {id:1,name:'Full Design Polish',desc:'Applies shadow, spacing, and hover interactions in one pass.',aids:[0,4,6],created:'Apr 22, 2026'},
+  {id:2,name:'Typography + Colour Refresh',desc:'Refreshes the type scale and harmonizes the color palette.',aids:[1,2],created:'Apr 19, 2026'},
+];
+
+// ─── State ────────────────────────────────────────────────────────────────────
+let selectedId = null;
+let typeFilter = 'all';
+let platFilter = 'all';
+let searchQ = '';
+let chainSel = [];   // ordered array of action ids
+let ctxId = null;
+let applyActionId = null;
+let applyChainId = null;
+let applyFile = null;
+
+// ─── Boot ─────────────────────────────────────────────────────────────────────
+renderCards();
+renderChains();
+
+// ─── Cards ────────────────────────────────────────────────────────────────────
+function filtered() {
+  return ACTIONS.filter(a => {
+    if (typeFilter !== 'all' && !a.types.includes(typeFilter)) return false;
+    if (platFilter !== 'all' && a.plat !== platFilter) return false;
+    if (searchQ && !a.name.toLowerCase().includes(searchQ.toLowerCase())) return false;
+    return true;
+  });
+}
+
+function renderCards() {
+  const g = document.getElementById('cards-grid');
+  const list = filtered();
+  if (!list.length) { g.innerHTML = '<div class="empty-state">No actions match your filters.</div>'; return; }
+  g.innerHTML = list.map(a => cardHTML(a, false)).join('');
+}
+
+function cardHTML(a, inBuilder) {
+  const p = PTAG[a.plat];
+  const sel = inBuilder ? chainSel.includes(a.id) : a.id === selectedId;
+  const cb = inBuilder ? (chainSel.includes(a.id) ? '✓' : '') : '';
+  return `<div class="action-card ${sel?(inBuilder?'chain-sel':'selected'):''}" id="${inBuilder?'bc':'c'}${a.id}"
+    onclick="${inBuilder?`toggleChain(${a.id})`:`selectCard(${a.id})`}"
+    oncontextmenu="${inBuilder?'':` openCtx(event,${a.id})`}">
+    <div class="card-thumb" style="${th(a.g)}">
+      <div class="card-cb">${cb}</div>
+      ${inBuilder?'': `<div class="card-menu" onclick="openCtx(event,${a.id})">···</div>`}
+    </div>
+    <div class="card-info">
+      <div class="card-row">
+        <div class="card-name">${a.name}</div>
+        <div class="card-date">${a.date}</div>
+      </div>
+      <span class="ctag ${p.cls}">${p.label}</span>
+    </div>
+  </div>`;
+}
+
+// ─── Select / detail panel ────────────────────────────────────────────────────
+function selectCard(id) {
+  if (selectedId === id) { selectedId = null; closeDetail(); return; }
+  selectedId = id;
+  renderCards();
+  showDetail(ACTIONS.find(a => a.id === id));
+}
+
+function showDetail(a) {
+  const panel = document.getElementById('detail-panel');
+  const dim   = document.getElementById('detail-dim');
+  panel.classList.add('open');
+  dim.classList.add('show');
+  const p = PTAG[a.plat], pb = PTAG[a.built];
+  const typePills = a.types.map(t =>
+    `<span style="font-size:10px;padding:2px 7px;border-radius:10px;font-weight:600;background:${TC[t]}18;color:${TC[t]}">${t}</span>`
+  ).join('');
+
+  const changeHTML = [
+    {key:'visual',label:'Visual',ic:TI.visual,col:TC.visual},
+    {key:'layout',label:'Layout',ic:TI.layout,col:TC.layout},
+    {key:'components',label:'Components Affected',ic:'▣',col:'#64748b'},
+  ].map(g => {
+    const items = a.changes[g.key];
+    if (!items || !items.length) return '';
+    return `<div class="cgroup">
+      <div class="cgroup-title">
+        <span class="cgroup-icon" style="background:${g.col}18;color:${g.col}">${g.ic}</span>
+        ${g.label}
+      </div>
+      ${items.map(i=>`<div class="citem">${i}</div>`).join('')}
+    </div>`;
+  }).join('');
+
+  document.getElementById('detail-inner').innerHTML = `
+    <div class="detail-preview" style="${th(a.g)}">
+      <div class="prev-box">Before</div>
+      <div class="prev-arrow">→</div>
+      <div class="prev-box after">After</div>
+      <div class="detail-close" onclick="closeDetail()">✕</div>
+    </div>
+    <div class="detail-body">
+      <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:6px">
+        <div class="detail-title" style="flex:1">${a.name}</div>
+        <div style="display:flex;gap:4px;margin-top:8px;flex-wrap:wrap">${typePills}</div>
+      </div>
+      <div class="detail-desc">${a.desc}</div>
+      <div class="detail-acts">
+        <button class="btn btn-primary btn-sm" onclick="openApply(${a.id}, null)">↗ Apply to File</button>
+        <button class="btn btn-outline btn-sm" onclick="toast('Opening editor…')">✏️ Edit</button>
+        <button class="btn btn-outline btn-sm" onclick="dupAction(${a.id})">⊕ Duplicate</button>
+        <button class="btn btn-danger btn-sm" onclick="toast('Action deleted')">🗑</button>
+      </div>
+      <div class="div"></div>
+      <div class="section-lbl">Change Summary</div>
+      ${changeHTML}
+      <div class="div"></div>
+      <div class="section-lbl">Source</div>
+      <div class="source-grid">
+        <div class="source-box"><div class="source-lbl">Created from</div><div class="source-val">Dashboard Redesign</div></div>
+        <div class="source-box"><div class="source-lbl">Original platform</div><div class="source-val"><span class="ctag ${p.cls}" style="font-size:10px;padding:2px 8px">${p.label}</span></div></div>
+        <div class="source-box"><div class="source-lbl">Built in</div><div class="source-val"><span class="ctag ${pb.cls}" style="font-size:10px;padding:2px 8px">${pb.label}</span></div></div>
+        <div class="source-box"><div class="source-lbl">Created</div><div class="source-val">${a.created}</div></div>
+      </div>
+      <div class="div"></div>
+      <div class="section-lbl">Compatibility</div>
+      <div class="compat-box">${a.compat}</div>
+      <div class="div"></div>
+      <div class="section-lbl">Usage</div>
+      <div class="usage-row">
+        <div class="usage-box"><div class="usage-val">${a.used}</div><div class="usage-lbl">Times used</div></div>
+        <div class="usage-box"><div class="usage-val">${a.plats}</div><div class="usage-lbl">Platforms</div></div>
+        <div class="usage-box"><div class="usage-val" style="font-size:12px">${a.last}</div><div class="usage-lbl">Last applied</div></div>
+      </div>
+    </div>`;
+}
+
+function closeDetail() {
+  selectedId = null;
+  document.getElementById('detail-panel').classList.remove('open');
+  document.getElementById('detail-dim').classList.remove('show');
+  renderCards();
+}
+
+// ─── Filters ─────────────────────────────────────────────────────────────────
+function setTypeFilter(v, el) {
+  typeFilter = v;
+  document.querySelectorAll('#tab-actions .fpill').forEach((p,i) => { if(i<5) p.classList.remove('active'); });
+  el.classList.add('active');
+  renderCards();
+}
+function setPlatFilter(v, el) {
+  platFilter = v;
+  document.querySelectorAll('#tab-actions .fpill').forEach((p,i) => { if(i>=5) p.classList.remove('active'); });
+  el.classList.add('active');
+  renderCards();
+}
+function doSearch(v) { searchQ = v; renderCards(); }
+
+// ─── Tabs ─────────────────────────────────────────────────────────────────────
+function showTab(tab) {
+  ['actions','chains'].forEach(t => {
+    document.getElementById(`tab-${t}`).classList.toggle('active', t===tab);
+    document.getElementById(`tbtn-${t}`).classList.toggle('active', t===tab);
+  });
+  document.querySelectorAll('.sidebar-nav .nav-item').forEach(n => n.classList.remove('active'));
+  if (tab==='actions') document.querySelectorAll('.sidebar-nav .nav-item')[4].classList.add('active');
+  else document.querySelectorAll('.sidebar-nav .nav-item')[5].classList.add('active');
+  if (tab==='chains') closeDetail();
+}
+
+// ─── Chains list ─────────────────────────────────────────────────────────────
+function renderChains() {
+  const el = document.getElementById('chains-list');
+  if (!CHAINS.length) {
+    el.innerHTML = `<div style="text-align:center;padding:60px 20px;color:var(--muted);font-size:14px">
+      <div style="font-size:30px;opacity:.25;margin-bottom:12px">⊞</div>
+      No chains yet. <span style="color:var(--text);cursor:pointer;text-decoration:underline" onclick="goChainBuilder()">Create your first chain →</span>
+    </div>`; return;
+  }
+  el.innerHTML = CHAINS.map(c => {
+    const acts = c.aids.map(i => ACTIONS[i]).filter(Boolean);
+    const thumbs = acts.map(a => `<div class="chain-mini" style="${th(a.g)}"></div>`).join('');
+    return `<div class="chain-row" onclick="toast('Opening chain: ${c.name}')">
+      <div class="chain-thumbs">${thumbs}</div>
+      <div class="chain-info">
+        <div class="chain-name">${c.name}</div>
+        <div class="chain-meta">${c.desc}</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:3px">Created ${c.created}</div>
+      </div>
+      <span class="chain-count">${acts.length} actions</span>
+      <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();openApply(null,${c.id})">↗ Apply</button>
+    </div>`;
+  }).join('');
+}
+
+// ─── Chain builder ────────────────────────────────────────────────────────────
+function goChainBuilder() {
+  chainSel = [];
+  document.getElementById('builder-name').value = '';
+  document.getElementById('builder-desc').value = '';
+  closeDetail();
+  renderBuilderGrid();
+  updateChainPreview();
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-builder').classList.add('active');
+  document.getElementById('breadcrumb').textContent = 'Home / Actions Library / New Chain';
+}
+
+function cancelBuilder() {
+  chainSel = [];
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-library').classList.add('active');
+  document.getElementById('breadcrumb').textContent = 'Home / Actions Library';
+}
+
+function renderBuilderGrid() {
+  document.getElementById('builder-grid').innerHTML = ACTIONS.map(a => cardHTML(a, true)).join('');
+}
+
+function toggleChain(id) {
+  const idx = chainSel.indexOf(id);
+  idx === -1 ? chainSel.push(id) : chainSel.splice(idx, 1);
+  renderBuilderGrid();
+  updateChainPreview();
+}
+
+function removeFromChain(id) {
+  chainSel = chainSel.filter(x => x !== id);
+  renderBuilderGrid();
+  updateChainPreview();
+}
+
+function updateChainPreview() {
+  document.getElementById('chain-badge').textContent = `${chainSel.length} selected`;
+  document.getElementById('save-chain-btn').disabled = chainSel.length < 2;
+  const list = document.getElementById('chain-preview-list');
+  if (!chainSel.length) {
+    list.innerHTML = `<div class="chain-empty"><div style="font-size:26px;opacity:.25">⊞</div><div>Select actions to build<br>your chain</div></div>`;
+    return;
+  }
+  list.innerHTML = chainSel.map((id, i) => {
+    const a = ACTIONS.find(x => x.id === id);
+    if (!a) return '';
+    const p = PTAG[a.plat];
+    return `${i>0?'<div class="chain-connector">↓</div>':''}
+    <div class="chain-step">
+      <div class="step-num">${i+1}</div>
+      <div class="step-thumb" style="${th(a.g)}"></div>
+      <div style="flex:1;min-width:0">
+        <div class="step-name">${a.name}</div>
+        <span class="ctag ${p.cls}" style="font-size:10px;padding:1px 7px;margin-top:3px;display:inline-flex">${p.label}</span>
+      </div>
+      <div class="step-remove" onclick="removeFromChain(${id})">✕</div>
+    </div>`;
+  }).join('');
+}
+
+function saveChain() {
+  const name = document.getElementById('builder-name').value.trim() || 'Untitled Chain';
+  const desc = document.getElementById('builder-desc').value.trim() || 'Custom action chain.';
+  CHAINS.push({
+    id: CHAINS.length + 1, name, desc,
+    aids: chainSel.map(id => ACTIONS.findIndex(a => a.id === id)),
+    created: 'Apr 25, 2026',
+  });
+  renderChains();
+  cancelBuilder();
+  showTab('chains');
+  toast(`✓ Chain "${name}" saved — ${chainSel.length} actions`);
+}
+
+// ─── Context menu ─────────────────────────────────────────────────────────────
+function openCtx(e, id) {
+  e.preventDefault(); e.stopPropagation();
+  ctxId = id;
+  const m = document.getElementById('ctx');
+  m.style.left = Math.min(e.clientX, window.innerWidth-170) + 'px';
+  m.style.top  = Math.min(e.clientY, window.innerHeight-160) + 'px';
+  m.classList.add('open');
+}
+function ctxDo(act) {
+  document.getElementById('ctx').classList.remove('open');
+  if (act==='edit')      toast('Opening action editor…');
+  if (act==='duplicate') dupAction(ctxId);
+  if (act==='chain')     { goChainBuilder(); toast('Now select actions to add to your chain'); }
+  if (act==='delete')    { ACTIONS.splice(ACTIONS.findIndex(a=>a.id===ctxId),1); closeDetail(); renderCards(); toast('Action deleted'); }
+}
+function dupAction(id) {
+  const o = ACTIONS.find(a=>a.id===id);
+  ACTIONS.push({...o, id:Math.max(...ACTIONS.map(a=>a.id))+1, name:o.name+' (copy)', date:'Apr 25'});
+  renderCards();
+  toast(`Duplicated: "${o.name}"`);
+}
+document.addEventListener('click', () => document.getElementById('ctx').classList.remove('open'));
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDetail(); });
+
+// ─── Apply to File modal ───────────────────────────────────────────────────────
+function openApply(actionId, chainId) {
+  applyActionId = actionId; applyChainId = chainId; applyFile = null;
+  const label = actionId
+    ? `Apply "${ACTIONS.find(a=>a.id===actionId).name}"`
+    : `Apply Chain: "${CHAINS.find(c=>c.id===chainId).name}"`;
+  document.getElementById('apply-title').textContent = label;
+  renderApplyStep1();
+  document.getElementById('modal-apply').classList.add('open');
+}
+function closeApply() { document.getElementById('modal-apply').classList.remove('open'); }
+
+function renderApplyStep1() {
+  document.getElementById('apply-body').innerHTML = `
+    <div class="modal-steps">
+      <div class="mstep active"><div class="scircle">1</div>Select file</div>
+      <span class="sarrow">→</span>
+      <div class="mstep"><div class="scircle">2</div>Get prompt</div>
+    </div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:14px">Choose a file — LayerSync will translate this action into a paste-ready prompt for that platform.</p>
+    <div class="file-list">
+      ${FILES.map(f => {
+        const p = PTAG[f.plat];
+        return `<div class="file-opt" id="fo${f.id}" onclick="pickFile(${f.id},this)">
+          <div class="file-thumb-sm" style="${th(f.g)}"></div>
+          <div style="flex:1">
+            <div class="file-opt-name">${f.name}</div>
+            <div class="file-opt-meta"><span class="ctag ${p.cls}" style="font-size:10px;padding:1px 7px">${p.label}</span> · ${f.versions} versions</div>
+          </div>
+          <div class="file-opt-check" id="fc${f.id}"></div>
+        </div>`;
+      }).join('')}
+    </div>`;
+  document.getElementById('apply-ft').innerHTML = `
+    <button class="btn btn-outline btn-sm" onclick="closeApply()">Cancel</button>
+    <button class="btn btn-primary btn-sm" id="apply-next" disabled onclick="renderApplyStep2()">Next →</button>`;
+}
+
+function pickFile(id, el) {
+  applyFile = id;
+  document.querySelectorAll('.file-opt').forEach(o => { o.classList.remove('selected'); });
+  document.querySelectorAll('.file-opt-check').forEach(c => c.textContent = '');
+  el.classList.add('selected');
+  document.getElementById(`fc${id}`).textContent = '✓';
+  document.getElementById('apply-next').disabled = false;
+}
+
+function renderApplyStep2() {
+  const file = FILES.find(f => f.id === applyFile);
+  const pLabel = PTAG[file.plat].label;
+  const action = applyActionId ? ACTIONS.find(a => a.id === applyActionId) : null;
+  const chain  = applyChainId  ? CHAINS.find(c => c.id === applyChainId)   : null;
+  const prompt = action ? genPromptAction(action, file, pLabel) : genPromptChain(chain, file, pLabel);
+
+  document.getElementById('apply-body').innerHTML = `
+    <div class="modal-steps">
+      <div class="mstep done"><div class="scircle">✓</div>Select file</div>
+      <span class="sarrow">→</span>
+      <div class="mstep active"><div class="scircle">2</div>Get prompt</div>
+    </div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:14px">
+      Paste this into <strong>${pLabel}</strong> to apply to <strong>${file.name}</strong>.
+    </p>
+    <div class="prompt-lbl">
+      Generated prompt
+      <button class="btn btn-outline btn-sm" onclick="copyPrompt()">Copy</button>
+    </div>
+    <div class="prompt-box" id="prompt-out">${prompt}</div>`;
+  document.getElementById('apply-ft').innerHTML = `
+    <button class="btn btn-ghost btn-sm" onclick="renderApplyStep1()">← Back</button>
+    <button class="btn btn-primary btn-sm" onclick="copyPrompt()">Copy prompt</button>
+    <button class="btn btn-outline btn-sm" onclick="closeApply()">Done</button>`;
+}
+
+function genPromptAction(a, file, pLabel) {
+  const vis = (a.changes.visual||[]).map(c=>`- ${c}`).join('\n');
+  const lay = (a.changes.layout||[]).map(c=>`- ${c}`).join('\n');
+  const comp = (a.changes.components||[]).map(c=>`- ${c}`).join('\n');
+  return `Please apply the following design action to this ${pLabel} project:
+
+Action: "${a.name}"
+${a.desc}
+
+Visual changes:
+${vis||'(none)'}
+
+Layout changes:
+${lay||'(none)'}
+
+Components to update:
+${comp||'(none)'}
+
+Adapt all syntax and class names to match ${pLabel}'s conventions. Preserve all existing functionality — only update the visual and layout properties listed above.`;
+}
+
+function genPromptChain(c, file, pLabel) {
+  const acts = c.aids.map(i => ACTIONS[i]).filter(Boolean);
+  const steps = acts.map((a,i)=>`${i+1}. ${a.name} — ${a.desc}`).join('\n');
+  return `Please apply the following action chain to this ${pLabel} project:
+
+Chain: "${c.name}"
+${c.desc}
+
+Apply each action in order:
+${steps}
+
+Adapt all syntax and class names to match ${pLabel}'s conventions. Apply each step sequentially, preserving existing functionality throughout.`;
+}
+
+function copyPrompt() {
+  const el = document.getElementById('prompt-out');
+  if (el) navigator.clipboard.writeText(el.textContent).then(()=>toast('✓ Prompt copied to clipboard'));
+}
+
+// ─── New Action modal ─────────────────────────────────────────────────────────
+let newActionData = {};
+
+function openNewAction() {
+  newActionData = {};
+  renderNewStep1();
+  document.getElementById('modal-new').classList.add('open');
+}
+function closeNewAction() {
+  document.getElementById('modal-new').classList.remove('open');
+}
+
+function renderNewStep1() {
+  document.getElementById('new-action-body').innerHTML = `
+    <div class="modal-steps">
+      <div class="mstep active"><div class="scircle">1</div>Name &amp; Type</div>
+      <span class="sarrow">→</span>
+      <div class="mstep"><div class="scircle">2</div>Platform</div>
+      <span class="sarrow">→</span>
+      <div class="mstep"><div class="scircle">3</div>Description</div>
+    </div>
+    <div style="margin-bottom:16px">
+      <label style="font-size:11px;font-weight:600;color:var(--muted);display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">Action Name</label>
+      <input id="new-name" style="width:100%;background:#f7f7f7;border:1px solid var(--border);border-radius:9px;padding:10px 13px;font-size:13px;font-family:'Inter',sans-serif;outline:none;color:var(--text);transition:border-color .15s"
+        placeholder="e.g. Elevated Card System" value="${newActionData.name||''}"
+        oninput="newActionData.name=this.value;document.getElementById('new-step1-next').disabled=!this.value.trim()"
+        onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'">
+    </div>
+    <div>
+      <label style="font-size:11px;font-weight:600;color:var(--muted);display:block;margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em">Type <span style="font-weight:400;text-transform:none">(optional, pick all that apply)</span></label>
+      <div style="display:flex;gap:7px;flex-wrap:wrap">
+        ${Object.entries(TC).map(([k,c]) => `
+          <div class="fpill${(newActionData.types||[]).includes(k)?' active':''}" onclick="toggleNewType('${k}',this)">
+            <span class="fdot" style="background:${c}"></span>${k.charAt(0).toUpperCase()+k.slice(1)}
+          </div>`).join('')}
+      </div>
+    </div>`;
+  document.getElementById('new-action-ft').innerHTML = `
+    <button class="btn btn-ghost btn-sm" onclick="closeNewAction()">Cancel</button>
+    <button class="btn btn-primary btn-sm" id="new-step1-next" ${(newActionData.name||'').trim()?'':'disabled'} onclick="renderNewStep2()">Next →</button>`;
+}
+
+function toggleNewType(k, el) {
+  if (!newActionData.types) newActionData.types = [];
+  const idx = newActionData.types.indexOf(k);
+  idx === -1 ? (newActionData.types.push(k), el.classList.add('active'))
+             : (newActionData.types.splice(idx, 1), el.classList.remove('active'));
+}
+
+function renderNewStep2() {
+  newActionData.name = (document.getElementById('new-name')||{value:newActionData.name}).value.trim() || newActionData.name;
+  const platforms = ['cursor','loveable','claude','figma','stitch'];
+  const PLAT_EMOJI = {cursor:'⌨️',loveable:'💜',claude:'🤖',figma:'🎨',stitch:'🧵'};
+  document.getElementById('new-action-body').innerHTML = `
+    <div class="modal-steps">
+      <div class="mstep done"><div class="scircle">✓</div>Name &amp; Type</div>
+      <span class="sarrow">→</span>
+      <div class="mstep active"><div class="scircle">2</div>Platform</div>
+      <span class="sarrow">→</span>
+      <div class="mstep"><div class="scircle">3</div>Description</div>
+    </div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:14px">Which platform was this action created with?</p>
+    <div class="file-list">
+      ${platforms.map(p => {
+        const pt = PTAG[p];
+        const sel = newActionData.plat === p;
+        return `<div class="file-opt${sel?' selected':''}" id="np-${p}" onclick="pickNewPlat('${p}')">
+          <div style="width:36px;height:36px;border-radius:8px;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">${PLAT_EMOJI[p]}</div>
+          <div style="flex:1"><div class="file-opt-name">${pt.label}</div></div>
+          <div class="file-opt-check" id="npc-${p}">${sel?'✓':''}</div>
+        </div>`;
+      }).join('')}
+    </div>`;
+  document.getElementById('new-action-ft').innerHTML = `
+    <button class="btn btn-ghost btn-sm" onclick="renderNewStep1()">← Back</button>
+    <button class="btn btn-primary btn-sm" id="new-step2-next" ${newActionData.plat?'':'disabled'} onclick="renderNewStep3()">Next →</button>`;
+}
+
+function pickNewPlat(p) {
+  newActionData.plat = p;
+  document.querySelectorAll('#new-action-body .file-opt').forEach(o => o.classList.remove('selected'));
+  document.querySelectorAll('#new-action-body .file-opt-check').forEach(c => c.textContent = '');
+  document.getElementById(`np-${p}`).classList.add('selected');
+  document.getElementById(`npc-${p}`).textContent = '✓';
+  document.getElementById('new-step2-next').disabled = false;
+}
+
+function renderNewStep3() {
+  if (newActionData.g === undefined) newActionData.g = Math.floor(Math.random() * IMG.length);
+  const pt = PTAG[newActionData.plat];
+  document.getElementById('new-action-body').innerHTML = `
+    <div class="modal-steps">
+      <div class="mstep done"><div class="scircle">✓</div>Name &amp; Type</div>
+      <span class="sarrow">→</span>
+      <div class="mstep done"><div class="scircle">✓</div>Platform</div>
+      <span class="sarrow">→</span>
+      <div class="mstep active"><div class="scircle">3</div>Description</div>
+    </div>
+    <div style="margin-bottom:14px">
+      <label style="font-size:11px;font-weight:600;color:var(--muted);display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">Description</label>
+      <textarea id="new-desc" style="width:100%;background:#f7f7f7;border:1px solid var(--border);border-radius:9px;padding:10px 13px;font-size:13px;font-family:'Inter',sans-serif;outline:none;resize:none;min-height:88px;color:var(--text);transition:border-color .15s"
+        placeholder="Describe what this action does and what it changes…"
+        onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'">${newActionData.desc||''}</textarea>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;padding:11px 12px;background:#f7f7f7;border-radius:9px">
+      <div style="width:44px;height:44px;border-radius:8px;flex-shrink:0;${th(newActionData.g)};background-size:cover;background-position:center"></div>
+      <div>
+        <div style="font-size:13px;font-weight:600;margin-bottom:4px">${newActionData.name}</div>
+        <span class="ctag ${pt.cls}" style="font-size:10px;padding:2px 9px">${pt.label}</span>
+      </div>
+    </div>`;
+  document.getElementById('new-action-ft').innerHTML = `
+    <button class="btn btn-ghost btn-sm" onclick="renderNewStep2()">← Back</button>
+    <button class="btn btn-primary btn-sm" onclick="saveNewAction()">Create Action</button>`;
+}
+
+function saveNewAction() {
+  const desc = (document.getElementById('new-desc').value||'').trim() || 'Custom action.';
+  ACTIONS.push({
+    id: Math.max(...ACTIONS.map(a=>a.id))+1,
+    name: newActionData.name,
+    date: 'Apr 25',
+    g: newActionData.g,
+    plat: newActionData.plat,
+    built: newActionData.plat,
+    types: newActionData.types && newActionData.types.length ? newActionData.types : ['visual'],
+    desc,
+    changes: {visual:[], layout:[], components:[]},
+    compat: 'Compatible with all platforms.',
+    used: 0, plats: 1, last: 'Just now', created: 'Apr 25, 2026',
+  });
+  renderCards();
+  closeNewAction();
+  toast(`✓ "${newActionData.name}" added to your library`);
+  newActionData = {};
+}
+
+// ─── Toast ────────────────────────────────────────────────────────────────────
+let _tt;
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(_tt);
+  _tt = setTimeout(()=>t.classList.remove('show'), 2600);
+}
+</script>
+</body>
+</html>

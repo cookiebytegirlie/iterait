@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LayerSync · Components</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../assets/styles.css" />
+</head>
+<body>
+  <div class="index-wrap">
+    <div class="crumbs"><a href="../index.html">Index</a> <span>/</span> <span style="color:var(--text);">Components</span></div>
+    <h1>Components</h1>
+    <p class="muted" style="margin-top:6px;">Reusable UI primitives that are composed across screens.</p>
+
+    <h2 style="margin-top:32px;">Buttons</h2>
+    <div class="settings-card" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+      <button class="btn btn-primary">Save action chain</button>
+      <button class="btn btn-secondary">Restore version</button>
+      <button class="btn btn-ghost">Cancel</button>
+      <button class="icon-btn" aria-label="Settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+      </button>
+    </div>
+
+    <h2 style="margin-top:32px;">Pills, badges, tags</h2>
+    <div class="settings-card" style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+      <span class="pill active">All</span>
+      <span class="pill">Figma</span>
+      <span class="pill">Loveable</span>
+      <span class="pill">Cursor</span>
+      <span class="badge current">Current</span>
+      <span class="badge draft">Draft</span>
+      <span class="badge archived">Archived</span>
+      <span class="brand-pill"><span class="b-dot" style="background:#F24E1E"></span> Figma</span>
+      <span class="brand-pill"><span class="b-dot" style="background:#D97757"></span> Claude</span>
+    </div>
+
+    <h2 style="margin-top:32px;">Folder cards (Floe-style)</h2>
+    <div class="folder-grid" style="margin-top:12px;">
+      <div class="folder lavender"><div class="tab"></div><div><div class="name">Figma</div><div class="count">12 files</div></div><div class="footer"><span class="brand-dot" style="background:#F24E1E">F</span><span class="muted tiny">Connected</span></div></div>
+      <div class="folder blue"><div class="tab"></div><div><div class="name">Loveable</div><div class="count">7 files</div></div><div class="footer"><span class="brand-dot" style="background:#FF5A82">L</span><span class="muted tiny">Connected</span></div></div>
+      <div class="folder peach"><div class="tab"></div><div><div class="name">Cursor</div><div class="count">4 files</div></div><div class="footer"><span class="brand-dot" style="background:#111">C</span><span class="muted tiny">Connected</span></div></div>
+      <div class="folder mint"><div class="tab"></div><div><div class="name">Claude</div><div class="count">9 files</div></div><div class="footer"><span class="brand-dot" style="background:#D97757">C</span><span class="muted tiny">Connected</span></div></div>
+      <div class="folder yellow"><div class="tab"></div><div><div class="name">Replit</div><div class="count">3 files</div></div><div class="footer"><span class="brand-dot" style="background:#F26207">R</span><span class="muted tiny">Connected</span></div></div>
+      <div class="folder add">+ Connect platform</div>
+    </div>
+
+    <h2 style="margin-top:32px;">File cards</h2>
+    <div class="file-grid" style="margin-top:12px;">
+      <div class="file-card">
+        <div class="file-thumb"><div class="mock dashboard"><div class="mock-bar"><span class="mock-dot" style="background:#FF6058"></span><span class="mock-dot" style="background:#FFBD2E"></span><span class="mock-dot" style="background:#27C93F"></span></div><div class="h1"></div><div class="mock-content" style="top:96px;"><div class="row m"></div><div class="row s"></div><div class="card-row"><div class="card-mock"><div class="strip"></div><div class="strip" style="width:60%"></div></div><div class="card-mock"><div class="strip"></div><div class="strip" style="width:60%"></div></div><div class="card-mock"><div class="strip"></div><div class="strip" style="width:60%"></div></div></div></div></div></div>
+        <div class="file-meta"><div class="file-name">Dashboard Redesign</div><div class="file-sub"><span class="brand-pill"><span class="b-dot" style="background:#FF5A82"></span> Loveable</span> · 1 day ago</div></div>
+      </div>
+      <div class="file-card">
+        <div class="file-thumb"><div class="mock marketing"><div class="mock-bar"></div><div class="hero-block"></div><div class="mock-content" style="top:148px;"><div class="row s"></div><div class="row m"></div></div></div></div>
+        <div class="file-meta"><div class="file-name">Marketing Site v2</div><div class="file-sub"><span class="brand-pill"><span class="b-dot" style="background:#F24E1E"></span> Figma</span> · 2 days ago</div></div>
+      </div>
+    </div>
+
+    <h2 style="margin-top:32px;">Status badges &amp; check items</h2>
+    <div class="settings-card" style="margin-top:12px; display:flex; flex-direction:column; gap:8px;">
+      <div class="check-item"><div class="checkbox checked"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></div><div class="badge current">Color</div><div class="small">Primary button background → #1A1A19</div></div>
+      <div class="check-item"><div class="checkbox"></div><div class="badge draft">Layout</div><div class="small">Header padding 24px → 32px</div></div>
+      <div class="check-item"><div class="checkbox checked"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></div><div class="badge archived">Type</div><div class="small">H1 letter-spacing -0.02em → -0.03em</div></div>
+    </div>
+
+    <h2 style="margin-top:32px;">Comment pin &amp; callout</h2>
+    <div class="settings-card" style="margin-top:12px; height:160px; position:relative; background:#fff;">
+      <div class="callout" style="top:30px; left:40px;">1</div>
+      <div class="callout" style="top:80px; left:120px;">2</div>
+      <div class="comment-pin" style="top:30px; left:240px;"><div class="av">M</div></div>
+      <div class="comment-pin" style="top:80px; left:340px;"><div class="av">S</div></div>
+    </div>
+
+    <h2 style="margin-top:32px;">Segmented + view toggle</h2>
+    <div class="settings-card" style="margin-top:12px; display:flex; gap:14px; flex-wrap:wrap; align-items:center;">
+      <div class="seg">
+        <button class="active">⊞ Single</button>
+        <button>⊟ Side-by-side</button>
+      </div>
+      <div class="view-toggle">
+        <button class="active">▦ Grid</button>
+        <button>≡ List</button>
+        <button>⋯ Compact</button>
+      </div>
+      <div class="switch on"></div>
+      <div class="switch"></div>
+    </div>
+  </div>
+</body>
+</html>
