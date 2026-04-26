@@ -77,7 +77,29 @@ export default function FileView() {
   // Blob URL for iframe — renders full HTML correctly unlike srcDoc
   useEffect(() => {
     if (currentVersion?.htmlContent) {
-      const blob = new Blob([currentVersion.htmlContent], { type: 'text/html' })
+      const disableAnimations = `
+      <style>
+        *, *::before, *::after {
+          animation: none !important;
+          animation-delay: 0s !important;
+          animation-duration: 0s !important;
+          transition: none !important;
+          opacity: 1 !important;
+          transform: none !important;
+          visibility: visible !important;
+        }
+        [data-aos], [data-scroll], .hidden, .invisible {
+          opacity: 1 !important;
+          transform: none !important;
+          visibility: visible !important;
+        }
+      </style>
+    `
+      const modifiedHtml = currentVersion.htmlContent.replace(
+        '</head>',
+        `${disableAnimations}</head>`
+      )
+      const blob = new Blob([modifiedHtml], { type: 'text/html' })
       const url = URL.createObjectURL(blob)
       setIframeSrc(url)
       return () => URL.revokeObjectURL(url)
@@ -474,13 +496,15 @@ export default function FileView() {
                 <div
                   style={{
                     position: 'absolute',
-                    top: '50%',
                     left: '50%',
-                    transform: `translate(-50%, -50%) scale(${scale})`,
-                    transformOrigin: 'center center',
+                    top: '20px',
+                    paddingBottom: '100px',
+                    transform: `translate(-50%, 0) translate(${offset.x}px, ${offset.y}px) scale(${scale})`,
+                    transformOrigin: 'top center',
                     width: '1280px',
-                    height: 'auto',
-                    overflow: 'visible',
+                    boxShadow: '0 4px 40px rgba(0,0,0,0.15)',
+                    borderRadius: 8,
+                    overflow: 'hidden',
                   }}
                 >
                   <iframe
