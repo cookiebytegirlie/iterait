@@ -74,6 +74,136 @@ export default function FileView() {
     return () => URL.revokeObjectURL(url)
   }, [currentVersion?.id])
 
+  useEffect(() => {
+    const existing = JSON.parse(localStorage.getItem('iterait_versions') || '[]')
+    if (existing.length > 0) return
+
+    const DEMO_VERSIONS = [
+      {
+        id: 'demo-v1',
+        number: 1,
+        label: 'Dashboard Redesign',
+        timestamp: new Date(Date.now() - 86400000 * 3).toLocaleString(),
+        source: 'Cursor',
+        htmlContent: `<!DOCTYPE html><html><head><style>
+        body{font-family:sans-serif;margin:0;background:#f8f8f8;}
+        nav{background:#fff;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eee;}
+        .logo{font-weight:700;font-size:18px;}
+        .btn{background:#000;color:#fff;padding:10px 20px;border:none;border-radius:6px;cursor:pointer;font-size:14px;}
+        .hero{padding:80px 32px;max-width:1200px;margin:0 auto;}
+        h1{font-size:48px;font-weight:700;margin-bottom:16px;}
+        .subtitle{font-size:18px;color:#666;margin-bottom:32px;}
+        .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px;}
+        .card{background:#fff;border-radius:8px;padding:24px;border:1px solid #eee;}
+        .card h3{font-size:18px;margin-bottom:8px;}
+        .card p{color:#666;font-size:14px;}
+      </style></head><body>
+        <nav><div class="logo">Cadence</div><button class="btn">Get Started</button></nav>
+        <div class="hero">
+          <h1>Run every project with clarity.</h1>
+          <p class="subtitle">The project intelligence platform for modern teams.</p>
+          <button class="btn">Start Free Trial</button>
+        </div>
+        <div style="padding:0 32px;max-width:1200px;margin:0 auto;">
+          <div class="cards">
+            <div class="card"><h3>Track Progress</h3><p>Real-time visibility into every project milestone.</p></div>
+            <div class="card"><h3>Reduce Risk</h3><p>Surface blockers before they become problems.</p></div>
+            <div class="card"><h3>Ship Faster</h3><p>Align your team around what matters most.</p></div>
+          </div>
+        </div>
+      </body></html>`,
+        thumbnail: 'https://www.figma.com/api/mcp/asset/f94627bc-6abb-4924-91d5-76de8192aaf8',
+        changes: []
+      },
+      {
+        id: 'demo-v2',
+        number: 2,
+        label: 'Dashboard Redesign',
+        timestamp: new Date(Date.now() - 86400000 * 2).toLocaleString(),
+        source: 'Cursor',
+        htmlContent: `<!DOCTYPE html><html><head><style>
+        body{font-family:sans-serif;margin:0;background:#ffffff;}
+        nav{background:#1a1a2e;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;}
+        .logo{font-weight:700;font-size:18px;color:#fff;}
+        .btn{background:#1a56db;color:#fff;padding:10px 20px;border:none;border-radius:999px;cursor:pointer;font-size:14px;}
+        .hero{padding:100px 32px;max-width:1200px;margin:0 auto;}
+        h1{font-size:64px;font-weight:700;margin-bottom:16px;}
+        .subtitle{font-size:18px;color:#666;margin-bottom:32px;}
+        .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px;}
+        .card{background:#fff;border-radius:20px;padding:32px;border:1px solid #eee;box-shadow:0 8px 32px rgba(0,0,0,0.08);}
+        .card h3{font-size:18px;margin-bottom:8px;}
+        .card p{color:#666;font-size:14px;}
+      </style></head><body>
+        <nav><div class="logo">Cadence</div><button class="btn">Get Started</button></nav>
+        <div class="hero">
+          <h1>Run every project with clarity.</h1>
+          <p class="subtitle">The project intelligence platform for modern teams.</p>
+          <button class="btn">Start Free Trial</button>
+        </div>
+        <div style="padding:0 32px;max-width:1200px;margin:0 auto;">
+          <div class="cards">
+            <div class="card"><h3>Track Progress</h3><p>Real-time visibility into every project milestone.</p></div>
+            <div class="card"><h3>Reduce Risk</h3><p>Surface blockers before they become problems.</p></div>
+            <div class="card"><h3>Ship Faster</h3><p>Align your team around what matters most.</p></div>
+          </div>
+        </div>
+      </body></html>`,
+        thumbnail: 'https://www.figma.com/api/mcp/asset/f239607e-6832-405f-b968-b6f268227589',
+        changes: [
+          { id:1, category:'Visual', title:'Nav background darkened', description:'Navigation background changed from white to dark navy for stronger contrast', beforeValue:'#ffffff', afterValue:'#1a1a2e', approximatePosition:5 },
+          { id:2, category:'Visual', title:'Button color updated', description:'Primary CTA button changed from black to blue and made pill-shaped', beforeValue:'#000000', afterValue:'#1a56db', approximatePosition:45 },
+          { id:3, category:'Typography', title:'Hero headline scaled up', description:'Hero headline font-size increased from 48px to 64px for visual impact', beforeValue:'48px', afterValue:'64px', approximatePosition:35 },
+          { id:4, category:'Layout', title:'Card border-radius increased', description:'All card border-radius increased from 8px to 20px for softer appearance', beforeValue:'8px', afterValue:'20px', approximatePosition:70 },
+          { id:5, category:'Visual', title:'Box shadow added to cards', description:'Soft drop shadow added to all card components for depth and elevation', beforeValue:'none', afterValue:'0 8px 32px rgba(0,0,0,0.08)', approximatePosition:72 }
+        ]
+      },
+      {
+        id: 'demo-v3',
+        number: 3,
+        label: 'Dashboard Redesign',
+        timestamp: new Date(Date.now() - 86400000).toLocaleString(),
+        source: 'Cursor',
+        htmlContent: `<!DOCTYPE html><html><head><style>
+        body{font-family:sans-serif;margin:0;background:#f0f4ff;}
+        nav{background:#1a1a2e;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;}
+        .logo{font-weight:700;font-size:18px;color:#fff;}
+        .btn{background:#1a56db;color:#fff;padding:12px 28px;border:none;border-radius:999px;cursor:pointer;font-size:15px;font-weight:600;}
+        .hero{padding:120px 32px;max-width:1200px;margin:0 auto;text-align:center;}
+        h1{font-size:72px;font-weight:800;margin-bottom:20px;line-height:1.1;}
+        .subtitle{font-size:20px;color:#666;margin-bottom:40px;max-width:600px;margin-left:auto;margin-right:auto;}
+        .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:60px;}
+        .card{background:#fff;border-radius:24px;padding:40px;box-shadow:0 12px 48px rgba(0,0,0,0.1);}
+        .card h3{font-size:20px;margin-bottom:12px;font-weight:700;}
+        .card p{color:#666;font-size:15px;line-height:1.6;}
+      </style></head><body>
+        <nav><div class="logo">Cadence</div><button class="btn">Get Started Free</button></nav>
+        <div class="hero">
+          <h1>Run every project with clarity.</h1>
+          <p class="subtitle">The project intelligence platform for modern teams who want to ship faster.</p>
+          <button class="btn">Start Free Trial — No card required</button>
+        </div>
+        <div style="padding:0 32px;max-width:1200px;margin:0 auto;">
+          <div class="cards">
+            <div class="card"><h3>Track Progress</h3><p>Real-time visibility into every project milestone and deadline.</p></div>
+            <div class="card"><h3>Reduce Risk</h3><p>Surface blockers and dependencies before they become critical problems.</p></div>
+            <div class="card"><h3>Ship Faster</h3><p>Align your entire team around what matters most right now.</p></div>
+          </div>
+        </div>
+      </body></html>`,
+        thumbnail: 'https://www.figma.com/api/mcp/asset/b69d13c7-df9b-4a40-85a3-28a4c37f1bdf',
+        changes: [
+          { id:1, category:'Layout', title:'Hero centered alignment', description:'Hero section text alignment changed from left to center', beforeValue:'left', afterValue:'center', approximatePosition:40 },
+          { id:2, category:'Typography', title:'Headline weight increased', description:'Hero headline font-weight increased from 700 to 800 for bolder impact', beforeValue:'700', afterValue:'800', approximatePosition:35 },
+          { id:3, category:'Visual', title:'Background color changed', description:'Page background updated from white to soft blue-tinted off-white', beforeValue:'#ffffff', afterValue:'#f0f4ff', approximatePosition:10 }
+        ]
+      }
+    ]
+
+    localStorage.setItem('iterait_versions', JSON.stringify(DEMO_VERSIONS))
+    setVersions(DEMO_VERSIONS)
+    setCurrentVersionId('demo-v2')
+  }, [])
+
   function selectVersion(id) {
     setCurrentVersionId(id)
     setActiveChangeId(null)
