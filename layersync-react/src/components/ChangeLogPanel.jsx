@@ -1,15 +1,11 @@
-import { useState } from 'react'
-
 const CATEGORY_COLORS = {
-  Visual:     '#3B82F6',
-  Layout:     '#8B5CF6',
-  Typography: '#F59E0B',
-  Color:      '#14B8A6',
+  Visual:     '#5BC4C0',
+  Layout:     '#818CF8',
+  Typography: '#F5B08A',
+  Color:      '#F08080',
 }
 
-export default function ChangeLogPanel({ changes = [], onChangeSelect, selectedIds = [], onSaveAction, onSaveChain, onRestore }) {
-  const [expandedId, setExpandedId] = useState(null)
-
+export default function ChangeLogPanel({ changes = [], onChangeSelect, selectedIds = [], onSaveAction, onSaveChain, onRestore, activeChangeId, onActiveChange }) {
   const checked = selectedIds.length
   const canSaveAction = checked === 1
   const canSaveChain  = checked >= 2
@@ -32,17 +28,23 @@ export default function ChangeLogPanel({ changes = [], onChangeSelect, selectedI
         )}
         {changes.map((c, i) => {
           const isChecked  = selectedIds.includes(c.id)
-          const isExpanded = expandedId === c.id
-          const color = CATEGORY_COLORS[c.category] || '#3B82F6'
+          const isActive   = activeChangeId === c.id
+          const color = CATEGORY_COLORS[c.category] || '#5BC4C0'
 
           return (
             <div key={c.id} id={`change-row-${c.id}`}
-              style={{ background: isChecked ? 'rgba(59,130,246,0.06)' : 'transparent', borderBottom: '1px solid var(--border)', padding: '0' }}>
+              onClick={() => onActiveChange?.(isActive ? null : c.id)}
+              style={{
+                borderLeft: `3px solid ${color}`,
+                background: isActive ? 'rgba(91,196,192,0.06)' : isChecked ? 'rgba(91,196,192,0.03)' : 'transparent',
+                transition: 'background .15s',
+                cursor: 'pointer',
+                padding: '10px 10px 10px 8px',
+                borderRadius: 8,
+                marginBottom: 2,
+              }}>
               {/* Main row */}
-              <div
-                style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '9px 16px', cursor: 'pointer' }}
-                onClick={() => setExpandedId(isExpanded ? null : c.id)}
-              >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: color, color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 700, flexShrink: 0 }}>{i + 1}</div>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ fontSize: '11px', fontWeight: 600, color, textTransform: 'uppercase', letterSpacing: '.05em', marginBottom: '1px' }}>{c.category}</div>
@@ -55,13 +57,14 @@ export default function ChangeLogPanel({ changes = [], onChangeSelect, selectedI
                 </div>
               </div>
 
-              {/* Expanded section */}
-              {isExpanded && (
-                <div style={{ padding: '0 16px 12px', borderTop: '1px solid rgba(0,0,0,.05)' }}>
-                  <p style={{ fontSize: '12px', color: '#444', lineHeight: 1.5, margin: '10px 0 8px' }}>{c.description}</p>
-                  <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-                    <span style={{ fontSize: '11px', background: '#f0f0f0', color: '#555', padding: '3px 8px', borderRadius: '4px', fontWeight: 500 }}>Before: <span style={{ color: '#111' }}>{c.beforeValue}</span></span>
-                    <span style={{ fontSize: '11px', background: `${color}15`, color, padding: '3px 8px', borderRadius: '4px', fontWeight: 500 }}>After: <span style={{ fontWeight: 700 }}>{c.afterValue}</span></span>
+              {/* Active detail */}
+              {isActive && c.beforeValue && (
+                <div style={{ marginLeft: 28, marginTop: 8 }}>
+                  <div style={{ fontSize: 11, color: '#888', marginBottom: 4 }}>{c.description}</div>
+                  <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                    <span style={{ fontSize: 10, padding: '2px 8px', borderRadius: 4, background: '#f0f0f0', color: '#555' }}>{c.beforeValue}</span>
+                    <span style={{ fontSize: 10, color: '#bbb' }}>→</span>
+                    <span style={{ fontSize: 10, padding: '2px 8px', borderRadius: 4, background: color, color: '#fff' }}>{c.afterValue}</span>
                   </div>
                 </div>
               )}

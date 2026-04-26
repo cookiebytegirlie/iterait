@@ -2,7 +2,6 @@ import { useState, useRef, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import html2canvas from 'html2canvas'
 import VersionSidebar from '../components/VersionSidebar'
-import AnnotationDot from '../components/AnnotationDot'
 import ChangeLogPanel from '../components/ChangeLogPanel'
 import { generateChangeSummary } from '../utils/claudeApi'
 import { captureBeforeAfter } from '../utils/captureSnapshot'
@@ -706,17 +705,37 @@ footer{padding:60px;background:linear-gradient(135deg,#818CF8,#C084FC,#F472B6);d
                     } catch(err) {}
                   }}
                 />
+                {activeChangeId && changes.find(c => c.id === activeChangeId) && (
+                  <div style={{
+                    position: 'absolute', left: 0, right: 0, pointerEvents: 'none', zIndex: 5, transition: 'all .2s ease',
+                    top: `${changes.find(c => c.id === activeChangeId).approximatePosition - 8}%`,
+                    height: '16%',
+                    background: (() => { const cat = changes.find(c => c.id === activeChangeId).category; return cat === 'Visual' ? 'rgba(91,196,192,0.12)' : cat === 'Typography' ? 'rgba(245,176,138,0.12)' : cat === 'Layout' ? 'rgba(129,140,248,0.12)' : 'rgba(240,128,128,0.12)' })(),
+                    border: (() => { const cat = changes.find(c => c.id === activeChangeId).category; return `1.5px solid ${cat === 'Visual' ? 'rgba(91,196,192,0.4)' : cat === 'Typography' ? 'rgba(245,176,138,0.4)' : cat === 'Layout' ? 'rgba(129,140,248,0.4)' : 'rgba(240,128,128,0.4)'}` })(),
+                  }} />
+                )}
                 <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
-                  {(currentVersion?.changes || []).map(change => (
-                    <AnnotationDot
+                  {changes.map(change => (
+                    <div
                       key={change.id}
-                      id={change.id}
-                      position={change.approximatePosition}
-                      category={change.category}
-                      title={change.title}
-                      isActive={activeChangeId === change.id}
-                      onClick={() => { setActiveChangeId(change.id) }}
-                    />
+                      onClick={() => setActiveChangeId(activeChangeId === change.id ? null : change.id)}
+                      style={{
+                        position: 'absolute',
+                        top: `${change.approximatePosition}%`,
+                        right: -14,
+                        transform: activeChangeId === change.id ? 'translateY(-50%) scale(1.25)' : 'translateY(-50%) scale(1)',
+                        transition: 'transform .15s, box-shadow .15s',
+                        width: 28, height: 28, borderRadius: '50%',
+                        background: change.category === 'Visual' ? '#5BC4C0' : change.category === 'Typography' ? '#F5B08A' : change.category === 'Layout' ? '#818CF8' : change.category === 'Color' ? '#F08080' : '#5BC4C0',
+                        color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        fontSize: 11, fontWeight: 700, cursor: 'pointer',
+                        boxShadow: activeChangeId === change.id ? `0 4px 16px ${change.category === 'Visual' ? 'rgba(91,196,192,0.6)' : 'rgba(0,0,0,0.3)'}` : '0 2px 8px rgba(0,0,0,0.2)',
+                        zIndex: 10, pointerEvents: 'auto',
+                        border: activeChangeId === change.id ? '2px solid #fff' : '2px solid transparent'
+                      }}
+                    >
+                      {change.id}
+                    </div>
                   ))}
                 </div>
               </div>
@@ -732,6 +751,8 @@ footer{padding:60px;background:linear-gradient(135deg,#818CF8,#C084FC,#F472B6);d
           onSaveAction={openActionModal}
           onSaveChain={openChainModal}
           onRestore={handleRestoreSelected}
+          activeChangeId={activeChangeId}
+          onActiveChange={setActiveChangeId}
         />
       </div>
 

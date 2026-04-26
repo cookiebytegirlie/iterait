@@ -366,34 +366,34 @@ export default function FileViewSideBySide() {
                 } catch(err) {}
               }}
             />
+            {activeChangeId && changes.find(c => c.id === activeChangeId) && (
+              <div style={{
+                position: 'absolute', left: 0, right: 0, pointerEvents: 'none', zIndex: 5, transition: 'all .2s ease',
+                top: `${changes.find(c => c.id === activeChangeId).approximatePosition - 8}%`,
+                height: '16%',
+                background: (() => { const cat = changes.find(c => c.id === activeChangeId).category; return cat === 'Visual' ? 'rgba(91,196,192,0.12)' : cat === 'Typography' ? 'rgba(245,176,138,0.12)' : cat === 'Layout' ? 'rgba(129,140,248,0.12)' : 'rgba(240,128,128,0.12)' })(),
+                border: (() => { const cat = changes.find(c => c.id === activeChangeId).category; return `1.5px solid ${cat === 'Visual' ? 'rgba(91,196,192,0.4)' : cat === 'Typography' ? 'rgba(245,176,138,0.4)' : cat === 'Layout' ? 'rgba(129,140,248,0.4)' : 'rgba(240,128,128,0.4)'}` })(),
+              }} />
+            )}
             <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, pointerEvents: 'none' }}>
               {changes.map(change => (
                 <div
                   key={change.id}
+                  onClick={() => setActiveChangeId(activeChangeId === change.id ? null : change.id)}
                   style={{
                     position: 'absolute',
                     top: `${change.approximatePosition}%`,
                     left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    width: 28,
-                    height: 28,
-                    borderRadius: '50%',
-                    background: change.category === 'Visual' ? '#5BC4C0' :
-                                change.category === 'Typography' ? '#F5B08A' :
-                                change.category === 'Layout' ? '#818CF8' : '#F08080',
-                    color: '#fff',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: 11,
-                    fontWeight: 700,
-                    pointerEvents: 'auto',
-                    cursor: 'pointer',
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+                    transform: activeChangeId === change.id ? 'translate(-50%, -50%) scale(1.25)' : 'translate(-50%, -50%) scale(1)',
+                    transition: 'transform .15s, box-shadow .15s',
+                    width: 28, height: 28, borderRadius: '50%',
+                    background: change.category === 'Visual' ? '#5BC4C0' : change.category === 'Typography' ? '#F5B08A' : change.category === 'Layout' ? '#818CF8' : '#F08080',
+                    color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: 11, fontWeight: 700, pointerEvents: 'auto', cursor: 'pointer',
+                    boxShadow: activeChangeId === change.id ? `0 4px 16px ${change.category === 'Visual' ? 'rgba(91,196,192,0.6)' : 'rgba(0,0,0,0.3)'}` : '0 2px 8px rgba(0,0,0,0.3)',
                     zIndex: 10,
                     border: activeChangeId === change.id ? '2px solid #fff' : '2px solid transparent'
                   }}
-                  onClick={() => setActiveChangeId(change.id)}
                 >
                   {change.id}
                 </div>
@@ -419,6 +419,8 @@ export default function FileViewSideBySide() {
                 onRestore={handleRestoreSelected}
                 onSaveAction={openActionModal}
                 onSaveChain={openChainModal}
+                activeChangeId={activeChangeId}
+                onActiveChange={setActiveChangeId}
               />
             </div>
           )}
