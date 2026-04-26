@@ -49,6 +49,7 @@ export default function FileView() {
   const [chainName, setChainName]           = useState('')
   const [chainDescription, setChainDescription] = useState('')
   const [isSaving, setIsSaving]             = useState(false)
+  const [iframeSrc, setIframeSrc]           = useState('')
   const iframeRef   = useRef(null)
   const fileInputRef = useRef(null)
   const canvasRef   = useRef(null)
@@ -72,6 +73,16 @@ export default function FileView() {
     setScale(1)
     setOffset({ x: 0, y: 0 })
   }, [currentVersionId])
+
+  // Blob URL for iframe — renders full HTML correctly unlike srcDoc
+  useEffect(() => {
+    if (currentVersion?.htmlContent) {
+      const blob = new Blob([currentVersion.htmlContent], { type: 'text/html' })
+      const url = URL.createObjectURL(blob)
+      setIframeSrc(url)
+      return () => URL.revokeObjectURL(url)
+    }
+  }, [currentVersion?.htmlContent])
 
   function selectVersion(id) {
     setCurrentVersionId(id)
@@ -474,19 +485,21 @@ export default function FileView() {
                 >
                   <iframe
                     ref={iframeRef}
-                    srcDoc={currentVersion?.htmlContent}
-                    style={{ width: '1280px', height: '5000px', border: 'none', display: 'block', pointerEvents: 'none', overflow: 'visible' }}
-                    sandbox="allow-scripts allow-same-origin"
-                    title="Version preview"
-                    scrolling="no"
+                    src={iframeSrc}
+                    style={{ width: '1280px', height: '15000px', border: 'none', display: 'block', pointerEvents: isPanning ? 'none' : 'auto' }}
                     onLoad={(e) => {
                       try {
                         const doc = e.target.contentDocument
                         if (doc?.body) {
-                          const h = doc.documentElement.scrollHeight || doc.body.scrollHeight
-                          e.target.style.height = h + 'px'
+                          const h = Math.max(
+                            doc.documentElement.scrollHeight,
+                            doc.body.scrollHeight
+                          )
+                          if (h > 200) {
+                            e.target.style.height = (h + 100) + 'px'
+                          }
                         }
-                      } catch(e) {}
+                      } catch(err) {}
                     }}
                   />
                 </div>
