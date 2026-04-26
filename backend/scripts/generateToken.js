@@ -12,9 +12,9 @@ if (!JWT_SECRET || JWT_SECRET === 'replace_with_a_long_random_secret') {
   process.exit(1);
 }
 
-const token = jwt.sign({ userId: 1, role: 'dev' }, JWT_SECRET, { expiresIn: '90d' });
+const token = jwt.sign({ userId: 1, role: 'dev' }, JWT_SECRET, { expiresIn: '100y' });
 
-console.log('\n--- iterait dev token (valid 90 days) ---\n');
+console.log('\n--- iterait dev token (valid 100 years) ---\n');
 console.log(token);
 console.log('\n-----------------------------------------');
 console.log('Paste this into backend/.env as:');
