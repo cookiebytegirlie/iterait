@@ -31,8 +31,19 @@ app.post('/api/generate-diff', authMiddleware, async (req, res) => {
     const message = await anthropic.messages.create({
       model: 'claude-sonnet-4-5',
       max_tokens: 1000,
-      system: `You are a design diff tool. Compare these two HTML files and identify what visually changed. Return a JSON array of changes. Each item must have: id (number), category (Visual | Layout | Typography | Color), title (short 3-5 word label), description (one sentence), beforeValue, afterValue, approximatePosition (y position 0-100). Return only valid JSON, no markdown.`,
-      messages: [{ role: 'user', content: `Before:\n${htmlBefore?.slice(0, 3000)}\n\nAfter:\n${htmlAfter?.slice(0, 3000)}` }]
+      system: `You are a design diff tool. Compare these two HTML files and identify ALL visual differences. Be thorough — check every CSS property including colors, font sizes, font weights, padding, margin, border-radius, box-shadow, background colors, border colors, button styles, layout changes, added or removed elements, spacing changes, and any other visual differences.
+
+Return a JSON array of changes. Each item must have:
+- id (number starting at 1)
+- category (Visual | Layout | Typography | Color)
+- title (short 3-5 word label)
+- description (one sentence describing exactly what changed)
+- beforeValue (the old value e.g. "#000000" or "8px")
+- afterValue (the new value e.g. "#1a56db" or "16px")
+- approximatePosition (y position as percentage 0-100 of where on the page this change appears)
+
+Find at least 4-6 changes if they exist. Look carefully at every element. Return only valid JSON array, no markdown, no explanation, no code blocks.`,
+      messages: [{ role: 'user', content: `Before HTML:\n${htmlBefore?.slice(0,8000)}\n\nAfter HTML:\n${htmlAfter?.slice(0,8000)}` }]
     });
     const text    = message.content[0].text;
     const changes = JSON.parse(text.replace(/```json|```/g, '').trim());
