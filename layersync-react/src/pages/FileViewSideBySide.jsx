@@ -49,6 +49,10 @@ export default function FileViewSideBySide() {
   const scaleRef    = useRef(1)
   const offsetRef   = useRef({ x: 0, y: 0 })
 
+  const currentVersion = versions.find(v => v.id === currentVersionId)
+  const compareVersion = versions.find(v => v.id === compareVersionId)
+  const changes = currentVersion?.changes || []
+
   useEffect(() => { setScale(1); setOffset({ x: 0, y: 0 }) }, [currentVersionId])
 
   useEffect(() => {
@@ -136,10 +140,6 @@ export default function FileViewSideBySide() {
   }, [])
 
   const onPanMouseDown = (e) => { if (e.button !== 0) return; setIsPanning(true); panStart.current = { mx: e.clientX, my: e.clientY, ox: offset.x, oy: offset.y } }
-
-  const currentVersion = versions.find(v => v.id === currentVersionId)
-  const compareVersion = versions.find(v => v.id === compareVersionId)
-  const changes = currentVersion?.changes || []
 
   function handleVersionSelect(id) {
     if (id === currentVersionId) return
