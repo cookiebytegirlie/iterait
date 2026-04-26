@@ -79,247 +79,227 @@ export default function FileView() {
       {
         id: 'demo-v1',
         number: 1,
-        label: 'Dashboard Redesign',
+        label: 'Marketing Landing Page',
         timestamp: new Date(Date.now() - 86400000 * 3).toLocaleString(),
-        source: 'Cursor',
-        thumbnail: null,
+        source: 'Loveable',
+        thumbnail: 'data:image/svg+xml,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#5BC4C0"/><stop offset="50%" style="stop-color:#7EB8E8"/><stop offset="100%" style="stop-color:#F0A882"/></linearGradient></defs><rect width="400" height="300" fill="url(#g)"/><rect x="20" y="20" width="360" height="40" rx="4" fill="rgba(255,255,255,0.3)"/><rect x="20" y="80" width="280" height="32" rx="4" fill="rgba(255,255,255,0.5)"/><rect x="20" y="124" width="200" height="16" rx="3" fill="rgba(255,255,255,0.3)"/><rect x="20" y="152" width="160" height="16" rx="3" fill="rgba(255,255,255,0.3)"/><rect x="20" y="190" width="120" height="36" rx="18" fill="rgba(255,255,255,0.7)"/><rect x="20" y="240" width="100" height="12" rx="3" fill="rgba(255,255,255,0.2)"/><rect x="140" y="240" width="100" height="12" rx="3" fill="rgba(255,255,255,0.2)"/><rect x="260" y="240" width="100" height="12" rx="3" fill="rgba(255,255,255,0.2)"/></svg>`),
         changes: [],
-        htmlContent: `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
-      *{box-sizing:border-box;margin:0;padding:0;}
-      body{font-family:'Helvetica Neue',Arial,sans-serif;background:#f8f8f8;color:#111;}
-      nav{background:#ffffff;padding:18px 48px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eeeeee;}
-      .logo{font-weight:800;font-size:20px;letter-spacing:-0.03em;}
-      .nav-links{display:flex;gap:32px;font-size:14px;color:#666;}
-      .btn{background:#111111;color:#fff;padding:10px 24px;border:none;border-radius:6px;cursor:pointer;font-size:14px;font-weight:500;}
-      .hero{padding:100px 48px;max-width:1200px;margin:0 auto;}
-      h1{font-size:52px;font-weight:800;letter-spacing:-0.03em;line-height:1.1;margin-bottom:20px;max-width:700px;}
-      .subtitle{font-size:18px;color:#666;margin-bottom:36px;max-width:500px;line-height:1.6;}
-      .hero-btns{display:flex;gap:12px;}
-      .btn-outline{background:transparent;color:#111;padding:10px 24px;border:1.5px solid #111;border-radius:6px;cursor:pointer;font-size:14px;font-weight:500;}
-      .logos{padding:32px 48px;border-top:1px solid #eee;border-bottom:1px solid #eee;display:flex;gap:48px;align-items:center;color:#999;font-size:13px;}
-      .logos span{font-weight:600;font-size:15px;}
-      .features{padding:80px 48px;max-width:1200px;margin:0 auto;}
-      .features h2{font-size:36px;font-weight:800;letter-spacing:-0.02em;margin-bottom:48px;}
-      .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
-      .card{background:#fff;border-radius:8px;padding:28px;border:1px solid #eee;}
-      .card-icon{width:36px;height:36px;background:#f0f0f0;border-radius:8px;margin-bottom:16px;}
-      .card h3{font-size:16px;font-weight:700;margin-bottom:8px;}
-      .card p{color:#666;font-size:14px;line-height:1.6;}
-      .pricing{padding:80px 48px;background:#fff;text-align:center;}
-      .pricing h2{font-size:36px;font-weight:800;letter-spacing:-0.02em;margin-bottom:16px;}
-      .pricing p{color:#666;margin-bottom:48px;}
-      .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:1000px;margin:0 auto;}
-      .plan{padding:32px;border:1px solid #eee;border-radius:8px;text-align:left;}
-      .plan.featured{border-color:#111;background:#111;color:#fff;}
-      .plan-price{font-size:36px;font-weight:800;margin:12px 0;}
-      .plan-name{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#999;}
-      .plan.featured .plan-name{color:rgba(255,255,255,0.6);}
-      .plan ul{list-style:none;margin-top:20px;display:flex;flex-direction:column;gap:10px;}
-      .plan ul li{font-size:14px;color:#666;}
-      .plan.featured ul li{color:rgba(255,255,255,0.8);}
-      .plan ul li::before{content:"✓ ";}
-      footer{padding:40px 48px;border-top:1px solid #eee;display:flex;justify-content:space-between;align-items:center;color:#999;font-size:13px;}
-    </style></head><body>
-      <nav>
-        <div class="logo">Cadence</div>
-        <div class="nav-links"><span>Features</span><span>Pricing</span><span>Docs</span><span>Blog</span></div>
-        <button class="btn">Get Started</button>
-      </nav>
-      <div class="hero">
-        <h1>Run every project with clarity and confidence.</h1>
-        <p class="subtitle">Cadence gives your team a single source of truth — tracking work, surfacing risk, and forecasting delivery without the spreadsheet chaos.</p>
-        <div class="hero-btns">
-          <button class="btn">Get Started Free</button>
-          <button class="btn-outline">See How It Works</button>
-        </div>
-      </div>
-      <div class="logos">TRUSTED BY TEAMS AT <span>Meridian</span> <span>Arclight</span> <span>Ventis Co.</span> <span>Holocene</span> <span>Driftwood</span></div>
-      <div class="features">
-        <h2>Everything your team needs</h2>
-        <div class="cards">
-          <div class="card"><div class="card-icon"></div><h3>Track Progress</h3><p>Real-time visibility into every project milestone and deadline across your entire portfolio.</p></div>
-          <div class="card"><div class="card-icon"></div><h3>Reduce Risk</h3><p>Surface blockers and dependencies before they become critical problems that delay shipping.</p></div>
-          <div class="card"><div class="card-icon"></div><h3>Ship Faster</h3><p>Align your entire team around what matters most right now with automated priority signals.</p></div>
-        </div>
-      </div>
-      <div class="pricing">
-        <h2>Simple, transparent pricing</h2>
-        <p>Start free. Upgrade when you're ready.</p>
-        <div class="plans">
-          <div class="plan"><div class="plan-name">Starter</div><div class="plan-price">$0</div><ul><li>Up to 5 projects</li><li>3 team members</li><li>Basic reporting</li></ul></div>
-          <div class="plan featured"><div class="plan-name">Pro</div><div class="plan-price">$12</div><ul><li>Unlimited projects</li><li>25 team members</li><li>Advanced analytics</li><li>Priority support</li></ul></div>
-          <div class="plan"><div class="plan-name">Enterprise</div><div class="plan-price">Custom</div><ul><li>Unlimited everything</li><li>SSO & compliance</li><li>Dedicated success</li></ul></div>
-        </div>
-      </div>
-      <footer><span>© 2026 Cadence Inc.</span><span>Privacy · Terms · Contact</span></footer>
-    </body></html>`
+        htmlContent: `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Nova — The AI Writing Assistant</title><style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fff;color:#111;}
+nav{padding:20px 60px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #f0f0f0;}
+.logo{font-size:22px;font-weight:800;letter-spacing:-0.04em;}
+.logo span{color:#6366f1;}
+.nav-links{display:flex;gap:36px;font-size:14px;color:#666;font-weight:500;}
+.nav-cta{background:#111;color:#fff;padding:10px 22px;border-radius:8px;font-size:14px;font-weight:600;border:none;cursor:pointer;}
+.hero{padding:100px 60px 80px;max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.hero-label{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6366f1;margin-bottom:20px;}
+h1{font-size:56px;font-weight:800;letter-spacing:-0.04em;line-height:1.05;margin-bottom:24px;}
+.hero-sub{font-size:18px;color:#666;line-height:1.7;margin-bottom:40px;}
+.hero-btns{display:flex;gap:12px;}
+.btn-primary{background:#6366f1;color:#fff;padding:14px 28px;border-radius:10px;font-size:15px;font-weight:600;border:none;cursor:pointer;}
+.btn-secondary{background:#f5f5f5;color:#111;padding:14px 28px;border-radius:10px;font-size:15px;font-weight:600;border:none;cursor:pointer;}
+.hero-visual{background:linear-gradient(135deg,#eef2ff,#e0e7ff);border-radius:20px;padding:32px;height:360px;display:flex;flex-direction:column;gap:12px;}
+.mock-bar{height:12px;background:rgba(99,102,241,0.2);border-radius:6px;}
+.mock-bar.w60{width:60%;}
+.mock-bar.w80{width:80%;}
+.mock-text{height:8px;background:rgba(99,102,241,0.12);border-radius:4px;margin-top:4px;}
+.mock-btn{height:40px;width:140px;background:#6366f1;border-radius:10px;margin-top:12px;}
+.logos-row{padding:40px 60px;border-top:1px solid #f0f0f0;border-bottom:1px solid #f0f0f0;display:flex;gap:60px;align-items:center;}
+.logos-label{font-size:12px;font-weight:600;color:#bbb;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;}
+.logo-item{font-size:16px;font-weight:700;color:#ccc;}
+.features{padding:100px 60px;max-width:1280px;margin:0 auto;}
+.section-label{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6366f1;margin-bottom:16px;}
+.features h2{font-size:44px;font-weight:800;letter-spacing:-0.03em;margin-bottom:16px;}
+.features-sub{font-size:18px;color:#666;margin-bottom:64px;max-width:560px;}
+.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.feature-card{padding:32px;border:1px solid #f0f0f0;border-radius:16px;}
+.feature-icon{width:48px;height:48px;background:#eef2ff;border-radius:12px;margin-bottom:20px;display:flex;align-items:center;justify-content:center;font-size:24px;}
+.feature-card h3{font-size:17px;font-weight:700;margin-bottom:10px;}
+.feature-card p{font-size:14px;color:#666;line-height:1.7;}
+.pricing{padding:100px 60px;background:#fafafa;}
+.pricing-inner{max-width:1280px;margin:0 auto;text-align:center;}
+.pricing h2{font-size:44px;font-weight:800;letter-spacing:-0.03em;margin-bottom:16px;}
+.pricing-sub{font-size:18px;color:#666;margin-bottom:64px;}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:960px;margin:0 auto;}
+.plan{background:#fff;padding:36px;border-radius:20px;border:1px solid #f0f0f0;text-align:left;}
+.plan.pro{background:#6366f1;color:#fff;border-color:#6366f1;}
+.plan-tier{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#999;margin-bottom:16px;}
+.plan.pro .plan-tier{color:rgba(255,255,255,0.6);}
+.plan-price{font-size:48px;font-weight:800;letter-spacing:-0.03em;margin-bottom:4px;}
+.plan-period{font-size:14px;color:#999;margin-bottom:32px;}
+.plan.pro .plan-period{color:rgba(255,255,255,0.6);}
+.plan-features{display:flex;flex-direction:column;gap:12px;}
+.plan-feature{font-size:14px;color:#555;display:flex;align-items:center;gap:8px;}
+.plan.pro .plan-feature{color:rgba(255,255,255,0.85);}
+.check{color:#6366f1;font-weight:700;}
+.plan.pro .check{color:#fff;}
+.plan-cta{width:100%;padding:14px;border-radius:10px;font-size:15px;font-weight:600;border:none;cursor:pointer;margin-top:28px;background:#f0f0f0;color:#111;}
+.plan.pro .plan-cta{background:#fff;color:#6366f1;}
+footer{padding:60px;background:#fff;border-top:1px solid #f0f0f0;display:flex;justify-content:space-between;align-items:center;}
+.footer-logo{font-size:20px;font-weight:800;letter-spacing:-0.04em;}
+.footer-logo span{color:#6366f1;}
+.footer-links{display:flex;gap:32px;font-size:14px;color:#999;}
+.footer-copy{font-size:13px;color:#bbb;}
+</style></head><body>
+<nav><div class="logo">nov<span>a</span></div><div class="nav-links"><span>Features</span><span>Pricing</span><span>Blog</span><span>Docs</span></div><button class="nav-cta">Start free</button></nav>
+<div class="hero"><div><div class="hero-label">AI-powered writing</div><h1>Write better, faster, together.</h1><p class="hero-sub">Nova is the AI writing assistant that learns your voice, matches your brand, and helps your team create content that actually converts.</p><div class="hero-btns"><button class="btn-primary">Get started free</button><button class="btn-secondary">See a demo →</button></div></div><div class="hero-visual"><div class="mock-bar w80"></div><div class="mock-bar w60"></div><div class="mock-text" style="width:80%"></div><div class="mock-text" style="width:70%"></div><div class="mock-text" style="width:85%"></div><div class="mock-btn"></div></div></div>
+<div class="logos-row"><span class="logos-label">Trusted by teams at</span><span class="logo-item">Meridian</span><span class="logo-item">Arclight</span><span class="logo-item">Ventis</span><span class="logo-item">Holocene</span><span class="logo-item">Driftwood</span></div>
+<div class="features"><div class="section-label">Why Nova</div><h2>Everything you need to write well</h2><p class="features-sub">From first draft to final polish, Nova is with you at every step.</p><div class="feature-grid"><div class="feature-card"><div class="feature-icon">✦</div><h3>AI that learns your voice</h3><p>Nova adapts to your writing style so every output sounds like you, not a robot.</p></div><div class="feature-card"><div class="feature-icon">⚡</div><h3>10x faster drafting</h3><p>Go from brief to first draft in seconds. Spend time editing, not starting.</p></div><div class="feature-card"><div class="feature-icon">🎯</div><h3>Built for teams</h3><p>Shared brand voice, style guides, and collaborative editing in one place.</p></div><div class="feature-card"><div class="feature-icon">📊</div><h3>Performance insights</h3><p>See which content drives results and double down on what works.</p></div><div class="feature-card"><div class="feature-icon">🔒</div><h3>Enterprise secure</h3><p>SOC 2 compliant. Your data never trains our models. Ever.</p></div><div class="feature-card"><div class="feature-icon">🔗</div><h3>Integrates everywhere</h3><p>Works with Notion, Figma, Webflow, HubSpot, and 40+ more tools.</p></div></div></div>
+<div class="pricing"><div class="pricing-inner"><div class="section-label">Pricing</div><h2>Simple, honest pricing</h2><p class="pricing-sub">Start free. No credit card required.</p><div class="plans"><div class="plan"><div class="plan-tier">Starter</div><div class="plan-price">$0</div><div class="plan-period">forever free</div><div class="plan-features"><div class="plan-feature"><span class="check">✓</span> 5,000 words/month</div><div class="plan-feature"><span class="check">✓</span> 3 projects</div><div class="plan-feature"><span class="check">✓</span> Basic templates</div></div><button class="plan-cta">Get started</button></div><div class="plan pro"><div class="plan-tier">Pro</div><div class="plan-price">$29</div><div class="plan-period">per month</div><div class="plan-features"><div class="plan-feature"><span class="check">✓</span> Unlimited words</div><div class="plan-feature"><span class="check">✓</span> Unlimited projects</div><div class="plan-feature"><span class="check">✓</span> Custom voice training</div><div class="plan-feature"><span class="check">✓</span> Priority support</div></div><button class="plan-cta">Start free trial</button></div><div class="plan"><div class="plan-tier">Enterprise</div><div class="plan-price">Custom</div><div class="plan-period">contact us</div><div class="plan-features"><div class="plan-feature"><span class="check">✓</span> Everything in Pro</div><div class="plan-feature"><span class="check">✓</span> SSO &amp; compliance</div><div class="plan-feature"><span class="check">✓</span> Dedicated success</div><div class="plan-feature"><span class="check">✓</span> Custom contracts</div></div><button class="plan-cta">Talk to sales</button></div></div></div></div>
+<footer><div class="footer-logo">nov<span>a</span></div><div class="footer-links"><span>Privacy</span><span>Terms</span><span>Security</span><span>Status</span></div><div class="footer-copy">© 2026 Nova Inc. All rights reserved.</div></footer>
+</body></html>`
       },
       {
         id: 'demo-v2',
         number: 2,
-        label: 'Dashboard Redesign',
+        label: 'Marketing Landing Page',
         timestamp: new Date(Date.now() - 86400000 * 2).toLocaleString(),
-        source: 'Cursor',
-        thumbnail: null,
+        source: 'Loveable',
+        thumbnail: 'data:image/svg+xml,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#F5B08A"/><stop offset="50%" style="stop-color:#F08080"/><stop offset="100%" style="stop-color:#C4B5FD"/></linearGradient></defs><rect width="400" height="300" fill="url(#g)"/><rect x="0" y="0" width="400" height="50" fill="rgba(0,0,0,0.4)"/><rect x="20" y="15" width="60" height="20" rx="4" fill="rgba(255,255,255,0.5)"/><rect x="300" y="12" width="80" height="28" rx="14" fill="rgba(255,255,255,0.8)"/><rect x="20" y="80" width="240" height="36" rx="4" fill="rgba(255,255,255,0.6)"/><rect x="20" y="128" width="180" height="16" rx="3" fill="rgba(255,255,255,0.4)"/><rect x="20" y="152" width="200" height="16" rx="3" fill="rgba(255,255,255,0.4)"/><rect x="20" y="190" width="130" height="40" rx="20" fill="rgba(255,255,255,0.8)"/><rect x="20" y="248" width="80" height="10" rx="3" fill="rgba(255,255,255,0.2)"/><rect x="120" y="248" width="80" height="10" rx="3" fill="rgba(255,255,255,0.2)"/></svg>`),
         changes: [
-          { id:1, category:'Visual', title:'Nav background darkened', description:'Navigation background changed from white to dark navy for stronger contrast', beforeValue:'#ffffff', afterValue:'#1a1a2e', approximatePosition:5 },
-          { id:2, category:'Visual', title:'Button color updated', description:'Primary CTA button changed from black to blue and made pill-shaped', beforeValue:'#111111', afterValue:'#1a56db', approximatePosition:45 },
-          { id:3, category:'Typography', title:'Hero headline scaled up', description:'Hero headline font-size increased from 52px to 68px for visual impact', beforeValue:'52px', afterValue:'68px', approximatePosition:35 },
-          { id:4, category:'Layout', title:'Card border-radius increased', description:'All card border-radius increased from 8px to 20px for softer appearance', beforeValue:'8px', afterValue:'20px', approximatePosition:70 },
-          { id:5, category:'Visual', title:'Box shadow added to cards', description:'Soft drop shadow added to all card components for depth and elevation', beforeValue:'none', afterValue:'0 8px 32px rgba(0,0,0,0.08)', approximatePosition:72 }
+          { id:1, category:'Visual', title:'Nav style darkened', description:'Navigation background changed from white to dark for stronger contrast', beforeValue:'#ffffff', afterValue:'#0f0f0f', approximatePosition:5 },
+          { id:2, category:'Visual', title:'Button color changed', description:'Primary CTA button changed from indigo to vibrant coral pink', beforeValue:'#6366f1', afterValue:'#f43f5e', approximatePosition:45 },
+          { id:3, category:'Typography', title:'Headline size increased', description:'Hero headline increased from 56px to 72px for bolder presence', beforeValue:'56px', afterValue:'72px', approximatePosition:30 },
+          { id:4, category:'Layout', title:'Card border-radius increased', description:'Feature cards border-radius increased from 16px to 24px', beforeValue:'16px', afterValue:'24px', approximatePosition:65 },
+          { id:5, category:'Visual', title:'Card shadow elevated', description:'Feature card box-shadow depth increased for stronger elevation', beforeValue:'none', afterValue:'0 20px 60px rgba(0,0,0,0.1)', approximatePosition:68 }
         ],
-        htmlContent: `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
-      *{box-sizing:border-box;margin:0;padding:0;}
-      body{font-family:'Helvetica Neue',Arial,sans-serif;background:#f8f8f8;color:#111;}
-      nav{background:#1a1a2e;padding:18px 48px;display:flex;justify-content:space-between;align-items:center;}
-      .logo{font-weight:800;font-size:20px;letter-spacing:-0.03em;color:#fff;}
-      .nav-links{display:flex;gap:32px;font-size:14px;color:rgba(255,255,255,0.7);}
-      .btn{background:#1a56db;color:#fff;padding:10px 24px;border:none;border-radius:999px;cursor:pointer;font-size:14px;font-weight:500;}
-      .hero{padding:100px 48px;max-width:1200px;margin:0 auto;}
-      h1{font-size:68px;font-weight:800;letter-spacing:-0.03em;line-height:1.05;margin-bottom:20px;max-width:800px;}
-      .subtitle{font-size:18px;color:#666;margin-bottom:36px;max-width:500px;line-height:1.6;}
-      .hero-btns{display:flex;gap:12px;}
-      .btn-outline{background:transparent;color:#1a56db;padding:10px 24px;border:1.5px solid #1a56db;border-radius:999px;cursor:pointer;font-size:14px;font-weight:500;}
-      .logos{padding:32px 48px;border-top:1px solid #eee;border-bottom:1px solid #eee;display:flex;gap:48px;align-items:center;color:#999;font-size:13px;}
-      .logos span{font-weight:600;font-size:15px;}
-      .features{padding:80px 48px;max-width:1200px;margin:0 auto;}
-      .features h2{font-size:36px;font-weight:800;letter-spacing:-0.02em;margin-bottom:48px;}
-      .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
-      .card{background:#fff;border-radius:20px;padding:32px;border:1px solid #eee;box-shadow:0 8px 32px rgba(0,0,0,0.08);}
-      .card-icon{width:36px;height:36px;background:#e8f0ff;border-radius:10px;margin-bottom:16px;}
-      .card h3{font-size:16px;font-weight:700;margin-bottom:8px;}
-      .card p{color:#666;font-size:14px;line-height:1.6;}
-      .pricing{padding:80px 48px;background:#fff;text-align:center;}
-      .pricing h2{font-size:36px;font-weight:800;letter-spacing:-0.02em;margin-bottom:16px;}
-      .pricing p{color:#666;margin-bottom:48px;}
-      .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1000px;margin:0 auto;}
-      .plan{padding:32px;border:1px solid #eee;border-radius:20px;text-align:left;box-shadow:0 8px 32px rgba(0,0,0,0.06);}
-      .plan.featured{border-color:#1a56db;background:#1a56db;color:#fff;}
-      .plan-price{font-size:36px;font-weight:800;margin:12px 0;}
-      .plan-name{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#999;}
-      .plan.featured .plan-name{color:rgba(255,255,255,0.7);}
-      .plan ul{list-style:none;margin-top:20px;display:flex;flex-direction:column;gap:10px;}
-      .plan ul li{font-size:14px;color:#666;}
-      .plan.featured ul li{color:rgba(255,255,255,0.85);}
-      .plan ul li::before{content:"✓ ";}
-      footer{padding:40px 48px;border-top:1px solid #eee;display:flex;justify-content:space-between;align-items:center;color:#999;font-size:13px;}
-    </style></head><body>
-      <nav>
-        <div class="logo">Cadence</div>
-        <div class="nav-links"><span>Features</span><span>Pricing</span><span>Docs</span><span>Blog</span></div>
-        <button class="btn">Get Started</button>
-      </nav>
-      <div class="hero">
-        <h1>Run every project with clarity and confidence.</h1>
-        <p class="subtitle">Cadence gives your team a single source of truth — tracking work, surfacing risk, and forecasting delivery without the spreadsheet chaos.</p>
-        <div class="hero-btns">
-          <button class="btn">Get Started Free</button>
-          <button class="btn-outline">See How It Works</button>
-        </div>
-      </div>
-      <div class="logos">TRUSTED BY TEAMS AT <span>Meridian</span> <span>Arclight</span> <span>Ventis Co.</span> <span>Holocene</span> <span>Driftwood</span></div>
-      <div class="features">
-        <h2>Everything your team needs</h2>
-        <div class="cards">
-          <div class="card"><div class="card-icon"></div><h3>Track Progress</h3><p>Real-time visibility into every project milestone and deadline across your entire portfolio.</p></div>
-          <div class="card"><div class="card-icon"></div><h3>Reduce Risk</h3><p>Surface blockers and dependencies before they become critical problems that delay shipping.</p></div>
-          <div class="card"><div class="card-icon"></div><h3>Ship Faster</h3><p>Align your entire team around what matters most right now with automated priority signals.</p></div>
-        </div>
-      </div>
-      <div class="pricing">
-        <h2>Simple, transparent pricing</h2>
-        <p>Start free. Upgrade when you're ready.</p>
-        <div class="plans">
-          <div class="plan"><div class="plan-name">Starter</div><div class="plan-price">$0</div><ul><li>Up to 5 projects</li><li>3 team members</li><li>Basic reporting</li></ul></div>
-          <div class="plan featured"><div class="plan-name">Pro</div><div class="plan-price">$12</div><ul><li>Unlimited projects</li><li>25 team members</li><li>Advanced analytics</li><li>Priority support</li></ul></div>
-          <div class="plan"><div class="plan-name">Enterprise</div><div class="plan-price">Custom</div><ul><li>Unlimited everything</li><li>SSO & compliance</li><li>Dedicated success</li></ul></div>
-        </div>
-      </div>
-      <footer><span>© 2026 Cadence Inc.</span><span>Privacy · Terms · Contact</span></footer>
-    </body></html>`
+        htmlContent: `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Nova — v2</title><style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fff;color:#111;}
+nav{padding:20px 60px;display:flex;justify-content:space-between;align-items:center;background:#0f0f0f;}
+.logo{font-size:22px;font-weight:800;letter-spacing:-0.04em;color:#fff;}
+.logo span{color:#f43f5e;}
+.nav-links{display:flex;gap:36px;font-size:14px;color:rgba(255,255,255,0.6);font-weight:500;}
+.nav-cta{background:#f43f5e;color:#fff;padding:10px 22px;border-radius:8px;font-size:14px;font-weight:600;border:none;cursor:pointer;}
+.hero{padding:120px 60px 80px;max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.hero-label{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#f43f5e;margin-bottom:20px;}
+h1{font-size:72px;font-weight:800;letter-spacing:-0.04em;line-height:1.0;margin-bottom:24px;}
+.hero-sub{font-size:18px;color:#666;line-height:1.7;margin-bottom:40px;}
+.hero-btns{display:flex;gap:12px;}
+.btn-primary{background:#f43f5e;color:#fff;padding:14px 28px;border-radius:999px;font-size:15px;font-weight:600;border:none;cursor:pointer;}
+.btn-secondary{background:#f5f5f5;color:#111;padding:14px 28px;border-radius:999px;font-size:15px;font-weight:600;border:none;cursor:pointer;}
+.hero-visual{background:linear-gradient(135deg,#fff1f2,#ffe4e6);border-radius:24px;padding:32px;height:360px;display:flex;flex-direction:column;gap:12px;}
+.mock-bar{height:12px;background:rgba(244,63,94,0.2);border-radius:6px;}
+.mock-text{height:8px;background:rgba(244,63,94,0.1);border-radius:4px;margin-top:4px;}
+.mock-btn{height:40px;width:140px;background:#f43f5e;border-radius:999px;margin-top:12px;}
+.logos-row{padding:40px 60px;border-top:1px solid #f0f0f0;border-bottom:1px solid #f0f0f0;display:flex;gap:60px;align-items:center;}
+.logos-label{font-size:12px;font-weight:600;color:#bbb;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;}
+.logo-item{font-size:16px;font-weight:700;color:#ccc;}
+.features{padding:100px 60px;max-width:1280px;margin:0 auto;}
+.section-label{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#f43f5e;margin-bottom:16px;}
+.features h2{font-size:44px;font-weight:800;letter-spacing:-0.03em;margin-bottom:16px;}
+.features-sub{font-size:18px;color:#666;margin-bottom:64px;max-width:560px;}
+.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.feature-card{padding:36px;border:1px solid #f0f0f0;border-radius:24px;box-shadow:0 20px 60px rgba(0,0,0,0.08);}
+.feature-icon{width:48px;height:48px;background:#fff1f2;border-radius:12px;margin-bottom:20px;display:flex;align-items:center;justify-content:center;font-size:24px;}
+.feature-card h3{font-size:17px;font-weight:700;margin-bottom:10px;}
+.feature-card p{font-size:14px;color:#666;line-height:1.7;}
+.pricing{padding:100px 60px;background:#fafafa;}
+.pricing-inner{max-width:1280px;margin:0 auto;text-align:center;}
+.pricing h2{font-size:44px;font-weight:800;letter-spacing:-0.03em;margin-bottom:16px;}
+.pricing-sub{font-size:18px;color:#666;margin-bottom:64px;}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:960px;margin:0 auto;}
+.plan{background:#fff;padding:36px;border-radius:24px;border:1px solid #f0f0f0;text-align:left;box-shadow:0 20px 60px rgba(0,0,0,0.06);}
+.plan.pro{background:#f43f5e;color:#fff;border-color:#f43f5e;}
+.plan-tier{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#999;margin-bottom:16px;}
+.plan.pro .plan-tier{color:rgba(255,255,255,0.6);}
+.plan-price{font-size:48px;font-weight:800;letter-spacing:-0.03em;margin-bottom:4px;}
+.plan-period{font-size:14px;color:#999;margin-bottom:32px;}
+.plan.pro .plan-period{color:rgba(255,255,255,0.6);}
+.plan-features{display:flex;flex-direction:column;gap:12px;}
+.plan-feature{font-size:14px;color:#555;display:flex;align-items:center;gap:8px;}
+.plan.pro .plan-feature{color:rgba(255,255,255,0.9);}
+.check{color:#f43f5e;font-weight:700;}
+.plan.pro .check{color:#fff;}
+.plan-cta{width:100%;padding:14px;border-radius:999px;font-size:15px;font-weight:600;border:none;cursor:pointer;margin-top:28px;background:#f5f5f5;color:#111;}
+.plan.pro .plan-cta{background:#fff;color:#f43f5e;}
+footer{padding:60px;background:#0f0f0f;display:flex;justify-content:space-between;align-items:center;}
+.footer-logo{font-size:20px;font-weight:800;letter-spacing:-0.04em;color:#fff;}
+.footer-logo span{color:#f43f5e;}
+.footer-links{display:flex;gap:32px;font-size:14px;color:rgba(255,255,255,0.4);}
+.footer-copy{font-size:13px;color:rgba(255,255,255,0.3);}
+</style></head><body>
+<nav><div class="logo">nov<span>a</span></div><div class="nav-links"><span>Features</span><span>Pricing</span><span>Blog</span><span>Docs</span></div><button class="nav-cta">Start free</button></nav>
+<div class="hero"><div><div class="hero-label">AI-powered writing</div><h1>Write better, faster, together.</h1><p class="hero-sub">Nova is the AI writing assistant that learns your voice, matches your brand, and helps your team create content that actually converts.</p><div class="hero-btns"><button class="btn-primary">Get started free</button><button class="btn-secondary">See a demo →</button></div></div><div class="hero-visual"><div class="mock-bar" style="width:80%"></div><div class="mock-bar" style="width:60%"></div><div class="mock-text" style="width:80%"></div><div class="mock-text" style="width:70%"></div><div class="mock-text" style="width:85%"></div><div class="mock-btn"></div></div></div>
+<div class="logos-row"><span class="logos-label">Trusted by teams at</span><span class="logo-item">Meridian</span><span class="logo-item">Arclight</span><span class="logo-item">Ventis</span><span class="logo-item">Holocene</span><span class="logo-item">Driftwood</span></div>
+<div class="features"><div class="section-label">Why Nova</div><h2>Everything you need to write well</h2><p class="features-sub">From first draft to final polish, Nova is with you at every step.</p><div class="feature-grid"><div class="feature-card"><div class="feature-icon">✦</div><h3>AI that learns your voice</h3><p>Nova adapts to your writing style so every output sounds like you, not a robot.</p></div><div class="feature-card"><div class="feature-icon">⚡</div><h3>10x faster drafting</h3><p>Go from brief to first draft in seconds. Spend time editing, not starting.</p></div><div class="feature-card"><div class="feature-icon">🎯</div><h3>Built for teams</h3><p>Shared brand voice, style guides, and collaborative editing in one place.</p></div><div class="feature-card"><div class="feature-icon">📊</div><h3>Performance insights</h3><p>See which content drives results and double down on what works.</p></div><div class="feature-card"><div class="feature-icon">🔒</div><h3>Enterprise secure</h3><p>SOC 2 compliant. Your data never trains our models. Ever.</p></div><div class="feature-card"><div class="feature-icon">🔗</div><h3>Integrates everywhere</h3><p>Works with Notion, Figma, Webflow, HubSpot, and 40+ more tools.</p></div></div></div>
+<div class="pricing"><div class="pricing-inner"><div class="section-label">Pricing</div><h2>Simple, honest pricing</h2><p class="pricing-sub">Start free. No credit card required.</p><div class="plans"><div class="plan"><div class="plan-tier">Starter</div><div class="plan-price">$0</div><div class="plan-period">forever free</div><div class="plan-features"><div class="plan-feature"><span class="check">✓</span> 5,000 words/month</div><div class="plan-feature"><span class="check">✓</span> 3 projects</div><div class="plan-feature"><span class="check">✓</span> Basic templates</div></div><button class="plan-cta">Get started</button></div><div class="plan pro"><div class="plan-tier">Pro</div><div class="plan-price">$29</div><div class="plan-period">per month</div><div class="plan-features"><div class="plan-feature"><span class="check">✓</span> Unlimited words</div><div class="plan-feature"><span class="check">✓</span> Unlimited projects</div><div class="plan-feature"><span class="check">✓</span> Custom voice training</div><div class="plan-feature"><span class="check">✓</span> Priority support</div></div><button class="plan-cta">Start free trial</button></div><div class="plan"><div class="plan-tier">Enterprise</div><div class="plan-price">Custom</div><div class="plan-period">contact us</div><div class="plan-features"><div class="plan-feature"><span class="check">✓</span> Everything in Pro</div><div class="plan-feature"><span class="check">✓</span> SSO &amp; compliance</div><div class="plan-feature"><span class="check">✓</span> Dedicated success</div><div class="plan-feature"><span class="check">✓</span> Custom contracts</div></div><button class="plan-cta">Talk to sales</button></div></div></div></div>
+<footer><div class="footer-logo">nov<span>a</span></div><div class="footer-links"><span>Privacy</span><span>Terms</span><span>Security</span><span>Status</span></div><div class="footer-copy">© 2026 Nova Inc. All rights reserved.</div></footer>
+</body></html>`
       },
       {
         id: 'demo-v3',
         number: 3,
-        label: 'Dashboard Redesign',
+        label: 'Marketing Landing Page',
         timestamp: new Date(Date.now() - 86400000).toLocaleString(),
-        source: 'Cursor',
-        thumbnail: null,
+        source: 'Loveable',
+        thumbnail: 'data:image/svg+xml,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#818CF8"/><stop offset="50%" style="stop-color:#C084FC"/><stop offset="100%" style="stop-color:#F472B6"/></linearGradient></defs><rect width="400" height="300" fill="url(#g)"/><rect x="0" y="0" width="400" height="50" fill="rgba(0,0,0,0.5)"/><rect x="20" y="15" width="60" height="20" rx="4" fill="rgba(255,255,255,0.5)"/><rect x="290" y="10" width="90" height="32" rx="16" fill="rgba(255,255,255,0.85)"/><rect x="100" y="80" width="200" height="40" rx="4" fill="rgba(255,255,255,0.6)"/><rect x="120" y="132" width="160" height="14" rx="3" fill="rgba(255,255,255,0.4)"/><rect x="140" y="158" width="120" height="14" rx="3" fill="rgba(255,255,255,0.4)"/><rect x="130" y="195" width="140" height="40" rx="20" fill="rgba(255,255,255,0.85)"/><rect x="20" y="255" width="100" height="10" rx="3" fill="rgba(255,255,255,0.15)"/><rect x="150" y="255" width="100" height="10" rx="3" fill="rgba(255,255,255,0.15)"/><rect x="280" y="255" width="100" height="10" rx="3" fill="rgba(255,255,255,0.15)"/></svg>`),
         changes: [
-          { id:1, category:'Layout', title:'Hero centered alignment', description:'Hero section text alignment changed from left to center for stronger focal point', beforeValue:'left', afterValue:'center', approximatePosition:40 },
-          { id:2, category:'Typography', title:'Headline weight increased', description:'Hero headline font-weight increased from 800 to 900 for maximum impact', beforeValue:'800', afterValue:'900', approximatePosition:35 },
-          { id:3, category:'Visual', title:'Background color updated', description:'Page background updated from light gray to pure white for cleaner feel', beforeValue:'#f8f8f8', afterValue:'#ffffff', approximatePosition:10 },
-          { id:4, category:'Visual', title:'Featured plan color changed', description:'Pricing featured plan updated from dark to brand blue', beforeValue:'#111111', afterValue:'#1a56db', approximatePosition:80 }
+          { id:1, category:'Layout', title:'Hero layout centered', description:'Hero changed from two-column grid to single centered layout', beforeValue:'grid 2-col', afterValue:'single centered', approximatePosition:30 },
+          { id:2, category:'Visual', title:'Gradient hero background', description:'Hero section background changed from white to purple-pink gradient', beforeValue:'#ffffff', afterValue:'linear-gradient(135deg,#818CF8,#F472B6)', approximatePosition:25 },
+          { id:3, category:'Typography', title:'Headline color inverted', description:'Hero headline color changed from dark to white for contrast on gradient', beforeValue:'#111111', afterValue:'#ffffff', approximatePosition:28 },
+          { id:4, category:'Visual', title:'Footer background updated', description:'Footer changed from dark to gradient matching hero', beforeValue:'#0f0f0f', afterValue:'linear-gradient(135deg,#818CF8,#F472B6)', approximatePosition:95 }
         ],
-        htmlContent: `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
-      *{box-sizing:border-box;margin:0;padding:0;}
-      body{font-family:'Helvetica Neue',Arial,sans-serif;background:#ffffff;color:#111;}
-      nav{background:#1a1a2e;padding:18px 48px;display:flex;justify-content:space-between;align-items:center;}
-      .logo{font-weight:800;font-size:20px;letter-spacing:-0.03em;color:#fff;}
-      .nav-links{display:flex;gap:32px;font-size:14px;color:rgba(255,255,255,0.7);}
-      .btn{background:#1a56db;color:#fff;padding:12px 28px;border:none;border-radius:999px;cursor:pointer;font-size:14px;font-weight:600;}
-      .hero{padding:120px 48px;max-width:1200px;margin:0 auto;text-align:center;}
-      h1{font-size:72px;font-weight:900;letter-spacing:-0.04em;line-height:1.0;margin-bottom:24px;}
-      .subtitle{font-size:20px;color:#666;margin-bottom:40px;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.6;}
-      .hero-btns{display:flex;gap:12px;justify-content:center;}
-      .btn-outline{background:transparent;color:#1a56db;padding:12px 28px;border:1.5px solid #1a56db;border-radius:999px;cursor:pointer;font-size:14px;font-weight:600;}
-      .logos{padding:32px 48px;border-top:1px solid #eee;border-bottom:1px solid #eee;display:flex;gap:48px;align-items:center;color:#bbb;font-size:13px;justify-content:center;}
-      .logos span{font-weight:700;font-size:15px;color:#999;}
-      .features{padding:96px 48px;max-width:1200px;margin:0 auto;}
-      .features h2{font-size:40px;font-weight:900;letter-spacing:-0.02em;margin-bottom:56px;text-align:center;}
-      .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
-      .card{background:#fff;border-radius:24px;padding:36px;border:1px solid #f0f0f0;box-shadow:0 12px 48px rgba(0,0,0,0.08);}
-      .card-icon{width:40px;height:40px;background:#e8f0ff;border-radius:12px;margin-bottom:20px;}
-      .card h3{font-size:17px;font-weight:700;margin-bottom:10px;}
-      .card p{color:#666;font-size:14px;line-height:1.7;}
-      .pricing{padding:96px 48px;background:#f8f8f8;text-align:center;}
-      .pricing h2{font-size:40px;font-weight:900;letter-spacing:-0.02em;margin-bottom:16px;}
-      .pricing p{color:#666;margin-bottom:56px;font-size:18px;}
-      .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1000px;margin:0 auto;}
-      .plan{padding:36px;border:1px solid #eee;border-radius:24px;text-align:left;background:#fff;box-shadow:0 8px 32px rgba(0,0,0,0.06);}
-      .plan.featured{border-color:#1a56db;background:#1a56db;color:#fff;}
-      .plan-price{font-size:40px;font-weight:900;margin:12px 0;letter-spacing:-0.02em;}
-      .plan-name{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#999;}
-      .plan.featured .plan-name{color:rgba(255,255,255,0.6);}
-      .plan ul{list-style:none;margin-top:24px;display:flex;flex-direction:column;gap:12px;}
-      .plan ul li{font-size:14px;color:#555;}
-      .plan.featured ul li{color:rgba(255,255,255,0.9);}
-      .plan ul li::before{content:"✓  ";}
-      footer{padding:40px 48px;border-top:1px solid #eee;display:flex;justify-content:space-between;align-items:center;color:#999;font-size:13px;background:#fff;}
-    </style></head><body>
-      <nav>
-        <div class="logo">Cadence</div>
-        <div class="nav-links"><span>Features</span><span>Pricing</span><span>Docs</span><span>Blog</span></div>
-        <button class="btn">Get Started Free</button>
-      </nav>
-      <div class="hero">
-        <h1>Run every project with clarity.</h1>
-        <p class="subtitle">Cadence gives your team a single source of truth — tracking work, surfacing risk, and forecasting delivery without the spreadsheet chaos.</p>
-        <div class="hero-btns">
-          <button class="btn">Start Free Trial</button>
-          <button class="btn-outline">See How It Works</button>
-        </div>
-      </div>
-      <div class="logos">TRUSTED BY TEAMS AT <span>Meridian</span> <span>Arclight</span> <span>Ventis Co.</span> <span>Holocene</span> <span>Driftwood</span></div>
-      <div class="features">
-        <h2>Everything your team needs</h2>
-        <div class="cards">
-          <div class="card"><div class="card-icon"></div><h3>Track Progress</h3><p>Real-time visibility into every project milestone and deadline across your entire portfolio.</p></div>
-          <div class="card"><div class="card-icon"></div><h3>Reduce Risk</h3><p>Surface blockers and dependencies before they become critical problems that delay shipping.</p></div>
-          <div class="card"><div class="card-icon"></div><h3>Ship Faster</h3><p>Align your entire team around what matters most right now with automated priority signals.</p></div>
-        </div>
-      </div>
-      <div class="pricing">
-        <h2>Simple, transparent pricing</h2>
-        <p>Start free. Upgrade when you're ready.</p>
-        <div class="plans">
-          <div class="plan"><div class="plan-name">Starter</div><div class="plan-price">$0</div><ul><li>Up to 5 projects</li><li>3 team members</li><li>Basic reporting</li></ul></div>
-          <div class="plan featured"><div class="plan-name">Pro</div><div class="plan-price">$12</div><ul><li>Unlimited projects</li><li>25 team members</li><li>Advanced analytics</li><li>Priority support</li></ul></div>
-          <div class="plan"><div class="plan-name">Enterprise</div><div class="plan-price">Custom</div><ul><li>Unlimited everything</li><li>SSO & compliance</li><li>Dedicated success</li></ul></div>
-        </div>
-      </div>
-      <footer><span>© 2026 Cadence Inc.</span><span>Privacy · Terms · Contact</span></footer>
-    </body></html>`
+        htmlContent: `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Nova — v3</title><style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fff;color:#111;}
+nav{padding:20px 60px;display:flex;justify-content:space-between;align-items:center;background:#0f0f0f;}
+.logo{font-size:22px;font-weight:800;letter-spacing:-0.04em;color:#fff;}
+.logo span{color:#c084fc;}
+.nav-links{display:flex;gap:36px;font-size:14px;color:rgba(255,255,255,0.6);font-weight:500;}
+.nav-cta{background:linear-gradient(135deg,#818cf8,#f472b6);color:#fff;padding:10px 22px;border-radius:8px;font-size:14px;font-weight:600;border:none;cursor:pointer;}
+.hero{padding:140px 60px 100px;background:linear-gradient(135deg,#818CF8,#C084FC,#F472B6);text-align:center;}
+.hero-label{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:20px;}
+h1{font-size:80px;font-weight:800;letter-spacing:-0.04em;line-height:1.0;margin-bottom:24px;color:#fff;}
+.hero-sub{font-size:20px;color:rgba(255,255,255,0.8);line-height:1.7;margin-bottom:40px;max-width:560px;margin-left:auto;margin-right:auto;}
+.hero-btns{display:flex;gap:12px;justify-content:center;}
+.btn-primary{background:#fff;color:#818cf8;padding:16px 32px;border-radius:999px;font-size:16px;font-weight:700;border:none;cursor:pointer;}
+.btn-secondary{background:rgba(255,255,255,0.15);color:#fff;padding:16px 32px;border-radius:999px;font-size:16px;font-weight:600;border:1.5px solid rgba(255,255,255,0.4);cursor:pointer;}
+.logos-row{padding:40px 60px;border-bottom:1px solid #f0f0f0;display:flex;gap:60px;align-items:center;justify-content:center;}
+.logos-label{font-size:12px;font-weight:600;color:#bbb;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;}
+.logo-item{font-size:16px;font-weight:700;color:#ccc;}
+.features{padding:100px 60px;max-width:1280px;margin:0 auto;}
+.section-label{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#c084fc;margin-bottom:16px;text-align:center;}
+.features h2{font-size:44px;font-weight:800;letter-spacing:-0.03em;margin-bottom:16px;text-align:center;}
+.features-sub{font-size:18px;color:#666;margin-bottom:64px;max-width:560px;text-align:center;margin-left:auto;margin-right:auto;}
+.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.feature-card{padding:36px;border:1px solid #f0f0f0;border-radius:24px;box-shadow:0 20px 60px rgba(0,0,0,0.06);}
+.feature-icon{width:48px;height:48px;background:linear-gradient(135deg,#eef2ff,#fdf2f8);border-radius:12px;margin-bottom:20px;display:flex;align-items:center;justify-content:center;font-size:24px;}
+.feature-card h3{font-size:17px;font-weight:700;margin-bottom:10px;}
+.feature-card p{font-size:14px;color:#666;line-height:1.7;}
+.pricing{padding:100px 60px;background:#fafafa;}
+.pricing-inner{max-width:1280px;margin:0 auto;text-align:center;}
+.pricing h2{font-size:44px;font-weight:800;letter-spacing:-0.03em;margin-bottom:16px;}
+.pricing-sub{font-size:18px;color:#666;margin-bottom:64px;}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:960px;margin:0 auto;}
+.plan{background:#fff;padding:36px;border-radius:24px;border:1px solid #f0f0f0;text-align:left;box-shadow:0 20px 60px rgba(0,0,0,0.06);}
+.plan.pro{background:linear-gradient(135deg,#818CF8,#C084FC);color:#fff;border-color:transparent;}
+.plan-tier{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#999;margin-bottom:16px;}
+.plan.pro .plan-tier{color:rgba(255,255,255,0.6);}
+.plan-price{font-size:48px;font-weight:800;letter-spacing:-0.03em;margin-bottom:4px;}
+.plan-period{font-size:14px;color:#999;margin-bottom:32px;}
+.plan.pro .plan-period{color:rgba(255,255,255,0.6);}
+.plan-features{display:flex;flex-direction:column;gap:12px;}
+.plan-feature{font-size:14px;color:#555;display:flex;align-items:center;gap:8px;}
+.plan.pro .plan-feature{color:rgba(255,255,255,0.9);}
+.check{color:#c084fc;font-weight:700;}
+.plan.pro .check{color:#fff;}
+.plan-cta{width:100%;padding:14px;border-radius:999px;font-size:15px;font-weight:600;border:none;cursor:pointer;margin-top:28px;background:#f5f5f5;color:#111;}
+.plan.pro .plan-cta{background:#fff;color:#818cf8;}
+footer{padding:60px;background:linear-gradient(135deg,#818CF8,#C084FC,#F472B6);display:flex;justify-content:space-between;align-items:center;}
+.footer-logo{font-size:20px;font-weight:800;letter-spacing:-0.04em;color:#fff;}
+.footer-logo span{color:rgba(255,255,255,0.6);}
+.footer-links{display:flex;gap:32px;font-size:14px;color:rgba(255,255,255,0.5);}
+.footer-copy{font-size:13px;color:rgba(255,255,255,0.4);}
+</style></head><body>
+<nav><div class="logo">nov<span>a</span></div><div class="nav-links"><span>Features</span><span>Pricing</span><span>Blog</span><span>Docs</span></div><button class="nav-cta">Start free</button></nav>
+<div class="hero"><div class="hero-label">AI-powered writing</div><h1>Write better,<br>faster, together.</h1><p class="hero-sub">Nova is the AI writing assistant that learns your voice, matches your brand, and helps your team create content that actually converts.</p><div class="hero-btns"><button class="btn-primary">Get started free</button><button class="btn-secondary">See a demo →</button></div></div>
+<div class="logos-row"><span class="logos-label">Trusted by</span><span class="logo-item">Meridian</span><span class="logo-item">Arclight</span><span class="logo-item">Ventis</span><span class="logo-item">Holocene</span></div>
+<div class="features"><div class="section-label">Why Nova</div><h2>Everything you need to write well</h2><p class="features-sub">From first draft to final polish, Nova is with you at every step.</p><div class="feature-grid"><div class="feature-card"><div class="feature-icon">✦</div><h3>AI that learns your voice</h3><p>Nova adapts to your writing style so every output sounds like you, not a robot.</p></div><div class="feature-card"><div class="feature-icon">⚡</div><h3>10x faster drafting</h3><p>Go from brief to first draft in seconds. Spend time editing, not starting.</p></div><div class="feature-card"><div class="feature-icon">🎯</div><h3>Built for teams</h3><p>Shared brand voice, style guides, and collaborative editing in one place.</p></div><div class="feature-card"><div class="feature-icon">📊</div><h3>Performance insights</h3><p>See which content drives results and double down on what works.</p></div><div class="feature-card"><div class="feature-icon">🔒</div><h3>Enterprise secure</h3><p>SOC 2 compliant. Your data never trains our models. Ever.</p></div><div class="feature-card"><div class="feature-icon">🔗</div><h3>Integrates everywhere</h3><p>Works with Notion, Figma, Webflow, HubSpot, and 40+ more tools.</p></div></div></div>
+<div class="pricing"><div class="pricing-inner"><div class="section-label">Pricing</div><h2>Simple, honest pricing</h2><p class="pricing-sub">Start free. No credit card required.</p><div class="plans"><div class="plan"><div class="plan-tier">Starter</div><div class="plan-price">$0</div><div class="plan-period">forever free</div><div class="plan-features"><div class="plan-feature"><span class="check">✓</span> 5,000 words/month</div><div class="plan-feature"><span class="check">✓</span> 3 projects</div><div class="plan-feature"><span class="check">✓</span> Basic templates</div></div><button class="plan-cta">Get started</button></div><div class="plan pro"><div class="plan-tier">Pro</div><div class="plan-price">$29</div><div class="plan-period">per month</div><div class="plan-features"><div class="plan-feature"><span class="check">✓</span> Unlimited words</div><div class="plan-feature"><span class="check">✓</span> Unlimited projects</div><div class="plan-feature"><span class="check">✓</span> Custom voice training</div><div class="plan-feature"><span class="check">✓</span> Priority support</div></div><button class="plan-cta">Start free trial</button></div><div class="plan"><div class="plan-tier">Enterprise</div><div class="plan-price">Custom</div><div class="plan-period">contact us</div><div class="plan-features"><div class="plan-feature"><span class="check">✓</span> Everything in Pro</div><div class="plan-feature"><span class="check">✓</span> SSO &amp; compliance</div><div class="plan-feature"><span class="check">✓</span> Dedicated success</div><div class="plan-feature"><span class="check">✓</span> Custom contracts</div></div><button class="plan-cta">Talk to sales</button></div></div></div></div>
+<footer><div class="footer-logo">nov<span>a</span></div><div class="footer-links"><span>Privacy</span><span>Terms</span><span>Security</span><span>Status</span></div><div class="footer-copy">© 2026 Nova Inc. All rights reserved.</div></footer>
+</body></html>`
       }
     ]
 
