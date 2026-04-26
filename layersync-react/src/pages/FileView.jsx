@@ -37,9 +37,11 @@ export default function FileView() {
   const [compareMode, setCompareMode]     = useState(false)
   const [activeChangeId, setActiveChangeId] = useState(null)
   const [selectedIds, setSelectedIds]     = useState([])
-  const [scale, setScale]                 = useState(0.45)
+  const [scale, setScale]                 = useState(0.35)
   const [offset, setOffset]               = useState({ x: 0, y: 0 })
   const [isPanning, setIsPanning]         = useState(false)
+  const [isDragging, setIsDragging]       = useState(false)
+  const [dragStart, setDragStart]         = useState({ x: 0, y: 0 })
   const [isDragOver, setIsDragOver]       = useState(false)
   const [showCompanion, setShowCompanion] = useState(false)
   const [generating, setGenerating]       = useState(false)
@@ -167,7 +169,7 @@ export default function FileView() {
   const onWheel = (e) => {
     e.preventDefault()
     const delta = e.deltaY > 0 ? -0.02 : 0.02
-    setScale(prev => Math.min(Math.max(prev + delta, 0.1), 3))
+    setScale(prev => Math.min(Math.max(prev + delta, 0.1), 2))
   }
   const onMouseMove = (e) => {
     if (!isPanning) return
@@ -486,25 +488,42 @@ export default function FileView() {
               </div>
             ) : (
               <div
-                style={{ width: '100%', height: '100%', overflow: 'hidden', position: 'relative', background: 'transparent' }}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  overflow: 'hidden',
+                  position: 'relative',
+                  cursor: isDragging ? 'grabbing' : 'grab',
+                  userSelect: 'none'
+                }}
                 onWheel={onWheel}
-                onMouseDown={onPanMouseDown}
-                onMouseMove={onMouseMove}
-                onMouseUp={onMouseUp}
-                onMouseLeave={onMouseUp}
+                onMouseDown={(e) => {
+                  setIsDragging(true)
+                  setDragStart({ x: e.clientX - offset.x, y: e.clientY - offset.y })
+                }}
+                onMouseMove={(e) => {
+                  if (!isDragging) return
+                  setOffset({
+                    x: e.clientX - dragStart.x,
+                    y: e.clientY - dragStart.y
+                  })
+                }}
+                onMouseUp={() => setIsDragging(false)}
+                onMouseLeave={() => setIsDragging(false)}
               >
                 <div
                   style={{
                     position: 'absolute',
                     left: '50%',
                     top: '20px',
-                    paddingBottom: '100px',
+                    paddingBottom: '120px',
                     transform: `translate(-50%, 0) translate(${offset.x}px, ${offset.y}px) scale(${scale})`,
                     transformOrigin: 'top center',
                     width: '1280px',
                     boxShadow: '0 4px 40px rgba(0,0,0,0.15)',
                     borderRadius: 8,
                     overflow: 'hidden',
+                    marginBottom: '120px',
                   }}
                 >
                   <iframe
