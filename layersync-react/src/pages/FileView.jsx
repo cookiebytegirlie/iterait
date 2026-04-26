@@ -79,34 +79,21 @@ export default function FileView() {
   // Blob URL for iframe — renders full HTML correctly unlike srcDoc
   useEffect(() => {
     if (currentVersion?.htmlContent) {
-      const disableAnimations = `
-      <style>
-        *, *::before, *::after {
-          animation: none !important;
-          animation-delay: 0s !important;
-          animation-duration: 0s !important;
-          transition: none !important;
-          opacity: 1 !important;
-          transform: none !important;
-          visibility: visible !important;
-        }
-        [data-aos], [data-scroll], .hidden, .invisible {
-          opacity: 1 !important;
-          transform: none !important;
-          visibility: visible !important;
-        }
-      </style>
-    `
-      const modifiedHtml = currentVersion.htmlContent.replace(
-        '</head>',
-        `${disableAnimations}</head>`
-      )
-      const blob = new Blob([modifiedHtml], { type: 'text/html' })
+      const inject = `<style>
+      body::before { display: none !important; }
+      body::after { display: none !important; }
+      * { animation: none !important; transition: none !important; }
+      [data-aos] { opacity: 1 !important; transform: none !important; }
+    </style>`
+      const html = currentVersion.htmlContent.includes('</head>')
+        ? currentVersion.htmlContent.replace('</head>', inject + '</head>')
+        : inject + currentVersion.htmlContent
+      const blob = new Blob([html], { type: 'text/html' })
       const url = URL.createObjectURL(blob)
       setIframeSrc(url)
       return () => URL.revokeObjectURL(url)
     }
-  }, [currentVersion?.htmlContent])
+  }, [currentVersion?.id])
 
   function selectVersion(id) {
     setCurrentVersionId(id)
@@ -210,10 +197,12 @@ export default function FileView() {
 
     if (prevVersion?.htmlContent) {
       try {
+        console.log('Calling generate-diff...')
         changes = await generateChangeSummary(prevVersion.htmlContent, html)
+        console.log('Changes received:', changes)
         window.__toast?.(`${changes.length} changes detected`)
       } catch (err) {
-        console.error('generateChangeSummary failed:', err)
+        console.error('Diff failed:', err)
         changes = []
       }
     }
@@ -529,20 +518,12 @@ export default function FileView() {
                   <iframe
                     ref={iframeRef}
                     src={iframeSrc}
-                    style={{ width: '1280px', height: '15000px', border: 'none', display: 'block', pointerEvents: isPanning ? 'none' : 'auto' }}
-                    onLoad={(e) => {
-                      try {
-                        const doc = e.target.contentDocument
-                        if (doc?.body) {
-                          const h = Math.max(
-                            doc.documentElement.scrollHeight,
-                            doc.body.scrollHeight
-                          )
-                          if (h > 200) {
-                            e.target.style.height = (h + 100) + 'px'
-                          }
-                        }
-                      } catch(err) {}
+                    style={{
+                      width: '1280px',
+                      height: '15000px',
+                      border: 'none',
+                      display: 'block',
+                      pointerEvents: isDragging ? 'none' : 'auto'
                     }}
                   />
                 </div>
