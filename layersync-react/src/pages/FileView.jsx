@@ -378,7 +378,7 @@ export default function FileView() {
           </svg>
           <input placeholder="Search..." />
         </div>
-        <div className="right"><img src="/src/assets/avatar-profile.jpg" alt="Profile" style={{ width: 34, height: 34, borderRadius: '50%', objectFit: 'cover', display: 'block', cursor: 'pointer', border: '2px solid #f0f0f0' }} /></div>
+        <div className="right"><img src="/avatar-profile.jpg" alt="Profile" style={{ width: 34, height: 34, borderRadius: '50%', objectFit: 'cover', display: 'block', cursor: 'pointer', border: '2px solid #f0f0f0' }} /></div>
       </header>
 
       {/* Sub-topbar */}
@@ -442,14 +442,15 @@ export default function FileView() {
                 Upload an HTML file to get started
               </div>
             ) : (
-              <div style={{ position: 'absolute', inset: 0 }}>
+              <div style={{ position: 'absolute', inset: 0, minHeight: '900px', overflow: 'auto' }}>
                 {/* iframe — always pointer-events:none so overlay can capture events */}
                 <iframe
                   ref={iframeRef}
                   srcDoc={currentVersion.htmlContent}
-                  style={{ width: '100%', height: '100%', border: 'none', display: 'block', transform: `scale(${scale}) translate(${offset.x / scale}px, ${offset.y / scale}px)`, transformOrigin: 'top left', pointerEvents: 'none' }}
+                  style={{ width: '100%', height: '100%', border: 'none', display: 'block', minHeight: '900px', transform: `scale(${scale}) translate(${offset.x / scale}px, ${offset.y / scale}px)`, transformOrigin: 'top left', pointerEvents: 'none' }}
                   sandbox="allow-scripts allow-same-origin"
                   title="Version preview"
+                  scrolling="yes"
                 />
 
                 {/* Highlight band */}

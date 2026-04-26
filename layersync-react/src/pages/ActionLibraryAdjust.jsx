@@ -24,7 +24,7 @@ export default function ActionLibraryAdjust() {
           </svg>
           <input placeholder="Search..." />
         </div>
-        <div className="right"><img src="/src/assets/avatar-profile.jpg" alt="Profile" style={{ width: 34, height: 34, borderRadius: '50%', objectFit: 'cover', display: 'block', cursor: 'pointer', border: '2px solid #f0f0f0' }} /></div>
+        <div className="right"><img src="/avatar-profile.jpg" alt="Profile" style={{ width: 34, height: 34, borderRadius: '50%', objectFit: 'cover', display: 'block', cursor: 'pointer', border: '2px solid #f0f0f0' }} /></div>
       </header>
 
       <div style={{ padding: '8px 32px 60px' }}>
