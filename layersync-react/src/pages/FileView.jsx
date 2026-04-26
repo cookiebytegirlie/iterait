@@ -37,7 +37,7 @@ export default function FileView() {
   const [compareMode, setCompareMode]     = useState(false)
   const [activeChangeId, setActiveChangeId] = useState(null)
   const [selectedIds, setSelectedIds]     = useState([])
-  const [scale, setScale]                 = useState(1)
+  const [scale, setScale]                 = useState(0.45)
   const [offset, setOffset]               = useState({ x: 0, y: 0 })
   const [isPanning, setIsPanning]         = useState(false)
   const [isDragOver, setIsDragOver]       = useState(false)
@@ -117,7 +117,7 @@ export default function FileView() {
       const rect = el.getBoundingClientRect()
       const cx = e.clientX - rect.left
       const cy = e.clientY - rect.top
-      const delta = e.deltaY > 0 ? -0.1 : 0.1
+      const delta = e.deltaY > 0 ? -0.05 : 0.05
       const ns = Math.min(Math.max(+(s + delta).toFixed(2), 0.25), 3)
       setScale(ns)
       setOffset({ x: cx - (ns / s) * (cx - o.x), y: cy - (ns / s) * (cy - o.y) })
@@ -131,6 +131,16 @@ export default function FileView() {
     setIsPanning(true)
     panStart.current = { mx: e.clientX, my: e.clientY, ox: offset.x, oy: offset.y }
   }
+  const onWheel = (e) => {
+    e.preventDefault()
+    const delta = e.deltaY > 0 ? -0.02 : 0.02
+    setScale(prev => Math.min(Math.max(prev + delta, 0.1), 3))
+  }
+  const onMouseMove = (e) => {
+    if (!isPanning) return
+    setOffset({ x: panStart.current.ox + e.clientX - panStart.current.mx, y: panStart.current.oy + e.clientY - panStart.current.my })
+  }
+  const onMouseUp = () => setIsPanning(false)
 
   function handleVersionDrop() {}
 
@@ -434,7 +444,7 @@ export default function FileView() {
             onDragOver={handleCanvasDragOver}
             onDragLeave={handleCanvasDragLeave}
             onDrop={handleCanvasDrop}
-            style={{ flex: 1, position: 'relative', overflow: 'hidden', backgroundColor: '#F5F4F0', backgroundImage: 'radial-gradient(circle, #D0CEC8 1.5px, transparent 1.5px)', backgroundSize: '24px 24px', border: isDragOver ? '2px dashed rgba(59,130,246,0.5)' : '2px solid transparent', transition: 'border .2s' }}>
+            style={{ flex: 1, position: 'relative', overflow: 'visible', backgroundColor: '#F5F4F0', backgroundImage: 'radial-gradient(circle, #D0CEC8 1.5px, transparent 1.5px)', backgroundSize: '24px 24px', border: isDragOver ? '2px dashed rgba(59,130,246,0.5)' : '2px solid transparent', transition: 'border .2s' }}>
 
             {!currentVersion ? (
               <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#aaa', fontSize: '14px', gap: '12px' }}>
@@ -442,27 +452,49 @@ export default function FileView() {
                 Upload an HTML file to get started
               </div>
             ) : (
-              <div style={{ position: 'absolute', inset: 0, minHeight: '900px', overflow: 'auto' }}>
-                {/* iframe — always pointer-events:none so overlay can capture events */}
-                <iframe
-                  ref={iframeRef}
-                  srcDoc={currentVersion.htmlContent}
-                  style={{ width: '100%', height: '100%', border: 'none', display: 'block', minHeight: '900px', transform: `scale(${scale}) translate(${offset.x / scale}px, ${offset.y / scale}px)`, transformOrigin: 'top left', pointerEvents: 'none' }}
-                  sandbox="allow-scripts allow-same-origin"
-                  title="Version preview"
-                  scrolling="yes"
-                />
+              <div
+                style={{ width: '100%', height: '100%', overflow: 'hidden', position: 'relative', background: 'transparent' }}
+                onWheel={onWheel}
+                onMouseDown={onPanMouseDown}
+                onMouseMove={onMouseMove}
+                onMouseUp={onMouseUp}
+                onMouseLeave={onMouseUp}
+              >
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: `translate(-50%, -50%) scale(${scale})`,
+                    transformOrigin: 'center center',
+                    width: '1280px',
+                    height: 'auto',
+                    overflow: 'visible',
+                  }}
+                >
+                  <iframe
+                    ref={iframeRef}
+                    srcDoc={currentVersion?.htmlContent}
+                    style={{ width: '1280px', height: '5000px', border: 'none', display: 'block', pointerEvents: 'none', overflow: 'visible' }}
+                    sandbox="allow-scripts allow-same-origin"
+                    title="Version preview"
+                    scrolling="no"
+                    onLoad={(e) => {
+                      try {
+                        const doc = e.target.contentDocument
+                        if (doc?.body) {
+                          const h = doc.documentElement.scrollHeight || doc.body.scrollHeight
+                          e.target.style.height = h + 'px'
+                        }
+                      } catch(e) {}
+                    }}
+                  />
+                </div>
 
                 {/* Highlight band */}
                 {activeChange && (
                   <div style={{ position: 'absolute', left: 0, right: 0, top: `${activeChange.approximatePosition - 9}%`, height: '18%', background: `${CATEGORY_COLORS[activeChange.category] || '#3B82F6'}14`, pointerEvents: 'none', transition: 'opacity .2s, top .2s', zIndex: 5 }} />
                 )}
-
-                {/* Transparent overlay — captures mousedown for pan; move/up handled at window level */}
-                <div
-                  style={{ position: 'absolute', inset: 0, zIndex: 8, cursor: isPanning ? 'grabbing' : 'grab' }}
-                  onMouseDown={onPanMouseDown}
-                />
 
                 {/* Annotation dots — above overlay so they stay clickable */}
                 <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 10 }}>
