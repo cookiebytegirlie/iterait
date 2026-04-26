@@ -37,12 +37,6 @@ export default function FileView() {
   const [compareMode, setCompareMode]     = useState(false)
   const [activeChangeId, setActiveChangeId] = useState(null)
   const [selectedIds, setSelectedIds]     = useState([])
-  const [scale, setScale]                 = useState(0.35)
-  const [offset, setOffset]               = useState({ x: 0, y: 0 })
-  const [isPanning, setIsPanning]         = useState(false)
-  const [isDragging, setIsDragging]       = useState(false)
-  const [dragStart, setDragStart]         = useState({ x: 0, y: 0 })
-  const [isDragOver, setIsDragOver]       = useState(false)
   const [showCompanion, setShowCompanion] = useState(false)
   const [generating, setGenerating]       = useState(false)
   const [actionModal, setActionModal]     = useState(null)
@@ -54,10 +48,6 @@ export default function FileView() {
   const [iframeSrc, setIframeSrc]           = useState('')
   const iframeRef   = useRef(null)
   const fileInputRef = useRef(null)
-  const canvasRef   = useRef(null)
-  const panStart    = useRef(null)
-  const scaleRef    = useRef(1)
-  const offsetRef   = useRef({ x: 0, y: 0 })
 
   const currentVersion = versions.find(v => v.id === currentVersionId)
   const changes = currentVersion?.changes || []
@@ -70,33 +60,18 @@ export default function FileView() {
     if (!currentVersionId && versions.length) setCurrentVersionId(versions[versions.length - 1].id)
   }, [versions, currentVersionId])
 
-  // Reset pan/zoom when version changes
   useEffect(() => {
-    setScale(1)
-    setOffset({ x: 0, y: 0 })
-  }, [currentVersionId])
-
-  // Blob URL for iframe — renders full HTML correctly unlike srcDoc
-  useEffect(() => {
-    if (currentVersion?.htmlContent) {
-      const inject = `<style>
-      body::before, body::after { display: none !important; }
-      * {
-        animation-duration: 0.01ms !important;
-        animation-delay: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-      }
-      [data-aos], [data-scroll] {
-        opacity: 1 !important;
-        transform: none !important;
-      }
-    </style>`
-      const modified = currentVersion.htmlContent.replace('</head>', inject + '</head>')
-      const blob = new Blob([modified], { type: 'text/html' })
-      const url = URL.createObjectURL(blob)
-      setIframeSrc(url)
-      return () => URL.revokeObjectURL(url)
-    }
+    if (!currentVersion?.htmlContent) return
+    const inject = `<style>
+    body::before, body::after { display: none !important; }
+    * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    [data-aos] { opacity: 1 !important; transform: none !important; }
+  </style>`
+    const html = currentVersion.htmlContent.replace('</head>', inject + '</head>')
+    const blob = new Blob([html], { type: 'text/html' })
+    const url = URL.createObjectURL(blob)
+    setIframeSrc(url)
+    return () => URL.revokeObjectURL(url)
   }, [currentVersion?.id])
 
   function selectVersion(id) {
@@ -117,56 +92,6 @@ export default function FileView() {
       return next
     })
   }
-
-  // Sync refs so non-React listeners always see current values
-  useEffect(() => { scaleRef.current = scale }, [scale])
-  useEffect(() => { offsetRef.current = offset }, [offset])
-
-  // Window-level pan — doesn't lose tracking when mouse moves fast
-  useEffect(() => {
-    if (!isPanning) return
-    const onMove = (e) => setOffset({ x: panStart.current.ox + e.clientX - panStart.current.mx, y: panStart.current.oy + e.clientY - panStart.current.my })
-    const onUp   = () => setIsPanning(false)
-    window.addEventListener('mousemove', onMove)
-    window.addEventListener('mouseup',   onUp)
-    return () => { window.removeEventListener('mousemove', onMove); window.removeEventListener('mouseup', onUp) }
-  }, [isPanning])
-
-  // Non-passive wheel — lets us call preventDefault() to stop page scroll + zoom toward cursor
-  useEffect(() => {
-    const el = canvasRef.current
-    if (!el) return
-    const handler = (e) => {
-      e.preventDefault()
-      const s = scaleRef.current
-      const o = offsetRef.current
-      const rect = el.getBoundingClientRect()
-      const cx = e.clientX - rect.left
-      const cy = e.clientY - rect.top
-      const delta = e.deltaY > 0 ? -0.05 : 0.05
-      const ns = Math.min(Math.max(+(s + delta).toFixed(2), 0.25), 3)
-      setScale(ns)
-      setOffset({ x: cx - (ns / s) * (cx - o.x), y: cy - (ns / s) * (cy - o.y) })
-    }
-    el.addEventListener('wheel', handler, { passive: false })
-    return () => el.removeEventListener('wheel', handler)
-  }, [])
-
-  const onPanMouseDown = (e) => {
-    if (e.button !== 0) return
-    setIsPanning(true)
-    panStart.current = { mx: e.clientX, my: e.clientY, ox: offset.x, oy: offset.y }
-  }
-  const onWheel = (e) => {
-    e.preventDefault()
-    const delta = e.deltaY > 0 ? -0.02 : 0.02
-    setScale(prev => Math.min(Math.max(prev + delta, 0.1), 2))
-  }
-  const onMouseMove = (e) => {
-    if (!isPanning) return
-    setOffset({ x: panStart.current.ox + e.clientX - panStart.current.mx, y: panStart.current.oy + e.clientY - panStart.current.my })
-  }
-  const onMouseUp = () => setIsPanning(false)
 
   function handleVersionDrop() {}
 
@@ -247,25 +172,6 @@ export default function FileView() {
     setActiveChangeId(id)
     const row = document.getElementById(`change-row-${id}`)
     row?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
-  }
-
-  // Canvas drag-to-compare
-  function handleCanvasDragOver(e) {
-    e.preventDefault()
-    setIsDragOver(true)
-  }
-  function handleCanvasDragLeave() { setIsDragOver(false) }
-  function handleCanvasDrop(e) {
-    e.preventDefault()
-    setIsDragOver(false)
-    const id = e.dataTransfer.getData('versionId')
-    if (!id || id === currentVersionId) return
-    setCompareVersionId(id)
-    setCompareMode(true)
-    const compVer = versions.find(v => v.id === id)
-    const curVer  = versions.find(v => v.id === currentVersionId)
-    window.__toast?.(`Comparing Version ${compVer?.number} vs Version ${curVer?.number}`)
-    navigate('/file-view/side-by-side')
   }
 
   // Save as Action modal
@@ -429,13 +335,6 @@ export default function FileView() {
           Single (Default)
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
-        {/* Zoom controls */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-          <button onClick={() => setScale(s => Math.max(+(s - 0.1).toFixed(2), 0.25))} style={zoomBtn}>−</button>
-          <span style={{ fontSize: '12px', minWidth: '42px', textAlign: 'center', color: 'var(--text)', fontFamily: 'inherit' }}>{Math.round(scale * 100)}%</span>
-          <button onClick={() => setScale(s => Math.min(+(s + 0.1).toFixed(2), 3))} style={zoomBtn}>+</button>
-          <button onClick={() => { setScale(1); setOffset({ x: 0, y: 0 }) }} style={{ ...zoomBtn, padding: '5px 10px', marginLeft: '2px' }}>Reset</button>
-        </div>
         <button
           onClick={() => setShowCompanion(true)}
           style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '6px 14px', borderRadius: 8, border: '1px solid #e8e8e8', background: '#fff', fontSize: 13, fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit' }}>
@@ -466,90 +365,43 @@ export default function FileView() {
         />
 
         {/* Canvas area */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-          <div
-            ref={canvasRef}
-            onDragOver={handleCanvasDragOver}
-            onDragLeave={handleCanvasDragLeave}
-            onDrop={handleCanvasDrop}
-            style={{ flex: 1, position: 'relative', overflow: 'visible', backgroundColor: '#F5F4F0', backgroundImage: 'radial-gradient(circle, #D0CEC8 1.5px, transparent 1.5px)', backgroundSize: '24px 24px', border: isDragOver ? '2px dashed rgba(59,130,246,0.5)' : '2px solid transparent', transition: 'border .2s' }}>
-
+        <div style={{
+          flex: 1,
+          height: '100%',
+          overflow: 'auto',
+          background: '#EBEBEB',
+          backgroundImage: 'radial-gradient(circle, #C8C8C8 1px, transparent 1px)',
+          backgroundSize: '24px 24px',
+          display: 'flex',
+          justifyContent: 'center',
+          padding: '24px'
+        }}>
+          <div style={{
+            width: '100%',
+            maxWidth: '1280px',
+            background: '#fff',
+            boxShadow: '0 4px 32px rgba(0,0,0,0.12)',
+            borderRadius: 8,
+            overflow: 'hidden',
+            height: 'fit-content'
+          }}>
             {!currentVersion ? (
-              <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#aaa', fontSize: '14px', gap: '12px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '400px', color: '#aaa', fontSize: '14px', gap: '12px' }}>
                 <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                 Upload an HTML file to get started
               </div>
             ) : (
-              <div
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  overflow: 'hidden',
-                  position: 'relative',
-                  cursor: isDragging ? 'grabbing' : 'grab',
-                  userSelect: 'none'
+              <iframe
+                ref={iframeRef}
+                src={iframeSrc}
+                style={{ width: '100%', height: '900px', border: 'none', display: 'block' }}
+                onLoad={(e) => {
+                  try {
+                    const h = e.target.contentDocument?.documentElement?.scrollHeight
+                    if (h > 100) e.target.style.height = h + 'px'
+                  } catch(err) {}
                 }}
-                onWheel={onWheel}
-                onMouseDown={(e) => {
-                  setIsDragging(true)
-                  setDragStart({ x: e.clientX - offset.x, y: e.clientY - offset.y })
-                }}
-                onMouseMove={(e) => {
-                  if (!isDragging) return
-                  setOffset({
-                    x: e.clientX - dragStart.x,
-                    y: e.clientY - dragStart.y
-                  })
-                }}
-                onMouseUp={() => setIsDragging(false)}
-                onMouseLeave={() => setIsDragging(false)}
-              >
-                <div
-                  style={{
-                    position: 'absolute',
-                    left: '50%',
-                    top: '20px',
-                    paddingBottom: '120px',
-                    transform: `translate(-50%, 0) translate(${offset.x}px, ${offset.y}px) scale(${scale})`,
-                    transformOrigin: 'top center',
-                    width: '1280px',
-                    boxShadow: '0 4px 40px rgba(0,0,0,0.15)',
-                    borderRadius: 8,
-                    overflow: 'hidden',
-                    marginBottom: '120px',
-                  }}
-                >
-                  <iframe
-                    ref={iframeRef}
-                    src={iframeSrc}
-                    style={{
-                      width: '1280px',
-                      height: '15000px',
-                      border: 'none',
-                      display: 'block',
-                      pointerEvents: isDragging ? 'none' : 'auto'
-                    }}
-                  />
-                </div>
-
-                {/* Highlight band */}
-                {activeChange && (
-                  <div style={{ position: 'absolute', left: 0, right: 0, top: `${activeChange.approximatePosition - 9}%`, height: '18%', background: `${CATEGORY_COLORS[activeChange.category] || '#3B82F6'}14`, pointerEvents: 'none', transition: 'opacity .2s, top .2s', zIndex: 5 }} />
-                )}
-
-                {/* Annotation dots — above overlay so they stay clickable */}
-                <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 10 }}>
-                  {changes.map((c, i) => (
-                    <AnnotationDot key={c.id} id={c.id} number={i+1} category={c.category} title={c.title} position={c.approximatePosition} isActive={c.id === activeChangeId} onClick={() => handleDotClick(c.id)} />
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {isDragOver && (
-              <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(59,130,246,.9)', fontSize: '14px', fontWeight: 600, pointerEvents: 'none', zIndex: 20 }}>
-                Drop to compare versions
-              </div>
+              />
             )}
           </div>
         </div>
@@ -636,4 +488,3 @@ export default function FileView() {
 
 const btnPrimary = { padding: '8px 16px', background: '#0a0a0a', color: 'white', border: 'none', borderRadius: '9px', fontSize: '13px', fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit' }
 const btnGhost   = { padding: '8px 16px', background: 'transparent', color: 'var(--text-3)', border: '1px solid transparent', borderRadius: '9px', fontSize: '13px', fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit' }
-const zoomBtn    = { padding: '5px 8px', border: '1px solid #d1d5dc', borderRadius: '8px', fontSize: '13px', fontWeight: 500, cursor: 'pointer', background: '#fff', color: 'var(--text)', fontFamily: 'inherit', lineHeight: 1 }

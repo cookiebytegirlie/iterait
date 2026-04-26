@@ -39,107 +39,33 @@ export default function FileViewSideBySide() {
   const [chainModal, setChainModal]         = useState(null)
   const [chainName, setChainName]           = useState('')
   const [chainDescription, setChainDescription] = useState('')
-  const [scale, setScale]   = useState(0.4)
-  const [offset, setOffset] = useState({ x: 0, y: 0 })
-  const [isPanning, setIsPanning] = useState(false)
+  const [isDragOver, setIsDragOver] = useState(false)
   const [beforeSrc, setBeforeSrc] = useState('')
   const [afterSrc, setAfterSrc]   = useState('')
-  const panStart    = useRef(null)
-  const canvasRef   = useRef(null)
-  const scaleRef    = useRef(1)
-  const offsetRef   = useRef({ x: 0, y: 0 })
 
   const currentVersion = versions.find(v => v.id === currentVersionId)
   const compareVersion = versions.find(v => v.id === compareVersionId)
   const changes = currentVersion?.changes || []
 
-  useEffect(() => { setScale(1); setOffset({ x: 0, y: 0 }) }, [currentVersionId])
-
   useEffect(() => {
-    if (compareVersion?.htmlContent) {
-      const inject = `<style>
-      body::before, body::after { display: none !important; }
-      * {
-        animation-duration: 0.01ms !important;
-        animation-delay: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-      }
-      [data-aos], [data-scroll] {
-        opacity: 1 !important;
-        transform: none !important;
-      }
-    </style>`
-      const modified = compareVersion.htmlContent.replace('</head>', inject + '</head>')
-      const blob = new Blob([modified], { type: 'text/html' })
-      const url = URL.createObjectURL(blob)
-      setBeforeSrc(url)
-      return () => URL.revokeObjectURL(url)
-    }
+    if (!compareVersion?.htmlContent) return
+    const inject = `<style>body::before,body::after{display:none!important;}*{animation-duration:0.01ms!important;transition-duration:0.01ms!important;}[data-aos]{opacity:1!important;transform:none!important;}</style>`
+    const html = compareVersion.htmlContent.replace('</head>', inject + '</head>')
+    const blob = new Blob([html], { type: 'text/html' })
+    const url = URL.createObjectURL(blob)
+    setBeforeSrc(url)
+    return () => URL.revokeObjectURL(url)
   }, [compareVersion?.id])
 
   useEffect(() => {
-    if (currentVersion?.htmlContent) {
-      const inject = `<style>
-      body::before, body::after { display: none !important; }
-      * {
-        animation-duration: 0.01ms !important;
-        animation-delay: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-      }
-      [data-aos], [data-scroll] {
-        opacity: 1 !important;
-        transform: none !important;
-      }
-    </style>`
-      const modified = currentVersion.htmlContent.replace('</head>', inject + '</head>')
-      const blob = new Blob([modified], { type: 'text/html' })
-      const url = URL.createObjectURL(blob)
-      setAfterSrc(url)
-      return () => URL.revokeObjectURL(url)
-    }
+    if (!currentVersion?.htmlContent) return
+    const inject = `<style>body::before,body::after{display:none!important;}*{animation-duration:0.01ms!important;transition-duration:0.01ms!important;}[data-aos]{opacity:1!important;transform:none!important;}</style>`
+    const html = currentVersion.htmlContent.replace('</head>', inject + '</head>')
+    const blob = new Blob([html], { type: 'text/html' })
+    const url = URL.createObjectURL(blob)
+    setAfterSrc(url)
+    return () => URL.revokeObjectURL(url)
   }, [currentVersion?.id])
-  useEffect(() => { scaleRef.current = scale }, [scale])
-  useEffect(() => { offsetRef.current = offset }, [offset])
-
-  useEffect(() => {
-    if (!isPanning) return
-    const onMove = (e) => setOffset({ x: panStart.current.ox + e.clientX - panStart.current.mx, y: panStart.current.oy + e.clientY - panStart.current.my })
-    const onUp   = () => setIsPanning(false)
-    window.addEventListener('mousemove', onMove)
-    window.addEventListener('mouseup',   onUp)
-    return () => { window.removeEventListener('mousemove', onMove); window.removeEventListener('mouseup', onUp) }
-  }, [isPanning])
-
-  useEffect(() => {
-    const handleKey = (e) => {
-      if (e.key === '=') setScale(p => Math.min(p + 0.05, 2))
-      if (e.key === '-') setScale(p => Math.max(p - 0.05, 0.1))
-      if (e.key === '0') setScale(0.4)
-    }
-    window.addEventListener('keydown', handleKey)
-    return () => window.removeEventListener('keydown', handleKey)
-  }, [])
-
-  useEffect(() => {
-    const el = canvasRef.current
-    if (!el) return
-    const handler = (e) => {
-      e.preventDefault()
-      const s = scaleRef.current
-      const o = offsetRef.current
-      const rect = el.getBoundingClientRect()
-      const cx = e.clientX - rect.left
-      const cy = e.clientY - rect.top
-      const delta = e.deltaY > 0 ? -0.01 : 0.01
-      const ns = Math.min(Math.max(+(s + delta).toFixed(2), 0.1), 2)
-      setScale(ns)
-      setOffset({ x: cx - (ns / s) * (cx - o.x), y: cy - (ns / s) * (cy - o.y) })
-    }
-    el.addEventListener('wheel', handler, { passive: false })
-    return () => el.removeEventListener('wheel', handler)
-  }, [])
-
-  const onPanMouseDown = (e) => { if (e.button !== 0) return; setIsPanning(true); panStart.current = { mx: e.clientX, my: e.clientY, ox: offset.x, oy: offset.y } }
 
   function handleVersionSelect(id) {
     if (id === currentVersionId) return
@@ -338,60 +264,83 @@ export default function FileViewSideBySide() {
         </button>
       </div>
 
-      <div style={{ flex: 1, display: 'flex', minHeight: 0, overflow: 'hidden' }}>
-        {/* Version sidebar */}
-        <VersionSidebar
-          versions={[...versions].reverse()}
-          currentVersionId={currentVersionId}
-          onVersionSelect={handleVersionSelect}
-          onVersionDelete={handleVersionDelete}
-        />
+      <div style={{ display: 'flex', height: '100%', overflow: 'hidden' }}>
 
-        {/* Side-by-side canvas */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-          {/* Zoom controls */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '4px', padding: '8px 12px', borderBottom: '1px solid var(--border)', background: '#fff', flexShrink: 0 }}>
-            <button onClick={() => setScale(s => Math.max(+(s - 0.1).toFixed(2), 0.25))} style={zoomBtn}>−</button>
-            <span style={{ fontSize: '12px', minWidth: '42px', textAlign: 'center', color: 'var(--text)', fontFamily: 'inherit' }}>{Math.round(scale * 100)}%</span>
-            <button onClick={() => setScale(s => Math.min(+(s + 0.1).toFixed(2), 3))} style={zoomBtn}>+</button>
-            <button onClick={() => { setScale(1); setOffset({ x: 0, y: 0 }) }} style={{ ...zoomBtn, padding: '5px 10px', marginLeft: '2px' }}>Reset</button>
-            <span style={{ marginLeft: '12px', fontSize: '12px', color: 'var(--text-3)' }}>
-              Version {compareVersion?.number || '?'} — Before &nbsp;·&nbsp; Version {currentVersion?.number || '?'} — After
-            </span>
+        {/* VERSION SIDEBAR */}
+        <div style={{ width: 200, flexShrink: 0, borderRight: '1px solid #efefef', overflowY: 'auto', background: '#fff', padding: '12px 8px' }}>
+          <div style={{ fontSize: 10, fontWeight: 600, color: '#bbb', textTransform: 'uppercase', letterSpacing: '.08em', padding: '0 8px', marginBottom: 8 }}>
+            Versions
           </div>
-          <div ref={canvasRef} style={{ flex: 1, position: 'relative', overflow: 'hidden', display: 'flex', gap: '8px', padding: '8px', minHeight: 0, backgroundColor: '#F5F4F0', backgroundImage: 'radial-gradient(circle, #D0CEC8 1.5px, transparent 1.5px)', backgroundSize: '24px 24px' }}>
-
-            {/* Before panel */}
-            <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
-              {compareVersion ? (
-                <>
-                  <iframe src={beforeSrc} style={{ width: '1280px', height: '15000px', border: 'none', display: 'block', pointerEvents: isPanning ? 'none' : 'auto' }} />
-                  <div style={{ position: 'absolute', inset: 0, cursor: isPanning ? 'grabbing' : 'grab' }} onMouseDown={onPanMouseDown} />
-                </>
+          {versions.map((v) => (
+            <div
+              key={v.id}
+              draggable
+              onDragStart={(e) => e.dataTransfer.setData('versionId', v.id)}
+              style={{ padding: '8px', borderRadius: 8, marginBottom: 6, cursor: 'grab', border: v.id === currentVersionId ? '1.5px solid #111' : '1.5px solid #efefef', background: '#fff' }}
+              onClick={() => setCurrentVersionId(v.id)}
+            >
+              {v.thumbnail ? (
+                <img src={v.thumbnail} style={{ width: '100%', height: 60, objectFit: 'cover', borderRadius: 5, display: 'block' }} />
               ) : (
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#aaa', fontSize: '13px' }}>No previous version</div>
+                <div style={{ width: '100%', height: 60, background: 'linear-gradient(135deg,#5BC4C0,#7EB8E8)', borderRadius: 5 }} />
               )}
+              <div style={{ fontSize: 11, fontWeight: 600, color: '#111', marginTop: 5, fontFamily: 'Instrument Sans, sans-serif' }}>{v.label}</div>
+              <div style={{ fontSize: 10, color: '#bbb' }}>{new Date(v.timestamp).toLocaleTimeString()}</div>
             </div>
+          ))}
+        </div>
 
-            {/* After panel with dots */}
-            <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
-              {currentVersion ? (
-                <>
-                  <iframe src={afterSrc} style={{ width: '1280px', height: '15000px', border: 'none', display: 'block', pointerEvents: isPanning ? 'none' : 'auto' }} />
-                  {activeChange && (
-                    <div style={{ position: 'absolute', left: 0, right: 0, top: `${activeChange.approximatePosition - 9}%`, height: '18%', background: `${CATEGORY_COLORS[activeChange.category] || '#3B82F6'}14`, pointerEvents: 'none', transition: 'opacity .2s, top .2s', zIndex: 5 }} />
-                  )}
-                  <div style={{ position: 'absolute', inset: 0, zIndex: 8, cursor: isPanning ? 'grabbing' : 'grab' }} onMouseDown={onPanMouseDown} />
-                  <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 10 }}>
-                    {changes.map((c, i) => (
-                      <AnnotationDot key={c.id} id={c.id} number={i+1} category={c.category} title={c.title} position={c.approximatePosition} isActive={c.id === activeChangeId} onClick={() => handleDotClick(c.id)} />
-                    ))}
-                  </div>
-                </>
-              ) : (
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#aaa', fontSize: '13px' }}>No current version</div>
-              )}
-            </div>
+        {/* BEFORE PANEL */}
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', borderRight: '1px solid #efefef', overflow: 'hidden' }}>
+          <div style={{ padding: '6px 14px', background: '#f5f5f3', borderBottom: '1px solid #efefef', fontSize: 11, fontWeight: 600, color: '#888', fontFamily: 'Instrument Sans, sans-serif', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <span>Before — {compareVersion?.label}</span>
+            <span style={{ fontSize: 10, color: '#bbb' }}>drag a version from sidebar</span>
+          </div>
+          <div
+            onDragOver={(e) => { e.preventDefault(); setIsDragOver(true) }}
+            onDragLeave={() => setIsDragOver(false)}
+            onDrop={(e) => {
+              e.preventDefault()
+              setIsDragOver(false)
+              const versionId = e.dataTransfer.getData('versionId')
+              if (versionId) setCompareVersionId(versionId)
+            }}
+            style={{ position: 'relative', flex: 1, overflow: 'auto', border: isDragOver ? '2px dashed #5BC4C0' : '2px dashed transparent', transition: 'border-color .15s' }}
+          >
+            {isDragOver && (
+              <div style={{ position: 'absolute', inset: 0, background: 'rgba(91,196,192,0.08)', zIndex: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 600, color: '#5BC4C0', fontFamily: 'Instrument Sans, sans-serif', pointerEvents: 'none' }}>
+                Drop version here to compare
+              </div>
+            )}
+            <iframe
+              src={beforeSrc}
+              style={{ width: '100%', height: '900px', border: 'none', display: 'block' }}
+              onLoad={(e) => {
+                try {
+                  const h = e.target.contentDocument?.documentElement?.scrollHeight
+                  if (h > 100) e.target.style.height = h + 'px'
+                } catch(err) {}
+              }}
+            />
+          </div>
+        </div>
+
+        {/* AFTER PANEL */}
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+          <div style={{ padding: '6px 14px', background: '#f5f5f3', borderBottom: '1px solid #efefef', fontSize: 11, fontWeight: 600, color: '#888', fontFamily: 'Instrument Sans, sans-serif' }}>
+            After — {currentVersion?.label}
+          </div>
+          <div style={{ flex: 1, overflow: 'auto' }}>
+            <iframe
+              src={afterSrc}
+              style={{ width: '100%', height: '900px', border: 'none', display: 'block' }}
+              onLoad={(e) => {
+                try {
+                  const h = e.target.contentDocument?.documentElement?.scrollHeight
+                  if (h > 100) e.target.style.height = h + 'px'
+                } catch(err) {}
+              }}
+            />
           </div>
         </div>
 
@@ -472,4 +421,3 @@ export default function FileViewSideBySide() {
   )
 }
 
-const zoomBtn = { padding: '5px 8px', border: '1px solid #d1d5dc', borderRadius: '8px', fontSize: '13px', fontWeight: 500, cursor: 'pointer', background: '#fff', color: 'var(--text)', fontFamily: 'inherit', lineHeight: 1 }

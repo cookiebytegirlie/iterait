@@ -8,27 +8,24 @@ function headers() {
 
 export async function generateChangeSummary(htmlBefore, htmlAfter) {
   try {
-    console.log('Before length:', htmlBefore?.length)
-    console.log('After length:', htmlAfter?.length)
-
+    console.log('Calling diff... before:', htmlBefore?.length, 'after:', htmlAfter?.length)
     const res = await fetch(`${BACKEND_URL}/api/generate-diff`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        htmlBefore: htmlBefore?.slice(0, 8000),
-        htmlAfter: htmlAfter?.slice(0, 8000)
+        htmlBefore: htmlBefore?.slice(0, 8000) || '',
+        htmlAfter: htmlAfter?.slice(0, 8000) || ''
       })
     })
     if (!res.ok) {
-      const err = await res.text()
-      console.error('Diff error:', res.status, err)
+      console.error('Diff API error:', res.status, await res.text())
       return []
     }
     const data = await res.json()
-    console.log('Changes returned:', data.changes?.length)
+    console.log('Changes received:', data.changes?.length, data.changes)
     return data.changes || []
   } catch (err) {
-    console.error('generateChangeSummary failed:', err)
+    console.error('Diff failed:', err)
     return []
   }
 }
