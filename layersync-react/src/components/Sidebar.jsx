@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import colorLogo from '../assets/Color Logo.png'
+import colorLogo from '../assets/Color-Logo.png'
 import WatcherStatus from './WatcherStatus'
 
 const PREFS_KEY = 'iterait_watcher_prefs'
