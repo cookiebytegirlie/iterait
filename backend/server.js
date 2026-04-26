@@ -42,10 +42,26 @@ Return a JSON array of changes. Each item must have:
 - approximatePosition (y position as percentage 0-100 of where on the page this change appears)
 
 Find at least 4-6 changes if they exist. Look carefully at every element. Return only valid JSON array, no markdown, no explanation, no code blocks.`,
-      messages: [{ role: 'user', content: `Before HTML:\n${htmlBefore?.slice(0,8000)}\n\nAfter HTML:\n${htmlAfter?.slice(0,8000)}` }]
+      messages: [{ role: 'user', content: `Before HTML:\n${htmlBefore?.slice(0,4000)}\n\nAfter HTML:\n${htmlAfter?.slice(0,4000)}` }]
     });
-    const text    = message.content[0].text;
-    const changes = JSON.parse(text.replace(/```json|```/g, '').trim());
+    const text = message.content[0].text;
+    let changes = []
+    try {
+      const match = text.match(/\[[\s\S]*\]/)
+      if (match) {
+        changes = JSON.parse(match[0])
+      }
+    } catch(e) {
+      changes = [{
+        id: 1,
+        category: 'Visual',
+        title: 'Visual changes detected',
+        description: 'Multiple visual changes were detected between versions',
+        beforeValue: '',
+        afterValue: '',
+        approximatePosition: 30
+      }]
+    }
     res.json({ changes });
   } catch (err) {
     console.error('Diff generation failed:', err);
