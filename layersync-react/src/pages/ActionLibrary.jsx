@@ -240,7 +240,7 @@ export default function ActionLibrary() {
 
   function filtered() {
     return actions.filter(a => {
-      if (typeFilter !== 'all' && !a.types.includes(typeFilter)) return false
+      if (typeFilter !== 'all' && !(a.types || []).includes(typeFilter)) return false
       if (platFilter !== 'all' && a.plat !== platFilter) return false
       if (searchQ && !a.name.toLowerCase().includes(searchQ.toLowerCase())) return false
       return true
@@ -1003,7 +1003,7 @@ function ActionCardThumbnail({ a, height = 160 }) {
 }
 
 function ActionCard({ a, selected, inBuilder, onClick, onCtx, chainNum }) {
-  const p = PTAG[a.plat]
+  const p = PTAG[a.plat] || { label: a.platform || 'Other', bg: '#f0f0f0', fg: '#666' }
   return (
     <div onClick={onClick} onContextMenu={onCtx || undefined}
       style={{ background:'#fff', borderRadius:'14px', overflow:'hidden', cursor:'pointer', transition:'all .2s', boxShadow: selected ? '0 0 0 2px rgba(0,89,255,.72), 0 4px 20px rgba(0,0,0,.10)' : '0 4px 20px rgba(0,0,0,.08)', transform: selected ? 'translateY(-2px)' : '', position:'relative', border:'none' }}
@@ -1038,8 +1038,8 @@ function ActionCard({ a, selected, inBuilder, onClick, onCtx, chainNum }) {
 
 function DetailPanel({ a, onClose, onDup, onDelete, toast }) {
   const [showPromptModal, setShowPromptModal] = useState(false)
-  const p  = PTAG[a.plat]
-  const pb = PTAG[a.built]
+  const p  = PTAG[a.plat]  || { label: a.platform || 'Other', bg: '#f0f0f0', fg: '#666' }
+  const pb = PTAG[a.built] || p
   const flatChanges = flattenChanges(a.changes)
   return (
     <div style={{ width:'480px', overflowY:'auto', height:'100%', display:'flex', flexDirection:'column' }}>
@@ -1064,8 +1064,8 @@ function DetailPanel({ a, onClose, onDup, onDelete, toast }) {
         <div style={{ display:'flex', alignItems:'flex-start', gap:'8px', marginBottom:'6px' }}>
           <div style={{ fontSize:'26px', fontWeight:600, flex:1, lineHeight:1.15 }}>{a.name}</div>
           <div style={{ display:'flex', gap:'4px', marginTop:'8px', flexWrap:'wrap' }}>
-            {a.types.map(t => (
-              <span key={t} style={{ fontSize:'10px', padding:'2px 7px', borderRadius:'10px', fontWeight:600, background:`${TC[t]}18`, color:TC[t] }}>{t}</span>
+            {(a.types || [a.category?.toLowerCase()].filter(Boolean)).map(t => (
+              <span key={t} style={{ fontSize:'10px', padding:'2px 7px', borderRadius:'10px', fontWeight:600, background:`${TC[t]}18`, color:TC[t] || '#888' }}>{t}</span>
             ))}
           </div>
         </div>
