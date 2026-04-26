@@ -628,11 +628,10 @@ footer{padding:60px;background:linear-gradient(135deg,#818CF8,#C084FC,#F472B6);d
         <div style={{ fontSize: '22px', fontWeight: 600, letterSpacing: '-0.03em', color: 'var(--text)', flex: 1 }}>
           {currentVersion ? `Version ${currentVersion.number}` : 'No versions yet'}
         </div>
-        <span style={{ fontSize: '13px', color: 'var(--text-3)' }}>View</span>
-        <button onClick={() => navigate('/file-view/side-by-side')} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', border: '1px solid #d1d5dc', borderRadius: '10px', fontSize: '13px', fontWeight: 500, color: 'var(--text)', cursor: 'pointer', background: '#fff', fontFamily: 'inherit' }}>
-          Single (Default)
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
+        <div style={{ display: 'flex', background: '#f5f5f3', borderRadius: 8, padding: 3, gap: 2 }}>
+          <button style={{ padding: '6px 14px', borderRadius: 6, border: 'none', background: '#fff', fontSize: 12, fontWeight: 600, color: '#111', cursor: 'pointer', fontFamily: 'Instrument Sans, sans-serif', boxShadow: '0 1px 4px rgba(0,0,0,0.08)' }}>Single</button>
+          <button onClick={() => navigate('/file-view/side-by-side')} style={{ padding: '6px 14px', borderRadius: 6, border: 'none', background: 'transparent', fontSize: 12, fontWeight: 600, color: '#888', cursor: 'pointer', fontFamily: 'Instrument Sans, sans-serif' }}>Compare</button>
+        </div>
         <button
           onClick={() => setShowCompanion(true)}
           style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '6px 14px', borderRadius: 8, border: '1px solid #e8e8e8', background: '#fff', fontSize: 13, fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit' }}>

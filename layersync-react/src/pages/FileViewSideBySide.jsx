@@ -252,11 +252,10 @@ export default function FileViewSideBySide() {
         <div style={{ fontSize: '22px', fontWeight: 600, letterSpacing: '-0.03em', color: 'var(--text)', flex: 1 }}>
           {currentVersion ? `Version ${currentVersion.number}` : 'No versions'}
         </div>
-        <span style={{ fontSize: '13px', color: 'var(--text-3)' }}>View</span>
-        <button onClick={() => navigate('/file-view')} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', border: '1px solid #d1d5dc', borderRadius: '10px', fontSize: '13px', fontWeight: 500, color: 'var(--text)', cursor: 'pointer', background: '#fff', fontFamily: 'inherit' }}>
-          Compare Versions
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
+        <div style={{ display: 'flex', background: '#f5f5f3', borderRadius: 8, padding: 3, gap: 2 }}>
+          <button onClick={() => navigate('/file-view')} style={{ padding: '6px 14px', borderRadius: 6, border: 'none', background: 'transparent', fontSize: 12, fontWeight: 600, color: '#888', cursor: 'pointer', fontFamily: 'Instrument Sans, sans-serif' }}>Single</button>
+          <button style={{ padding: '6px 14px', borderRadius: 6, border: 'none', background: '#fff', fontSize: 12, fontWeight: 600, color: '#111', cursor: 'pointer', fontFamily: 'Instrument Sans, sans-serif', boxShadow: '0 1px 4px rgba(0,0,0,0.08)' }}>Compare</button>
+        </div>
         <button style={{ display: 'flex', alignItems: 'center', gap: '7px', padding: '8px 16px', background: '#1550E1', color: '#fff', border: 'none', borderRadius: '10px', fontSize: '13px', fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit' }}
           onClick={() => handleRestoreVersion(currentVersionId)}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
@@ -275,7 +274,7 @@ export default function FileViewSideBySide() {
             <div
               key={v.id}
               draggable
-              onDragStart={(e) => e.dataTransfer.setData('versionId', v.id)}
+              onDragStart={(e) => { e.dataTransfer.setData('versionId', v.id); e.dataTransfer.effectAllowed = 'move' }}
               style={{ padding: '8px', borderRadius: 8, marginBottom: 6, cursor: 'grab', border: v.id === currentVersionId ? '1.5px solid #111' : '1.5px solid #efefef', background: '#fff' }}
               onClick={() => setCurrentVersionId(v.id)}
             >
@@ -330,7 +329,7 @@ export default function FileViewSideBySide() {
           <div style={{ padding: '6px 14px', background: '#f5f5f3', borderBottom: '1px solid #efefef', fontSize: 11, fontWeight: 600, color: '#888', fontFamily: 'Instrument Sans, sans-serif' }}>
             After — {currentVersion?.label}
           </div>
-          <div style={{ flex: 1, overflow: 'auto' }}>
+          <div style={{ position: 'relative', flex: 1, overflow: 'auto' }}>
             <iframe
               src={afterSrc}
               style={{ width: '100%', height: '900px', border: 'none', display: 'block' }}
@@ -341,6 +340,39 @@ export default function FileViewSideBySide() {
                 } catch(err) {}
               }}
             />
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, pointerEvents: 'none' }}>
+              {changes.map(change => (
+                <div
+                  key={change.id}
+                  style={{
+                    position: 'absolute',
+                    top: `${change.approximatePosition}%`,
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: 28,
+                    height: 28,
+                    borderRadius: '50%',
+                    background: change.category === 'Visual' ? '#5BC4C0' :
+                                change.category === 'Typography' ? '#F5B08A' :
+                                change.category === 'Layout' ? '#818CF8' : '#F08080',
+                    color: '#fff',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: 11,
+                    fontWeight: 700,
+                    pointerEvents: 'auto',
+                    cursor: 'pointer',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+                    zIndex: 10,
+                    border: activeChangeId === change.id ? '2px solid #fff' : '2px solid transparent'
+                  }}
+                  onClick={() => setActiveChangeId(change.id)}
+                >
+                  {change.id}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
