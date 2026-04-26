@@ -7,7 +7,6 @@ const Anthropic = require('@anthropic-ai/sdk');
 const versionsRouter = require('./routes/versions');
 const actionsRouter  = require('./routes/actions');
 const securityRouter = require('./routes/security');
-const { authMiddleware } = require('./middleware/auth');
 
 const app       = express();
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
@@ -25,7 +24,7 @@ app.use('/security', securityRouter);
 
 // ── AI routes ──────────────────────────────────────────────────────────────────
 
-app.post('/api/generate-diff', authMiddleware, async (req, res) => {
+app.post('/api/generate-diff', async (req, res) => {
   try {
     const { htmlBefore, htmlAfter } = req.body;
     const message = await anthropic.messages.create({
@@ -54,7 +53,7 @@ Find at least 4-6 changes if they exist. Look carefully at every element. Return
   }
 });
 
-app.post('/api/generate-action-prompt', authMiddleware, async (req, res) => {
+app.post('/api/generate-action-prompt', async (req, res) => {
   try {
     const { action, tool } = req.body;
     const toolContext = {
@@ -77,7 +76,7 @@ app.post('/api/generate-action-prompt', authMiddleware, async (req, res) => {
   }
 });
 
-app.post('/api/generate-chain-prompt', authMiddleware, async (req, res) => {
+app.post('/api/generate-chain-prompt', async (req, res) => {
   try {
     const { chain, tool } = req.body;
     const toolContext = {

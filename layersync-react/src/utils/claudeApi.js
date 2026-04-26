@@ -1,13 +1,8 @@
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000'
 
-function getToken() {
-  return localStorage.getItem('iterait_api_token') || ''
-}
-
 function headers() {
   return {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${getToken()}`
+    'Content-Type': 'application/json'
   }
 }
 
