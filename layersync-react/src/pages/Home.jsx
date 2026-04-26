@@ -459,7 +459,7 @@ export default function Home() {
             style={{ background: 'white', borderRadius: '12px', boxShadow: '0 2px 12px rgba(0,0,0,0.08)', overflow: 'hidden', cursor: 'pointer', transition: 'transform .15s ease, box-shadow .15s ease', position: 'relative' }}
           >
             <div style={{ width: '100%', height: '156px', position: 'relative', overflow: 'hidden' }}>
-              <img src={THUMBS[i % 4]} className="proj-img" alt="" />
+              <img src={COVER_IMAGES[(i * 3) % 12]} className="proj-img" alt="" />
             </div>
             <div style={{ padding: '12px' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
