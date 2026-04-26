@@ -75,9 +75,6 @@ export default function FileView() {
   }, [currentVersion?.id])
 
   useEffect(() => {
-    const existing = JSON.parse(localStorage.getItem('iterait_versions') || '[]')
-    if (existing.length > 0) return
-
     const DEMO_VERSIONS = [
       {
         id: 'demo-v1',
