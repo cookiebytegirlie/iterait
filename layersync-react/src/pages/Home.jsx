@@ -1,11 +1,19 @@
 import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import thumb1 from '../assets/thumb-1.svg'
-import thumb2 from '../assets/thumb-2.svg'
-import thumb3 from '../assets/thumb-3.svg'
-import thumb4 from '../assets/thumb-4.svg'
+import cover1 from '../assets/file cover image 1.jpg'
+import cover2 from '../assets/file cover image 2.jpg'
+import cover3 from '../assets/file cover image 3.jpg'
+import cover4 from '../assets/file cover image 4.jpg'
+import cover5 from '../assets/file cover image 5.jpg'
+import cover6 from '../assets/file cover image 6.jpg'
+import cover7 from '../assets/file cover image 7.jpg'
+import cover8 from '../assets/file cover image 8.jpg'
+import cover9 from '../assets/file cover image 9.jpg'
+import cover10 from '../assets/file cover image 10.jpg'
+import cover11 from '../assets/file cover image 11.jpg'
+import cover12 from '../assets/file cover image 12.jpg'
 
-const THUMBS = [thumb1, thumb2, thumb3, thumb4]
+const COVER_IMAGES = [cover1, cover2, cover3, cover4, cover5, cover6, cover7, cover8, cover9, cover10, cover11, cover12]
 
 const TOOLS = ['Claude', 'Loveable', 'Cursor', 'Replit', 'Figma Make', 'Other']
 
@@ -22,10 +30,10 @@ function loadVersions()  { try { return JSON.parse(localStorage.getItem('iterait
 function loadProjects()  { try { return JSON.parse(localStorage.getItem('iterait_projects')  || '[]') } catch { return [] } }
 
 const MOCK_FILES = [
-  { id: 'mock-1', label: 'Dashboard Redesign',    source: 'Cursor',     timestamp: '2026-04-20T00:00:00Z', thumbnailAfter: 'https://www.figma.com/api/mcp/asset/f94627bc-6abb-4924-91d5-76de8192aaf8' },
-  { id: 'mock-2', label: 'Marketing Landing Page', source: 'Loveable',   timestamp: '2026-04-20T00:00:00Z', thumbnailAfter: 'https://www.figma.com/api/mcp/asset/f239607e-6832-405f-b968-b6f268227589' },
-  { id: 'mock-3', label: 'Checkout Flow v3',       source: 'Claude',     timestamp: '2026-04-20T00:00:00Z', thumbnailAfter: 'https://www.figma.com/api/mcp/asset/b69d13c7-df9b-4a40-85a3-28a4c37f1bdf' },
-  { id: 'mock-4', label: 'Onboarding Flow',        source: 'Figma Make', timestamp: '2026-04-19T00:00:00Z', thumbnailAfter: 'https://www.figma.com/api/mcp/asset/90861ab2-91bf-4480-b2a3-44322a3320fe' },
+  { id: 'mock-1', label: 'Dashboard Redesign',    source: 'Cursor',     timestamp: '2026-04-20T00:00:00Z', thumbnailAfter: cover1 },
+  { id: 'mock-2', label: 'Marketing Landing Page', source: 'Loveable',   timestamp: '2026-04-20T00:00:00Z', thumbnailAfter: cover2 },
+  { id: 'mock-3', label: 'Checkout Flow v3',       source: 'Claude',     timestamp: '2026-04-20T00:00:00Z', thumbnailAfter: cover3 },
+  { id: 'mock-4', label: 'Onboarding Flow',        source: 'Figma Make', timestamp: '2026-04-19T00:00:00Z', thumbnailAfter: cover4 },
 ]
 
 const MOCK_PROJECTS = [

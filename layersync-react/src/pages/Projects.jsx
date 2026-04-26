@@ -1,11 +1,19 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import thumb1 from '../assets/thumb-1.svg'
-import thumb2 from '../assets/thumb-2.svg'
-import thumb3 from '../assets/thumb-3.svg'
-import thumb4 from '../assets/thumb-4.svg'
+import cover1 from '../assets/file cover image 1.jpg'
+import cover2 from '../assets/file cover image 2.jpg'
+import cover3 from '../assets/file cover image 3.jpg'
+import cover4 from '../assets/file cover image 4.jpg'
+import cover5 from '../assets/file cover image 5.jpg'
+import cover6 from '../assets/file cover image 6.jpg'
+import cover7 from '../assets/file cover image 7.jpg'
+import cover8 from '../assets/file cover image 8.jpg'
+import cover9 from '../assets/file cover image 9.jpg'
+import cover10 from '../assets/file cover image 10.jpg'
+import cover11 from '../assets/file cover image 11.jpg'
+import cover12 from '../assets/file cover image 12.jpg'
 
-const THUMBS = [thumb1, thumb2, thumb3, thumb4]
+const COVER_IMAGES = [cover1, cover2, cover3, cover4, cover5, cover6, cover7, cover8, cover9, cover10, cover11, cover12]
 
 const MOCK_PROJECTS = [
   { id: 'mock-p1', name: 'Dashboard Redesign',  date: '2026-04-20T00:00:00Z' },
@@ -54,7 +62,12 @@ export default function Projects() {
               style={{ flex: '0 0 284px', height: '232px', borderRadius: '10px', position: 'relative', boxShadow: '0 5px 10px rgba(0,0,0,.07)', cursor: 'pointer', scrollSnapAlign: 'start', background: '#f0f0ee', transition: 'transform .15s ease, box-shadow .15s ease' }}
             >
               <div style={{ position: 'absolute', inset: 0, borderRadius: '10px', overflow: 'hidden' }}>
-                <img src={THUMBS[index % 4]} className="proj-img" alt="" />
+                <img
+                  src={COVER_IMAGES[(index * 3) % 12]}
+                  alt={p.name}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block', transition: 'transform .35s ease' }}
+                  className="proj-img"
+                />
               </div>
               <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: '162px', background: 'linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,.88) 45%, #ffffff 100%)', zIndex: 3 }} />
               <div style={{ position: 'absolute', left: '14px', bottom: '18px', fontFamily: "'Inter', sans-serif", fontWeight: 600, fontSize: '16px', color: '#000', whiteSpace: 'nowrap', zIndex: 4 }}>{p.name}</div>
