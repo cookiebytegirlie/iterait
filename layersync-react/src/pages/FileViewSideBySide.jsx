@@ -42,12 +42,58 @@ export default function FileViewSideBySide() {
   const [scale, setScale]   = useState(0.4)
   const [offset, setOffset] = useState({ x: 0, y: 0 })
   const [isPanning, setIsPanning] = useState(false)
+  const [beforeSrc, setBeforeSrc] = useState('')
+  const [afterSrc, setAfterSrc]   = useState('')
   const panStart    = useRef(null)
   const canvasRef   = useRef(null)
   const scaleRef    = useRef(1)
   const offsetRef   = useRef({ x: 0, y: 0 })
 
   useEffect(() => { setScale(1); setOffset({ x: 0, y: 0 }) }, [currentVersionId])
+
+  useEffect(() => {
+    if (compareVersion?.htmlContent) {
+      const inject = `<style>
+      body::before, body::after { display: none !important; }
+      * {
+        animation-duration: 0.01ms !important;
+        animation-delay: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      [data-aos], [data-scroll] {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    </style>`
+      const modified = compareVersion.htmlContent.replace('</head>', inject + '</head>')
+      const blob = new Blob([modified], { type: 'text/html' })
+      const url = URL.createObjectURL(blob)
+      setBeforeSrc(url)
+      return () => URL.revokeObjectURL(url)
+    }
+  }, [compareVersion?.id])
+
+  useEffect(() => {
+    if (currentVersion?.htmlContent) {
+      const inject = `<style>
+      body::before, body::after { display: none !important; }
+      * {
+        animation-duration: 0.01ms !important;
+        animation-delay: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      [data-aos], [data-scroll] {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    </style>`
+      const modified = currentVersion.htmlContent.replace('</head>', inject + '</head>')
+      const blob = new Blob([modified], { type: 'text/html' })
+      const url = URL.createObjectURL(blob)
+      setAfterSrc(url)
+      return () => URL.revokeObjectURL(url)
+    }
+  }, [currentVersion?.id])
   useEffect(() => { scaleRef.current = scale }, [scale])
   useEffect(() => { offsetRef.current = offset }, [offset])
 
@@ -319,7 +365,7 @@ export default function FileViewSideBySide() {
             <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
               {compareVersion ? (
                 <>
-                  <iframe srcDoc={compareVersion.htmlContent} style={{ width: '100%', height: '100%', border: 'none', display: 'block', transform: `scale(${scale}) translate(${offset.x / scale}px, ${offset.y / scale}px)`, transformOrigin: 'top left', pointerEvents: 'none' }} sandbox="allow-scripts allow-same-origin" title="Before" />
+                  <iframe src={beforeSrc} style={{ width: '1280px', height: '15000px', border: 'none', display: 'block', pointerEvents: isPanning ? 'none' : 'auto' }} />
                   <div style={{ position: 'absolute', inset: 0, cursor: isPanning ? 'grabbing' : 'grab' }} onMouseDown={onPanMouseDown} />
                 </>
               ) : (
@@ -331,7 +377,7 @@ export default function FileViewSideBySide() {
             <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
               {currentVersion ? (
                 <>
-                  <iframe srcDoc={currentVersion.htmlContent} style={{ width: '100%', height: '100%', border: 'none', display: 'block', transform: `scale(${scale}) translate(${offset.x / scale}px, ${offset.y / scale}px)`, transformOrigin: 'top left', pointerEvents: 'none' }} sandbox="allow-scripts allow-same-origin" title="After" />
+                  <iframe src={afterSrc} style={{ width: '1280px', height: '15000px', border: 'none', display: 'block', pointerEvents: isPanning ? 'none' : 'auto' }} />
                   {activeChange && (
                     <div style={{ position: 'absolute', left: 0, right: 0, top: `${activeChange.approximatePosition - 9}%`, height: '18%', background: `${CATEGORY_COLORS[activeChange.category] || '#3B82F6'}14`, pointerEvents: 'none', transition: 'opacity .2s, top .2s', zIndex: 5 }} />
                   )}

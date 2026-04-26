@@ -80,15 +80,19 @@ export default function FileView() {
   useEffect(() => {
     if (currentVersion?.htmlContent) {
       const inject = `<style>
-      body::before { display: none !important; }
-      body::after { display: none !important; }
-      * { animation: none !important; transition: none !important; }
-      [data-aos] { opacity: 1 !important; transform: none !important; }
+      body::before, body::after { display: none !important; }
+      * {
+        animation-duration: 0.01ms !important;
+        animation-delay: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      [data-aos], [data-scroll] {
+        opacity: 1 !important;
+        transform: none !important;
+      }
     </style>`
-      const html = currentVersion.htmlContent.includes('</head>')
-        ? currentVersion.htmlContent.replace('</head>', inject + '</head>')
-        : inject + currentVersion.htmlContent
-      const blob = new Blob([html], { type: 'text/html' })
+      const modified = currentVersion.htmlContent.replace('</head>', inject + '</head>')
+      const blob = new Blob([modified], { type: 'text/html' })
       const url = URL.createObjectURL(blob)
       setIframeSrc(url)
       return () => URL.revokeObjectURL(url)
