@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { TOOL_BADGE } from '../utils/tools'
 import cover1 from '../assets/file cover image 1.jpg'
 import cover2 from '../assets/file cover image 2.jpg'
 import cover3 from '../assets/file cover image 3.jpg'
@@ -16,15 +17,6 @@ import cover12 from '../assets/file cover image 12.jpg'
 const COVER_IMAGES = [cover1, cover2, cover3, cover4, cover5, cover6, cover7, cover8, cover9, cover10, cover11, cover12]
 
 const TOOLS = ['Claude', 'Loveable', 'Cursor', 'Replit', 'Figma Make', 'Other']
-
-const TOOL_BADGE = {
-  Claude:      { bg: '#FFE4C2', fg: '#8A4A00' },
-  Loveable:    { bg: '#FFD6E7', fg: '#9D1A56' },
-  Cursor:      { bg: '#C8F0EA', fg: '#1A8272' },
-  Replit:      { bg: '#E0F0FF', fg: '#1550E1' },
-  'Figma Make':{ bg: '#E8D5FF', fg: '#5B1D9D' },
-  Other:       { bg: '#F0F0F0', fg: '#555' },
-}
 
 function loadVersions()  { try { return JSON.parse(localStorage.getItem('iterait_versions')  || '[]') } catch { return [] } }
 function loadProjects()  { try { return JSON.parse(localStorage.getItem('iterait_projects')  || '[]') } catch { return [] } }

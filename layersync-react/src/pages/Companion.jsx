@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import WatcherStatus from '../components/WatcherStatus'
 import colorLogo from '../assets/Color-Logo.png'
 import { BACKEND_URL } from '../utils/config'
+import { TOOL_BADGE as TOOL_COLORS } from '../utils/tools'
 
 // ── Constants ────────────────────────────────────────────────────────────────
 const API_BASE    = BACKEND_URL
@@ -10,15 +11,6 @@ const TOKEN_KEY   = 'iterait_api_token'
 const POLL_MS     = 5000
 
 const SOURCE_TOOLS = ['Claude Code', 'Claude', 'Cursor', 'Loveable', 'Replit', 'Other']
-
-const TOOL_COLORS = {
-  'Claude Code': { bg: '#FFF3E8', fg: '#C05E28' },
-  'Claude':      { bg: '#FFE4C2', fg: '#8A4A00' },
-  'Cursor':      { bg: '#C8F0EA', fg: '#1A8272' },
-  'Loveable':    { bg: '#FFD6E7', fg: '#9D1A56' },
-  'Replit':      { bg: '#E0F0FF', fg: '#1550E1' },
-  'Other':       { bg: '#F0F0EE', fg: '#555' },
-}
 
 const TYPE_LABELS = {
   added:        'Added',
