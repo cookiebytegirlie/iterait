@@ -1,19 +1,12 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import html2canvas from 'html2canvas'
 import VersionSidebar from '../components/VersionSidebar'
 import ChangeLogPanel from '../components/ChangeLogPanel'
 import { generateChangeSummary } from '../utils/claudeApi'
 import { captureBeforeAfter } from '../utils/captureSnapshot'
 import CompanionPanel from '../components/CompanionPanel'
-
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000'
-
-function authHeaders() {
-  return { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('iterait_api_token') || ''}` }
-}
-
-const CATEGORY_COLORS = { Visual:'#3B82F6', Layout:'#8B5CF6', Typography:'#F59E0B', Color:'#14B8A6' }
+import { BACKEND_URL, authHeaders } from '../utils/config'
+import { CATEGORY_COLORS } from '../utils/categories'
 
 function loadVersions() {
   try { return JSON.parse(localStorage.getItem('iterait_versions') || '[]') } catch { return [] }
@@ -368,6 +361,7 @@ footer{padding:60px;background:linear-gradient(135deg,#818CF8,#C084FC,#F472B6);d
     await new Promise(r => { tempIframe.onload = r; setTimeout(r, 2000) })
 
     try {
+      const html2canvas = (await import('html2canvas')).default
       const canvas = await html2canvas(tempIframe.contentDocument.body, { scale: 0.25, useCORS: true, allowTaint: true })
       thumbnail = canvas.toDataURL('image/jpeg', 0.6)
     } catch (_) {}

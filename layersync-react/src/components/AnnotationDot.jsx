@@ -1,11 +1,5 @@
 import { useState } from 'react'
-
-const CATEGORY_COLORS = {
-  Visual:     '#3B82F6',
-  Layout:     '#8B5CF6',
-  Typography: '#F59E0B',
-  Color:      '#14B8A6',
-}
+import { CATEGORY_COLORS } from '../utils/categories'
 
 const dotPulseStyle = `
 @keyframes dot-pulse {

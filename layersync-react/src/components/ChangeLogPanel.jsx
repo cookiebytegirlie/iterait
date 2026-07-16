@@ -1,9 +1,4 @@
-const CATEGORY_COLORS = {
-  Visual:     '#5BC4C0',
-  Layout:     '#818CF8',
-  Typography: '#F5B08A',
-  Color:      '#F08080',
-}
+import { CATEGORY_COLORS } from '../utils/categories'
 
 export default function ChangeLogPanel({ changes = [], onChangeSelect, selectedIds = [], onSaveAction, onSaveChain, onRestore, activeChangeId, onActiveChange }) {
   const checked = selectedIds.length

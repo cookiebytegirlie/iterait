@@ -1,17 +1,11 @@
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://iterait-production.up.railway.app'
-
-function headers() {
-  return {
-    'Content-Type': 'application/json'
-  }
-}
+import { BACKEND_URL, authHeaders } from './config'
 
 export async function generateChangeSummary(htmlBefore, htmlAfter) {
   try {
     console.log('Calling diff... before:', htmlBefore?.length, 'after:', htmlAfter?.length)
     const res = await fetch(`${BACKEND_URL}/api/generate-diff`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: authHeaders(),
       body: JSON.stringify({
         htmlBefore: htmlBefore?.slice(0, 8000) || '',
         htmlAfter: htmlAfter?.slice(0, 8000) || ''
@@ -33,7 +27,7 @@ export async function generateChangeSummary(htmlBefore, htmlAfter) {
 export async function generateActionPrompt(action, tool = 'Claude') {
   const res = await fetch(`${BACKEND_URL}/api/generate-action-prompt`, {
     method: 'POST',
-    headers: headers(),
+    headers: authHeaders(),
     body: JSON.stringify({ action, tool })
   })
   const data = await res.json()
@@ -43,7 +37,7 @@ export async function generateActionPrompt(action, tool = 'Claude') {
 export async function generateChainPrompt(chain, tool = 'Claude') {
   const res = await fetch(`${BACKEND_URL}/api/generate-chain-prompt`, {
     method: 'POST',
-    headers: headers(),
+    headers: authHeaders(),
     body: JSON.stringify({ chain, tool })
   })
   const data = await res.json()

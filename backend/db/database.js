@@ -104,4 +104,17 @@ addCol('versions', 'raw_html',          "TEXT NOT NULL DEFAULT ''");
 addCol('versions', 'preview_image_url', 'TEXT');
 addCol('versions', 'content_hash',      'TEXT');
 
+// Secondary indexes on foreign keys and columns used for lookups/ordering.
+// CREATE INDEX IF NOT EXISTS is idempotent and safe to re-run on every boot.
+// These turn full table scans into index seeks as the tables grow.
+db.exec(`
+  CREATE INDEX IF NOT EXISTS idx_files_project_id        ON files(project_id);
+  CREATE INDEX IF NOT EXISTS idx_versions_file_id        ON versions(file_id);
+  CREATE INDEX IF NOT EXISTS idx_components_version_id    ON components(version_id);
+  CREATE INDEX IF NOT EXISTS idx_change_sets_new_version ON change_sets(new_version_id);
+  CREATE INDEX IF NOT EXISTS idx_action_chains_file_id    ON action_chains(file_id);
+  CREATE INDEX IF NOT EXISTS idx_prompt_gen_chain_id      ON prompt_generations(action_chain_id);
+  CREATE INDEX IF NOT EXISTS idx_access_log_timestamp     ON access_log(timestamp);
+`);
+
 module.exports = db;

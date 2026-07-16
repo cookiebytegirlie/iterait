@@ -2,8 +2,10 @@ require('dotenv').config({ path: require('path').join(__dirname, '.env') });
 
 const express = require('express');
 const cors    = require('cors');
+const rateLimit = require('express-rate-limit');
 const Anthropic = require('@anthropic-ai/sdk');
 
+const { authMiddleware } = require('./middleware/auth');
 const versionsRouter = require('./routes/versions');
 const actionsRouter  = require('./routes/actions');
 const securityRouter = require('./routes/security');
@@ -11,8 +13,26 @@ const securityRouter = require('./routes/security');
 const app       = express();
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
-app.use(cors());
+// CORS: restrict to an allow-list when CORS_ORIGINS is set (comma-separated),
+// e.g. CORS_ORIGINS="https://iterait.app,http://localhost:5173".
+// Falls back to permissive CORS if unset (keeps existing deployments working).
+const corsOrigins = (process.env.CORS_ORIGINS || '')
+  .split(',')
+  .map(o => o.trim())
+  .filter(Boolean);
+app.use(cors(corsOrigins.length ? { origin: corsOrigins } : undefined));
+if (!corsOrigins.length) {
+  console.warn('[cors] CORS_ORIGINS not set — allowing all origins. Set it in production.');
+}
+
 app.use(express.json({ limit: '5mb' }));
+
+// Throttle the Claude-backed AI endpoints so a caller can't burn Anthropic quota.
+const aiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 20,
+  message: { error: 'AI generation rate limit reached. Please wait before trying again.' },
+});
 
 app.get('/health', (_req, res) => {
   res.json({ ok: true, service: 'layersync-backend' });
@@ -24,7 +44,7 @@ app.use('/security', securityRouter);
 
 // ── AI routes ──────────────────────────────────────────────────────────────────
 
-app.post('/api/generate-diff', async (req, res) => {
+app.post('/api/generate-diff', authMiddleware, aiLimiter, async (req, res) => {
   try {
     const { htmlBefore, htmlAfter } = req.body;
     const message = await anthropic.messages.create({
@@ -69,7 +89,7 @@ Find at least 4-6 changes if they exist. Look carefully at every element. Return
   }
 });
 
-app.post('/api/generate-action-prompt', async (req, res) => {
+app.post('/api/generate-action-prompt', authMiddleware, aiLimiter, async (req, res) => {
   try {
     const { action, tool } = req.body;
     const toolContext = {
@@ -92,7 +112,7 @@ app.post('/api/generate-action-prompt', async (req, res) => {
   }
 });
 
-app.post('/api/generate-chain-prompt', async (req, res) => {
+app.post('/api/generate-chain-prompt', authMiddleware, aiLimiter, async (req, res) => {
   try {
     const { chain, tool } = req.body;
     const toolContext = {
@@ -116,6 +136,15 @@ app.post('/api/generate-chain-prompt', async (req, res) => {
     console.error('Chain prompt generation failed:', err);
     res.status(500).json({ error: 'Failed to generate chain prompt' });
   }
+});
+
+// Global error handler — keeps thrown/next(err) errors from leaking stack traces
+// and ensures a consistent JSON shape. Must have 4 args to be recognized by Express.
+// eslint-disable-next-line no-unused-vars
+app.use((err, _req, res, _next) => {
+  console.error('Unhandled error:', err);
+  if (res.headersSent) return;
+  res.status(err.status || 500).json({ error: 'Internal server error' });
 });
 
 const PORT = process.env.PORT || 4000;

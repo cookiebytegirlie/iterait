@@ -1,10 +1,9 @@
 import { useState, useRef, useEffect } from 'react'
+import { CATEGORY_COLORS } from '../utils/categories'
 
 function loadVersions() {
   try { return JSON.parse(localStorage.getItem('iterait_versions') || '[]') } catch { return [] }
 }
-
-const CATEGORY_COLORS = { Visual:'#3B82F6', Layout:'#8B5CF6', Typography:'#F59E0B', Color:'#14B8A6' }
 
 export default function CompanionPanel({ onClose }) {
   const [pos, setPos] = useState({ x: window.innerWidth / 2 - 190, y: 80 })

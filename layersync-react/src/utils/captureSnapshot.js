@@ -1,4 +1,12 @@
-import html2canvas from 'html2canvas'
+// html2canvas is large and only needed when a snapshot is actually captured.
+// Load it on first use so it lands in its own chunk instead of the main bundle.
+let _html2canvasPromise
+function loadHtml2Canvas() {
+  if (!_html2canvasPromise) {
+    _html2canvasPromise = import('html2canvas').then(m => m.default)
+  }
+  return _html2canvasPromise
+}
 
 export async function captureHtmlSnapshot(htmlContent, approximatePosition = 0) {
   return new Promise((resolve) => {
@@ -55,6 +63,7 @@ export async function captureHtmlSnapshot(htmlContent, approximatePosition = 0) 
 
         await new Promise(r => setTimeout(r, 200))
 
+        const html2canvas = await loadHtml2Canvas()
         const canvas = await html2canvas(cropDiv, {
           width: 640,
           height: 220,

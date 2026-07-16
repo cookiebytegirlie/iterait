@@ -5,12 +5,8 @@ import AnnotationDot from '../components/AnnotationDot'
 import ChangeLogPanel from '../components/ChangeLogPanel'
 import { captureBeforeAfter } from '../utils/captureSnapshot'
 import CompanionPanel from '../components/CompanionPanel'
-
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000'
-
-function authHeaders() {
-  return { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('iterait_api_token') || ''}` }
-}
+import { BACKEND_URL, authHeaders } from '../utils/config'
+import { CATEGORY_COLORS } from '../utils/categories'
 
 function loadVersions() {
   try { return JSON.parse(localStorage.getItem('iterait_versions') || '[]') } catch { return [] }
@@ -20,7 +16,6 @@ function loadActions() {
 }
 function saveActions(a) { localStorage.setItem('iterait_actions', JSON.stringify(a)) }
 
-const CATEGORY_COLORS = { Visual:'#3B82F6', Layout:'#8B5CF6', Typography:'#F59E0B', Color:'#14B8A6' }
 
 export default function FileViewSideBySide() {
   const navigate  = useNavigate()

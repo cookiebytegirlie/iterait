@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import WatcherStatus from '../components/WatcherStatus'
 import colorLogo from '../assets/Color-Logo.png'
+import { BACKEND_URL } from '../utils/config'
 
 // ── Constants ────────────────────────────────────────────────────────────────
-const API_BASE    = 'http://localhost:4000'
+const API_BASE    = BACKEND_URL
 const PREFS_KEY   = 'iterait_watcher_prefs'
 const TOKEN_KEY   = 'iterait_api_token'
 const POLL_MS     = 5000
