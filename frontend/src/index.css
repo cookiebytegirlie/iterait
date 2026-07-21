@@ -2,29 +2,39 @@
 
 /* ── iterait design tokens ──────────────────────────────────────────────
    Warm minimalism: soft off-white canvas, white floating cards, ultra-light
-   borders, Inter, dark primary buttons, pastel accents used sparingly.
+   borders, bold rounded display headings, near-black primary buttons,
+   pastel accents used for tags and card cover art.
    Extend this palette rather than hardcoding hex values in components. */
 @theme {
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Instrument Sans', 'Inter', ui-sans-serif, system-ui, sans-serif;
 
   --color-canvas: #faf9f8;
   --color-surface: #ffffff;
   --color-border: #ececea;
 
-  --color-ink: #1c1b1a;
+  --color-ink: #1a1a19;
   --color-ink-2: #6b6a67;
   --color-ink-3: #9a9895;
 
-  /* pastel accents (platform cards) */
+  /* pastel accents — paired background + a readable "ink" text color for tag pills */
   --color-lavender: #e9e4fb;
+  --color-lavender-ink: #6b4fd6;
   --color-babyblue: #dbeafe;
+  --color-babyblue-ink: #1d5fd6;
   --color-peach: #fde4d4;
+  --color-peach-ink: #c05a2c;
   --color-mint: #d6f2e6;
+  --color-mint-ink: #1a8a63;
   --color-butter: #fdf1c9;
+  --color-butter-ink: #a3790f;
   --color-blush: #fbe0ec;
+  --color-blush-ink: #c23e78;
 
   --radius-card: 14px;
+  --radius-pill: 999px;
   --shadow-soft: 0 1px 2px rgba(17, 17, 17, 0.04), 0 4px 16px rgba(17, 17, 17, 0.05);
+  --shadow-pop: 0 12px 32px rgba(17, 17, 17, 0.1);
 }
 
 @layer base {
@@ -39,5 +49,38 @@
     color: var(--color-ink);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+}
+
+/* Warm multi-stop gradients for hero banners and card cover art — cycle
+   through bg-cover-1..6 for a colorful, varied grid (see cardGradient() in
+   src/lib/gradients.js). */
+@layer utilities {
+  .bg-gradient-hero {
+    background: linear-gradient(90deg, #4dc8c4, #7bb8e8, #f5b08a, #f08080);
+  }
+  .bg-cover-1 {
+    background: linear-gradient(135deg, #f6a07a, #f2586b);
+  }
+  .bg-cover-2 {
+    background: linear-gradient(135deg, #a7e0d8, #7bb8e8);
+  }
+  .bg-cover-3 {
+    background: linear-gradient(135deg, #d9c8f7, #f2a7d8);
+  }
+  .bg-cover-4 {
+    background: linear-gradient(135deg, #f9d97a, #f2a75a);
+  }
+  .bg-cover-5 {
+    background: linear-gradient(135deg, #6ee0e8, #4d8ff0);
+  }
+  .bg-cover-6 {
+    background: linear-gradient(135deg, #9ee08a, #d9e87a);
   }
 }

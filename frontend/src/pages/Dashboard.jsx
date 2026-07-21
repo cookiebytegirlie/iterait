@@ -1,37 +1,69 @@
-import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useProjects } from '../hooks/useProjects.js'
+import ProjectCard from '../components/ProjectCard.jsx'
+import AddProjectModal from '../components/AddProjectModal.jsx'
+import EmptyState from '../components/EmptyState.jsx'
 
-// TODO(frontend team): GitHub OAuth "Connect repo" flow + list the user's
-// connected projects. For now this links into a sample timeline so the flow
-// is walkable end-to-end.
+// Lists the user's connected projects and lets them connect a new one.
+// A "project" is just a named pointer at a GitHub repo — owner/repo is the
+// identifier, matching Timeline's /timeline/:owner/:repo route.
 export default function Dashboard() {
-  return (
-    <div className="mx-auto max-w-3xl">
-      <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
-      <p className="mt-1 text-sm text-ink-2">
-        Connect a GitHub repo, then browse its commit history as versions.
-      </p>
+  const navigate = useNavigate()
+  const { projects, loading, error } = useProjects()
+  const [showAddModal, setShowAddModal] = useState(false)
 
-      <div className="mt-6 rounded-[14px] border border-border bg-surface p-6 shadow-[var(--shadow-soft)]">
-        <button className="rounded-lg bg-ink px-4 py-2 text-sm font-medium text-white">
-          Connect GitHub repo
-        </button>
-        <p className="mt-3 text-xs text-ink-3">
-          Stub — wire to GitHub OAuth (<code>/auth/callback</code>).
+  function goToProject(project) {
+    navigate(`/timeline/${project.repo.owner}/${project.repo.name}`)
+  }
+
+  function handleCreated(project) {
+    setShowAddModal(false)
+    goToProject(project)
+  }
+
+  return (
+    <div className="mx-auto max-w-4xl">
+      <div className="bg-gradient-hero mb-8 rounded-[14px] px-8 py-10 shadow-[var(--shadow-soft)]">
+        <h1 className="font-display text-3xl font-semibold tracking-tight text-white">Your Projects</h1>
+        <p className="mt-1 text-sm text-white/90">
+          Git-based version control for cross-platform design components.
         </p>
       </div>
 
-      <h2 className="mt-8 text-xs font-semibold uppercase tracking-wide text-ink-3">
-        Your projects
-      </h2>
-      <div className="mt-3 grid grid-cols-2 gap-4">
-        <Link
-          to="/timeline/basmah/lovable-components"
-          className="rounded-[14px] border border-border bg-surface p-5 shadow-[var(--shadow-soft)] transition-transform hover:-translate-y-0.5"
+      <div className="mb-6 flex items-center justify-between">
+        <h2 className="text-xs font-semibold uppercase tracking-wide text-ink-3">Connected</h2>
+        <button
+          onClick={() => setShowAddModal(true)}
+          className="rounded-lg bg-ink px-4 py-2 text-sm font-medium text-white"
         >
-          <div className="text-sm font-medium">basmah/lovable-components</div>
-          <div className="mt-1 text-xs text-ink-3">React · 3 versions</div>
-        </Link>
+          + Add Project
+        </button>
       </div>
+
+      {error && <p className="mb-4 text-sm text-red-600">{error}</p>}
+
+      {loading && (
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          {[0, 1].map((i) => <div key={i} className="h-32 animate-pulse rounded-[14px] bg-canvas" />)}
+        </div>
+      )}
+
+      {!loading && projects.length === 0 && (
+        <EmptyState title="No projects yet" description="Create your first project to get started" />
+      )}
+
+      {!loading && projects.length > 0 && (
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          {projects.map((p) => (
+            <ProjectCard key={`${p.repo.owner}/${p.repo.name}`} project={p} onClick={() => goToProject(p)} />
+          ))}
+        </div>
+      )}
+
+      {showAddModal && (
+        <AddProjectModal onClose={() => setShowAddModal(false)} onCreateProject={handleCreated} />
+      )}
     </div>
   )
 }
