@@ -1,6 +1,11 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Layout from './components/Layout'
+import RequireAuth from './components/RequireAuth'
+import SignUp from './pages/onboarding/SignUp'
+import AuthorizeGitHub from './pages/onboarding/AuthorizeGitHub'
+import Dashboard from './pages/Dashboard'
+import ProjectTimeline from './pages/ProjectTimeline'
 import Home from './pages/Home'
 import Recents from './pages/Recents'
 import Projects from './pages/Projects'
@@ -66,18 +71,29 @@ export default function App() {
         <Route path="/companion" element={<Companion />} />
         <Route path="/action-chain-apply/:chainId" element={<ActionChainApply />} />
 
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
+        {/* Onboarding — requires signup, not yet requires completed onboarding */}
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/onboarding/authorize-github" element={<RequireAuth requireOnboarded={false}><AuthorizeGitHub /></RequireAuth>} />
+
+        {/* Root redirect */}
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+
+        <Route path="/" element={<RequireAuth><Layout /></RequireAuth>}>
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="projects/:projectId" element={<ProjectTimeline />} />
+          <Route path="actions" element={<ActionLibrary />} />
+          <Route path="actions/adjust" element={<ActionLibraryAdjust />} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="notifications" element={<Notifications />} />
+
+          {/* Legacy file-tracking pages — retired from nav, still reachable directly */}
+          <Route path="home" element={<Home />} />
           <Route path="files" element={<Recents />} />
           <Route path="projects" element={<Projects />} />
           <Route path="shared" element={<Shared />} />
-          <Route path="actions" element={<ActionLibrary />} />
-          <Route path="actions/adjust" element={<ActionLibraryAdjust />} />
           <Route path="file-view" element={<FileView />} />
           <Route path="file-view/comment" element={<FileViewComment />} />
           <Route path="file-view/side-by-side" element={<FileViewSideBySide />} />
-          <Route path="settings" element={<Settings />} />
-          <Route path="notifications" element={<Notifications />} />
         </Route>
       </Routes>
       <ToastContainer />

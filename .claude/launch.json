@@ -3,10 +3,10 @@
   "configurations": [
     {
       "name": "layersync",
-      "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "8181"],
-      "port": 8181,
-      "cwd": "/Users/basic/Desktop/LayerSync/frontend"
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 5173,
+      "cwd": "layersync-react"
     }
   ]
 }
