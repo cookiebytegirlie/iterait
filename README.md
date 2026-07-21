@@ -35,6 +35,14 @@ npm run dev            # http://localhost:5173
 **Backend:** see [`backend/`](backend/) (its own setup; being redirected to the
 Git-based model described in the build-flow doc).
 
+## Deploy (Vercel)
+
+The frontend deploys to **Vercel** (Netlify is not used). The root `vercel.json`
+builds `frontend/` and serves `frontend/dist` with SPA rewrites, so the Vercel
+project's **Root Directory must be the repo root** (not `frontend/` or
+`layersync-react/`). Clear any leftover Build Command / Output Directory
+overrides in the Vercel dashboard so `vercel.json` takes over.
+
 ## Working together
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the branch/PR workflow and who works
