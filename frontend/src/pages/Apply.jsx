@@ -44,13 +44,13 @@ export default function Apply() {
       <div className="mt-6 rounded-[14px] border border-border bg-surface p-6 shadow-[var(--shadow-soft)]">
         <dl className="grid grid-cols-[140px_1fr] gap-y-2 text-sm">
           <dt className="text-ink-3">Action</dt>
-          <dd>Rounded Button</dd>
+          <dd className="font-medium text-ink">Rounded Button</dd>
           <dt className="text-ink-3">Target repo</dt>
-          <dd>my-claude-app</dd>
+          <dd className="font-medium text-ink">my-claude-app</dd>
           <dt className="text-ink-3">Target path</dt>
-          <dd>src/components/</dd>
+          <dd className="font-medium text-ink">src/components/</dd>
           <dt className="text-ink-3">Framework</dt>
-          <dd>React + Tailwind</dd>
+          <dd className="font-medium text-ink">React + Tailwind</dd>
         </dl>
 
         <button
@@ -62,7 +62,7 @@ export default function Apply() {
         </button>
 
         {status === 'done' && result && (
-          <div className="mt-4 rounded-lg bg-mint/50 p-3 text-sm">
+          <div className="mt-4 rounded-lg bg-mint p-3 text-sm text-mint-ink">
             Applied on branch <code>{result.branch}</code> ·{' '}
             <a href={result.url} className="underline" target="_blank" rel="noreferrer">
               view commit {result.commitSha}
