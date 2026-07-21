@@ -1,3 +1,13 @@
+# Env files (per-folder .env.example documents the vars)
 .env
-layersync-react/.env
+.env.local
+frontend/.env
+frontend/.env.local
 backend/.env
+
+# Dependencies / build output
+node_modules/
+frontend/dist/
+
+# OS / editor
+.DS_Store
