@@ -9,29 +9,27 @@ const ICONS = {
       <path d="M9 22V12h6v10" />
     </svg>
   ),
-  timeline: (
+  library: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 7v5l3.5 2" />
+      <rect x="3" y="3" width="7" height="7" rx="1" />
+      <rect x="14" y="3" width="7" height="7" rx="1" />
+      <rect x="3" y="14" width="7" height="7" rx="1" />
+      <rect x="14" y="14" width="7" height="7" rx="1" />
     </svg>
   ),
-  actions: (
+  designSystems: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
-      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-    </svg>
-  ),
-  apply: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
-      <path d="M5 3l16 9-16 9V3z" />
+      <path d="M12 2L3 7l9 5 9-5-9-5z" />
+      <path d="M3 12l9 5 9-5" />
+      <path d="M3 17l9 5 9-5" />
     </svg>
   ),
 }
 
 const NAV = [
   { to: '/dashboard', label: 'Dashboard', icon: 'dashboard' },
-  { to: '/timeline/basmah/lovable-components', label: 'Timeline', icon: 'timeline' },
-  { to: '/actions', label: 'Actions', icon: 'actions' },
-  { to: '/apply', label: 'Apply', icon: 'apply' },
+  { to: '/library', label: 'Components', icon: 'library' },
+  { to: '/design-systems', label: 'Design Systems', icon: 'designSystems' },
 ]
 
 // App shell: sidebar nav + top header (search / avatar) + routed content.
