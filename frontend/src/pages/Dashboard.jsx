@@ -7,14 +7,14 @@ import EmptyState from '../components/EmptyState.jsx'
 
 // Lists the user's connected projects and lets them connect a new one.
 // A "project" is just a named pointer at a GitHub repo — owner/repo is the
-// identifier, matching Timeline's /timeline/:owner/:repo route.
+// identifier, matching Versions' /projects/:owner/:repo route.
 export default function Dashboard() {
   const navigate = useNavigate()
   const { projects, loading, error } = useProjects()
   const [showAddModal, setShowAddModal] = useState(false)
 
   function goToProject(project) {
-    navigate(`/timeline/${project.repo.owner}/${project.repo.name}`)
+    navigate(`/projects/${project.repo.owner}/${project.repo.name}`)
   }
 
   function handleCreated(project) {

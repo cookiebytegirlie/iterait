@@ -36,8 +36,8 @@ export default function SignUp() {
     <OnboardingShell step={1} totalSteps={0}>
       <h1 className="text-center text-2xl font-semibold tracking-tight text-ink">Sign up for iterait</h1>
       <p className="mt-2 text-center text-sm text-ink-2">
-        Turn your GitHub commit history into a visual version timeline. Save changes as reusable Actions and
-        apply them across projects built in Lovable, Claude, Cursor, or Figma.
+        Turn your GitHub commit history into a visual version timeline. Save components to your library and
+        organize them into design systems you can reuse across projects built in Lovable, Claude, Cursor, or Figma.
       </p>
 
       <button

@@ -2,9 +2,11 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import Layout from './components/Layout.jsx'
 import RequireAuth from './components/RequireAuth.jsx'
 import Dashboard from './pages/Dashboard.jsx'
-import Timeline from './pages/Timeline.jsx'
-import Actions from './pages/Actions.jsx'
-import Apply from './pages/Apply.jsx'
+import Versions from './pages/Versions.jsx'
+import Library from './pages/Library.jsx'
+import ComponentDetail from './pages/ComponentDetail.jsx'
+import DesignSystems from './pages/DesignSystems.jsx'
+import DesignSystemDetail from './pages/DesignSystemDetail.jsx'
 import AuthCallback from './pages/AuthCallback.jsx'
 import SignUp from './pages/SignUp.jsx'
 import AuthorizeGitHub from './pages/AuthorizeGitHub.jsx'
@@ -37,9 +39,11 @@ export default function App() {
       >
         <Route index element={<Navigate to="/dashboard" replace />} />
         <Route path="dashboard" element={<Dashboard />} />
-        <Route path="timeline/:owner/:repo" element={<Timeline />} />
-        <Route path="actions" element={<Actions />} />
-        <Route path="apply" element={<Apply />} />
+        <Route path="projects/:owner/:repo" element={<Versions />} />
+        <Route path="library" element={<Library />} />
+        <Route path="library/:componentId" element={<ComponentDetail />} />
+        <Route path="design-systems" element={<DesignSystems />} />
+        <Route path="design-systems/:id" element={<DesignSystemDetail />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Route>
     </Routes>

@@ -7,7 +7,6 @@ const PERMISSIONS = [
   'Read repositories (public & private)',
   'Read commit history',
   'Read code files',
-  'Push commits to repositories (for applying Actions)',
 ]
 
 function GitHubIcon() {
